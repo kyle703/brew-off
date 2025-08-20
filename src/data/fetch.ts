@@ -1,5 +1,6 @@
 // src/data/fetch.ts
 import { getCached, setCached } from "./cache";
+import { toDirectImageUrl } from "./drive";
 import type {
   Beer,
   BeerScores,
@@ -36,17 +37,23 @@ function parseRegistrants(table: string[][]): Registrant[] {
   };
   return rows
     .filter((r) => r[idx.entryId])
-    .map((r) => ({
-      timestamp: r[idx.timestamp],
-      brewer: r[idx.brewer],
-      beerName: r[idx.beerName],
-      style: r[idx.style],
-      abv: toNum(r[idx.abv] || ""),
-      description: r[idx.description],
-      img: r[idx.img],
-      entryId: r[idx.entryId],
-      entryDisplay: r[idx.entryDisplay],
-    }));
+    .map((r) => {
+      // Convert image URLs to direct CDN URLs during parsing
+      const originalImg = r[idx.img];
+      const img = originalImg ? toDirectImageUrl(originalImg) : undefined;
+
+      return {
+        timestamp: r[idx.timestamp],
+        brewer: r[idx.brewer],
+        beerName: r[idx.beerName],
+        style: r[idx.style],
+        abv: toNum(r[idx.abv] || ""),
+        description: r[idx.description],
+        img, // Use the transformed URL
+        entryId: r[idx.entryId],
+        entryDisplay: r[idx.entryDisplay],
+      };
+    });
 }
 
 function parseLeaderboard(table: string[][]): LeaderboardRow[] {

@@ -7,7 +7,7 @@ export type Registrant = {
   style: string;
   abv: number | null;
   description: string;
-  img: string; // Google Drive share link
+  img?: string; // Google Drive share link, now optional
   entryId: string; // e.g., B-001
   entryDisplay: string; // e.g., "B-001 — libre"
 };

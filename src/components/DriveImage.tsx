@@ -1,39 +1,23 @@
-import { useMemo, useState } from "react";
-import { extractDriveFileId } from "../data/drive";
-
 type Props = React.ImgHTMLAttributes<HTMLImageElement> & {
   driveIdOrUrl: string;
 };
 
-// Attempts a sequence of public URL patterns to avoid 403s.
-const buildCandidates = (idOrUrl: string): string[] => {
-  const id = extractDriveFileId(idOrUrl);
-  return [
-    // googleusercontent (preferred)
-    `https://lh3.googleusercontent.com/d/${id}=w1200`,
-    `https://lh3.googleusercontent.com/u/0/d/${id}=w1200`,
-    `https://lh3.googleusercontent.com/d/${id}`,
-    // uc?export=view (commonly works)
-    `https://drive.google.com/uc?export=view&id=${id}`,
-    // file view page (relies on referrer relax + CSP image-src 'unsafe')
-    `https://drive.google.com/thumbnail?authuser=0&sz=w1200&id=${id}`,
-  ];
-};
-
+/**
+ * Component for displaying Google Drive images
+ * Now using direct CDN URLs transformed during data loading
+ */
 export default function DriveImage({ driveIdOrUrl, ...imgProps }: Props) {
-  const urls = useMemo(() => buildCandidates(driveIdOrUrl), [driveIdOrUrl]);
-  const [idx, setIdx] = useState(0);
-
-  const onError: React.ReactEventHandler<HTMLImageElement> = () => {
-    setIdx((i) => (i + 1 < urls.length ? i + 1 : i));
-  };
-
   return (
     <img
       {...imgProps}
-      src={urls[idx]}
+      src={driveIdOrUrl}
       referrerPolicy="no-referrer"
-      onError={onError}
+      onError={(e) => {
+        console.error("Failed to load image:", driveIdOrUrl);
+        // Set a fallback or placeholder if image fails to load
+        e.currentTarget.src =
+          "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 24 24' fill='none' stroke='%234B5563' stroke-width='1'%3E%3Cpath d='M5 22h14a2 2 0 0 0 2-2V9a1 1 0 0 0-1-1h-6a1 1 0 0 1-1-1V1a1 1 0 0 0-1-1H5a2 2 0 0 0-2 2v18a2 2 0 0 0 2 2z'/%3E%3C/svg%3E";
+      }}
     />
   );
 }

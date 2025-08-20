@@ -8,18 +8,19 @@ export default function Splash() {
       <div className="mx-auto max-w-6xl px-6 pt-4 text-center md:px-8">
         <div className="backdrop-blur-[1px]">
           <h1 className="heading-fest text-5xl md:text-7xl">
-            Oktoberfest Brew-Off
+            Aug-toberfest Brew-Off
           </h1>
           <div className="mt-1 flex items-center justify-center gap-2 text-amber-400 text-2xl font-semibold">
             <span
               role="img"
               aria-label="beer"
               style={{ transform: "scaleX(-1)" }}
+              className="text-5xl"
             >
               🍺
             </span>
-            <span className="tracking-widest">2025</span>
-            <span role="img" aria-label="beer">
+            <span className="heading-fest tracking-widest text-5xl">2025</span>
+            <span className="text-5xl" role="img" aria-label="beer">
               🍺
             </span>
           </div>
