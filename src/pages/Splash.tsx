@@ -1,7 +1,25 @@
 import { Link as RouterLink } from "react-router-dom";
-import LabelCarousel from "../components/LabelCarousel";
+import { useEffect, useState } from "react";
+import { loadData } from "../data/fetch";
+import type { LoadedData } from "../types";
+import BeerCardScroll from "../components/BeerCardScroll";
 
 export default function Splash() {
+  const [data, setData] = useState<LoadedData | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    loadData()
+      .then((loadedData) => {
+        setData(loadedData);
+        setLoading(false);
+      })
+      .catch((e) => {
+        console.error("Failed to load data:", e);
+        setLoading(false);
+      });
+  }, []);
+
   return (
     <div className="flex min-h-[calc(100svh-var(--nav-h))] flex-col gap-5 md:gap-6">
       {/* Hero */}
@@ -27,12 +45,15 @@ export default function Splash() {
         </div>
       </div>
 
-      {/* Full-bleed carousel band */}
-      <div
-        className="w-screen"
-        style={{ height: "clamp(340px, 55svh, 640px)" }}
-      >
-        <LabelCarousel />
+      {/* Beer Card Scroll Section */}
+      <div className="w-screen">
+        {loading ? (
+          <div className="flex items-center justify-center h-64">
+            <div className="text-amber-200">Loading beer entries...</div>
+          </div>
+        ) : (
+          <BeerCardScroll beers={data?.beerList || []} />
+        )}
       </div>
 
       {/* CTAs */}

@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import type { LoadedData, WinnerCategory } from "../types";
 import CategoryReveal from "./CategoryReveal";
 import FinaleReveal from "./FinaleReveal";
+import BeerCardScroll from "./BeerCardScroll";
 import { Link } from "react-router-dom";
 
 type Section = "intro" | WinnerCategory | "overall" | "closing";
@@ -88,7 +89,7 @@ export default function RevealDeck({ data }: Props) {
   };
 
   return (
-    <div className="bg-gradient-to-b from-slate-900 to-slate-800 min-h-screen">
+    <div className="min-h-screen">
       {/* Introduction Section */}
       <motion.div
         className={`min-h-screen flex flex-col justify-center items-center p-4 ${
@@ -99,19 +100,12 @@ export default function RevealDeck({ data }: Props) {
         transition={{ duration: 0.5 }}
       >
         <div className="text-center">
-          <h1 className="text-6xl font-serif font-bold text-amber-200 mb-4">
+          <h1 className="text-6xl font-fraktur font-bold text-amber-200 mb-8">
             Brew-Off Results
           </h1>
-          <div className="bg-amber-800/20 p-8 rounded-lg max-w-2xl">
-            <p className="text-xl text-amber-100 mb-4">
-              Welcome to the official reveal of our homebrew competition
-              results!
-            </p>
-            <p className="text-lg text-amber-100/80">
-              Today we'll announce the winners in each category, culminating
-              with our Grand Champion.
-            </p>
-          </div>
+
+          {/* Beer Card Horizontal Scroll */}
+          <BeerCardScroll beers={data.beerList} />
 
           {activeSection === "intro" && (
             <motion.button

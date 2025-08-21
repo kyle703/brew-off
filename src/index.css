@@ -32,3 +32,21 @@ body {
 .autoscroll .swiper-wrapper {
   transition-timing-function: linear !important;
 }
+
+/* Back and forth scroll animation for beer cards */
+@keyframes scroll-back-and-forth {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(-33%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.animate-scroll-back-and-forth {
+  animation: scroll-back-and-forth 60s ease-in-out infinite;
+  width: max-content;
+}
