@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import type { Beer } from "../types";
-import EntryCard from "./EntryCard";
+import EntryOverlayCard from "./EntryOverlayCard";
 import ConfettiEffect from "./ConfettiEffect";
 import CommentBubbles from "./CommentBubbles";
 import { generateSampleComments } from "../utils/commentGenerator";
@@ -300,15 +300,15 @@ export default function FinaleReveal({
               }}
               className="w-full flex flex-col items-center"
             >
-              <h3 className="text-3xl font-serif font-bold text-amber-300 mb-6">
+              <h3 className="text-4xl font-serif font-bold text-amber-300 mb-6">
                 3rd Place
               </h3>
-              <EntryCard
-                beer={bronzeMedalist}
+              <EntryOverlayCard
+                imageUrl={bronzeMedalist.img || ""}
+                name={bronzeMedalist.name}
+                entryId={bronzeMedalist.entryId}
+                brewer={bronzeMedalist.brewer}
                 size="hero"
-                place={3}
-                categoryName="Overall"
-                showMedal={true}
               />
             </motion.div>
           )}
@@ -328,15 +328,15 @@ export default function FinaleReveal({
               }}
               className="w-full flex flex-col items-center"
             >
-              <h3 className="text-3xl font-serif font-bold text-amber-300 mb-6">
+              <h3 className="text-4xl font-serif font-bold text-amber-300 mb-6">
                 2nd Place
               </h3>
-              <EntryCard
-                beer={silverMedalist}
+              <EntryOverlayCard
+                imageUrl={silverMedalist.img || ""}
+                name={silverMedalist.name}
+                entryId={silverMedalist.entryId}
+                brewer={silverMedalist.brewer}
                 size="hero"
-                place={2}
-                categoryName="Overall"
-                showMedal={true}
               />
             </motion.div>
           )}
@@ -359,12 +359,12 @@ export default function FinaleReveal({
               <h3 className="text-4xl font-serif font-bold text-amber-300 mb-6">
                 Grand Champion
               </h3>
-              <EntryCard
-                beer={champion}
+              <EntryOverlayCard
+                imageUrl={champion.img || ""}
+                name={champion.name}
+                entryId={champion.entryId}
+                brewer={champion.brewer}
                 size="hero"
-                place={1}
-                categoryName="Overall"
-                showMedal={true}
               />
               <div className="mt-8 text-center">
                 <h4 className="text-2xl font-bold text-amber-100">

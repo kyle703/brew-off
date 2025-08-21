@@ -1,7 +1,7 @@
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import type { Beer, WinnerCategory } from "../types";
 import Podium from "./Podium";
-import EntryCard from "./EntryCard";
+import EntryOverlayCard from "./EntryOverlayCard";
 import ConfettiEffect from "./ConfettiEffect";
 import CommentBubbles from "./CommentBubbles";
 import { generateSampleComments } from "../utils/commentGenerator";
@@ -310,37 +310,34 @@ export default function CategoryReveal({
           <div className="flex justify-center items-center z-10 max-w-full max-h-full">
             {/* Bronze Hero */}
             {step === "bronze-hero" && bronzeEntry && (
-              <EntryCard
-                beer={bronzeEntry}
+              <EntryOverlayCard
+                imageUrl={bronzeEntry.img || ""}
+                name={bronzeEntry.name}
+                entryId={bronzeEntry.entryId}
+                brewer={bronzeEntry.brewer}
                 size="hero"
-                place={3}
-                categoryName={category}
-                showMedal={true}
-                cardId={`bronze-${category}`}
               />
             )}
 
             {/* Silver Hero */}
             {step === "silver-hero" && silverEntry && (
-              <EntryCard
-                beer={silverEntry}
+              <EntryOverlayCard
+                imageUrl={silverEntry.img || ""}
+                name={silverEntry.name}
+                entryId={silverEntry.entryId}
+                brewer={silverEntry.brewer}
                 size="hero"
-                place={2}
-                categoryName={category}
-                showMedal={true}
-                cardId={`silver-${category}`}
               />
             )}
 
             {/* Gold Hero */}
             {step === "gold-hero" && goldEntry && (
-              <EntryCard
-                beer={goldEntry}
+              <EntryOverlayCard
+                imageUrl={goldEntry.img || ""}
+                name={goldEntry.name}
+                entryId={goldEntry.entryId}
+                brewer={goldEntry.brewer}
                 size="hero"
-                place={1}
-                categoryName={category}
-                showMedal={true}
-                cardId={`gold-${category}`}
               />
             )}
           </div>
@@ -390,12 +387,12 @@ export default function CategoryReveal({
                 silverState.visible &&
                 silverState.size === "mini" && (
                   <div style={getCardStyle(2)}>
-                    <EntryCard
-                      beer={silverEntry}
-                      size="mini"
-                      place={2}
-                      showMedal={true}
-                      cardId={`silver-${category}`}
+                    <EntryOverlayCard
+                      imageUrl={silverEntry.img || ""}
+                      name={silverEntry.name}
+                      entryId={silverEntry.entryId}
+                      brewer={silverEntry.brewer}
+                      size="docked"
                     />
                   </div>
                 )}
@@ -407,12 +404,12 @@ export default function CategoryReveal({
                 goldState.visible &&
                 goldState.size === "podium" && (
                   <div style={getCardStyle(1)}>
-                    <EntryCard
-                      beer={goldEntry}
-                      size="podium"
-                      place={1}
-                      showMedal={true}
-                      cardId={`gold-${category}`}
+                    <EntryOverlayCard
+                      imageUrl={goldEntry.img || ""}
+                      name={goldEntry.name}
+                      entryId={goldEntry.entryId}
+                      brewer={goldEntry.brewer}
+                      size="docked"
                     />
                   </div>
                 )}
@@ -424,12 +421,12 @@ export default function CategoryReveal({
                 bronzeState.visible &&
                 bronzeState.size === "mini" && (
                   <div style={getCardStyle(3)}>
-                    <EntryCard
-                      beer={bronzeEntry}
-                      size="mini"
-                      place={3}
-                      showMedal={true}
-                      cardId={`bronze-${category}`}
+                    <EntryOverlayCard
+                      imageUrl={bronzeEntry.img || ""}
+                      name={bronzeEntry.name}
+                      entryId={bronzeEntry.entryId}
+                      brewer={bronzeEntry.brewer}
+                      size="docked"
                     />
                   </div>
                 )}
