@@ -14,8 +14,8 @@ type Props = {
 export default function BavarianQRCode({ url, label, className = "" }: Props) {
   // Create QR code with Bavarian styling
   const qrCode = new QRCodeStyling({
-    width: 280,
-    height: 280,
+    width: 224,
+    height: 224,
     data: url,
     dotsOptions: {
       color: "#1e2d4a", // navy-800 for the gradient effect
@@ -59,7 +59,7 @@ export default function BavarianQRCode({ url, label, className = "" }: Props) {
       </div>
 
       {/* QR Code - Outer div with cream background and borders */}
-      <div className="w-[300px] h-[300px] bg-parchment rounded-lg border-2 border-gold-600 shadow-lg relative">
+      <div className="w-[240px] h-[240px] bg-parchment rounded-lg border-2 border-gold-600 shadow-lg relative">
         {/* Navy border inside gold border */}
         <div className="absolute inset-2 rounded-lg border-2 border-navy-800" />
         
@@ -72,7 +72,7 @@ export default function BavarianQRCode({ url, label, className = "" }: Props) {
                 qrCode.append(el);
               }
             }}
-            className="w-[280px] h-[280px]"
+            className="w-[224px] h-[224px]"
           />
         </div>
       </div>

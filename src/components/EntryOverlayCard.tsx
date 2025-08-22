@@ -42,7 +42,7 @@ export default function EntryOverlayCard({
 
   // Layout sizing - back to normal since overlay isn't scaled
   const containerWidth =
-    size === "hero" ? "min(70vw, 680px)" : "min(320px, 70vw)";
+    size === "hero" ? "min(30vw, 680px)" : "min(320px, 70vw)";
 
   // Banner safe-area as a percentage of the overlay, back to original positioning
   // width ~76%, height ~11%, centered horizontally, positioned for original overlay
@@ -155,7 +155,7 @@ export default function EntryOverlayCard({
           title={name}
           style={{
             color: "#171922",
-            fontSize: size === "hero" ? 64 : 32,
+            fontSize: size === "hero" ? 48 : 32,
             fontWeight: "bold",
           }}
         >

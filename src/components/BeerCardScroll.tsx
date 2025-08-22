@@ -14,7 +14,7 @@ export default function BeerCardScroll({ beers }: Props) {
   const shouldScroll = beers.length >= 5;
 
   return (
-    <div className="py-6">
+    <div className="">
       {/* Beer Entry Cards - Scroll if 5+ entries, center if fewer */}
       <div className="relative overflow-hidden">
         <div className={`flex ${shouldScroll ? 'animate-scroll-back-and-forth whitespace-nowrap' : 'justify-center flex-wrap'} ${shouldScroll ? '' : 'gap-4'}`}>

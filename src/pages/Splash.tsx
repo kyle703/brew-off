@@ -15,26 +15,52 @@ export default function Splash() {
   }, []);
 
   return (
-    <div className="flex min-h-[calc(100svh-var(--nav-h))] flex-col gap-5 md:gap-6">
+    <div className="flex min-h-[calc(100svh-var(--nav-h))] flex-col gap-5 md:gap-1">
       {/* Hero */}
-      <div className="mx-auto max-w-6xl px-6 pt-4 text-center md:px-8 text-6xl">
-        <div className="backdrop-blur-[1px]">
-          <h1 className="heading-fest">
-            Aug-toberfest
-          </h1>
-          <div className="mt-1 flex items-center justify-center gap-2 text-amber-400 font-semibold">
-            <span
-              role="img"
-              aria-label="beer"
-              style={{ transform: "scaleX(-1)" }}
-              
-            >
-              🍺
-            </span>
-            <span className="heading-fest tracking-widest">Golden Spoon2025</span>
-            <span role="img" aria-label="beer">
-              🍺
-            </span>
+      <div className="mx-auto max-w-6xl px-6 md:px-8">
+        <div className="grid items-center md:grid-cols-[auto,1fr,auto] gap-12">
+          {/* Left QR (Registration) */}
+          <div className="flex justify-center">
+            <div className="origin-center">
+              <BavarianQRCode
+                url="https://docs.google.com/forms/d/e/1FAIpQLSeXQtQiWZwWyjDuR74Vt4aYOeTXq5uk2UUrtEcRvDFJuiGPnQ/viewform?usp=header"
+                label="Registration"
+              />
+            </div>
+          </div>
+
+          {/* Title */}
+          <div className="text-center">
+            <div className="backdrop-blur-[1px]">
+              <h1 className="heading-fest text-6xl">Aug-toberfest</h1>
+              <div className="mt-1 flex items-center justify-center gap-2 text-amber-400 font-semibold">
+                <span
+                  role="img"
+                  aria-label="beer"
+                  style={{ transform: "scaleX(-1)" }}
+                >
+                  🍺
+                </span>
+                <span className="heading-fest tracking-widest">Golden Spoon 2025</span>
+                <span role="img" aria-label="beer">
+                  🍺
+                </span>
+              </div>
+              {/* Golden Spoon under the title */}
+              <div className="mt-3 flex items-center justify-center">
+                <img src="/golden_spoon_hero.png" alt="Golden Spoon" className="h-64 w-auto" />
+              </div>
+            </div>
+          </div>
+
+          {/* Right QR (Judging) */}
+          <div className="flex justify-center">
+            <div className="origin-center">
+              <BavarianQRCode
+                url="https://docs.google.com/forms/d/e/1FAIpQLSduUYgnW7G2SvWuDPhXf9X6H2IIQT9kQ09OWqWBVGyGp71KpQ/viewform?usp=header"
+                label="Judging"
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -48,30 +74,6 @@ export default function Splash() {
         ) : (
           <BeerCardScroll beers={data?.beerList || []} />
         )}
-      </div>
-
-      {/* QR Code Section */}
-      <div className="w-full px-6 md:px-8">
-        <div className="flex flex-col md:flex-row items-center justify-center gap-12 md:gap-24">
-          <BavarianQRCode
-            url="https://docs.google.com/forms/d/e/1FAIpQLSeXQtQiWZwWyjDuR74Vt4aYOeTXq5uk2UUrtEcRvDFJuiGPnQ/viewform?usp=header"
-            label="Registration"
-          />
-          
-          {/* Golden Spoon Hero Image */}
-          <div className="hidden md:block w-[300px] h-[300px] flex items-center justify-center">
-            <img 
-              src="/golden_spoon_hero.png" 
-              alt="Golden Spoon Hero" 
-              className="w-full h-full object-contain"
-            />
-          </div>
-          
-          <BavarianQRCode
-            url="https://docs.google.com/forms/d/e/1FAIpQLSduUYgnW7G2SvWuDPhXf9X6H2IIQT9kQ09OWqWBVGyGp71KpQ/viewform?usp=header"
-            label="Judging"
-          />
-        </div>
       </div>
 
       {/* CTAs */}
