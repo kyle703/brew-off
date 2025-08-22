@@ -1,5 +1,4 @@
 import { motion, useReducedMotion } from "framer-motion";
-import React from "react";
 import DriveImage from "./DriveImage";
 
 type CardSize = "hero" | "docked";

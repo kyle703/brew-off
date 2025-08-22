@@ -18,6 +18,13 @@ export default {
           100: "#fef3c7",
           200: "#f5f5dc",
         },
+        // Visual tokens
+        "bavarian-blue": "#0E1623",
+        "navy-ink": "#171922",
+        parchment: "#F3E9D2",
+        "gold-600": "#E3B341",
+        "gold-200": "#F1D98A",
+        "muted-ink": "#AAB0C0",
       },
       fontFamily: {
         fraktur: ["UnifrakturCook", "UnifrakturMaguntia", "serif"],

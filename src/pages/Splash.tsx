@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { loadData } from "../data/fetch";
 import type { LoadedData } from "../types";
 import BeerCardScroll from "../components/BeerCardScroll";
+import BavarianQRCode from "../components/BavarianQRCode";
 
 export default function Splash() {
   const [data, setData] = useState<LoadedData | null>(null);
@@ -56,26 +57,22 @@ export default function Splash() {
         )}
       </div>
 
+      {/* QR Code Section */}
+      <div className="mx-auto max-w-4xl px-6 md:px-8">
+        <div className="flex flex-col md:flex-row items-center justify-center gap-12 md:gap-24">
+          <BavarianQRCode
+            url="https://docs.google.com/forms/d/e/1FAIpQLSeXQtQiWZwWyjDuR74Vt4aYOeTXq5uk2UUrtEcRvDFJuiGPnQ/viewform?usp=header"
+            label="Registration"
+          />
+          <BavarianQRCode
+            url="https://docs.google.com/forms/d/e/1FAIpQLSduUYgnW7G2SvWuDPhXf9X6H2IIQT9kQ09OWqWBVGyGp71KpQ/viewform?usp=header"
+            label="Judging"
+          />
+        </div>
+      </div>
+
       {/* CTAs */}
       <div className="mx-auto flex w-full max-w-3xl flex-col items-center gap-2 px-6 pb-3 text-center md:gap-3 md:px-8">
-        <div className="flex w-full flex-wrap items-center justify-center gap-3">
-          <a
-            className="rounded-[14px] border border-cream-100/60 bg-black/40 px-8 py-4 text-base font-semibold backdrop-blur hover:bg-black/50 md:text-lg"
-            href="https://docs.google.com/forms/d/e/1FAIpQLSeXQtQiWZwWyjDuR74Vt4aYOeTXq5uk2UUrtEcRvDFJuiGPnQ/viewform?usp=header"
-            target="_blank"
-            rel="noreferrer noopener"
-          >
-            Register
-          </a>
-          <a
-            className="rounded-[14px] border border-cream-100/60 bg-black/40 px-8 py-4 text-base font-semibold backdrop-blur hover:bg-black/50 md:text-lg"
-            href="https://docs.google.com/forms/d/e/1FAIpQLSduUYgnW7G2SvWuDPhXf9X6H2IIQT9kQ09OWqWBVGyGp71KpQ/viewform?usp=header"
-            target="_blank"
-            rel="noreferrer noopener"
-          >
-            Judge
-          </a>
-        </div>
         <div className="w-full max-w-xl">
           <RouterLink
             to="/results"

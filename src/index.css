@@ -21,7 +21,6 @@ body {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='96' viewBox='0 0 72 96'%3E%3Crect width='72' height='96' fill='%230e1623'/%3E%3Cpath d='M36 0L72 48L36 96L0 48Z' fill='%231a2743' fill-opacity='0.5'/%3E%3C/svg%3E");
   background-size: 72px 96px;
   background-repeat: repeat;
-  overflow: hidden;
 }
 
 .heading-fest {
