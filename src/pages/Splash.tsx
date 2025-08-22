@@ -1,50 +1,38 @@
 import { Link as RouterLink } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { loadData } from "../data/fetch";
-import type { LoadedData } from "../types";
+import { useData } from "../context/DataProvider";
 import BeerCardScroll from "../components/BeerCardScroll";
 import BavarianQRCode from "../components/BavarianQRCode";
 import { hasSeenReveal } from "../utils/cookies";
 
 export default function Splash() {
-  const [data, setData] = useState<LoadedData | null>(null);
-  const [loading, setLoading] = useState(true);
+  const { data, loading } = useData();
   const [revealSeen, setRevealSeen] = useState(false);
 
   useEffect(() => {
     // Check if reveal has been seen
     setRevealSeen(hasSeenReveal());
-    
-    loadData()
-      .then((loadedData) => {
-        setData(loadedData);
-        setLoading(false);
-      })
-      .catch((e) => {
-        console.error("Failed to load data:", e);
-        setLoading(false);
-      });
   }, []);
 
   return (
     <div className="flex min-h-[calc(100svh-var(--nav-h))] flex-col gap-5 md:gap-6">
       {/* Hero */}
-      <div className="mx-auto max-w-6xl px-6 pt-4 text-center md:px-8">
+      <div className="mx-auto max-w-6xl px-6 pt-4 text-center md:px-8 text-6xl">
         <div className="backdrop-blur-[1px]">
-          <h1 className="heading-fest text-5xl md:text-7xl">
+          <h1 className="heading-fest">
             Aug-toberfest Brew-Off
           </h1>
-          <div className="mt-1 flex items-center justify-center gap-2 text-amber-400 text-2xl font-semibold">
+          <div className="mt-1 flex items-center justify-center gap-2 text-amber-400 font-semibold">
             <span
               role="img"
               aria-label="beer"
               style={{ transform: "scaleX(-1)" }}
-              className="text-5xl"
+              
             >
               🍺
             </span>
-            <span className="heading-fest tracking-widest text-5xl">2025</span>
-            <span className="text-5xl" role="img" aria-label="beer">
+            <span className="heading-fest tracking-widest">2025</span>
+            <span role="img" aria-label="beer">
               🍺
             </span>
           </div>

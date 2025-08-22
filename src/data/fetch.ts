@@ -87,10 +87,12 @@ function parseLeaderboard(table: string[][]): LeaderboardRow[] {
     }));
 }
 
-export async function loadData(): Promise<LoadedData> {
+export async function loadData(force: boolean = false): Promise<LoadedData> {
   const cacheKey = "brew-off:data:v1";
-  const cached = getCached<LoadedData>(cacheKey, 5 * 60 * 1000);
-  if (cached) return cached;
+  if (!force) {
+    const cached = getCached<LoadedData>(cacheKey, 5 * 60 * 1000);
+    if (cached) return cached;
+  }
 
   const [reg, lb, win] = await Promise.all([
     tsv(import.meta.env.VITE_TSV_REGISTRANTS),

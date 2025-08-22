@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { loadData } from "../data/fetch";
-import type { Beer, LoadedData, WinnerCategory } from "../types";
+import type { Beer, WinnerCategory } from "../types";
 import CategoryPlacard from "../components/CategoryPlacard";
 import { hasSeenReveal } from "../utils/cookies";
+import { useData } from "../context/DataProvider";
 
 const CATEGORIES: WinnerCategory[] = ["Overall", "Label", "Color", "Drinkability", "Flavor"];
 
@@ -102,8 +102,7 @@ const SAMPLE_BEERS: Beer[] = [
 ];
 
 export default function Leaderboard() {
-	const [data, setData] = useState<LoadedData | null>(null);
-	const [err, setErr] = useState<string | null>(null);
+	const { data, loading, error } = useData();
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -112,14 +111,10 @@ export default function Leaderboard() {
 			navigate('/reveal');
 			return;
 		}
-
-		loadData()
-			.then((d) => setData(d))
-			.catch((e) => setErr(String(e)));
 	}, [navigate]);
 
-	if (err) return <div style={{ color: "tomato" }}>Error: {err}</div>;
-	if (!data) return <div className="min-h-[60vh] flex items-center justify-center text-amber-200">Loading…</div>;
+	if (error) return <div style={{ color: "tomato" }}>Error: {error}</div>;
+	if (loading || !data) return <div className="min-h-[60vh] flex items-center justify-center text-amber-200">Loading…</div>;
 
 	// Use sample data if beerList is empty, otherwise use real data
 	const rows: Beer[] = data.beerList.length > 0 ? data.beerList : SAMPLE_BEERS;

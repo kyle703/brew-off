@@ -4,6 +4,7 @@ import Splash from "./pages/Splash";
 import Reveal from "./pages/Reveal";
 import Leaderboard from "./pages/Leaderboard";
 import { hasSeenReveal } from "./utils/cookies";
+import { DataProvider } from "./context/DataProvider";
 
 export default function App() {
   const location = useLocation();
@@ -16,30 +17,32 @@ export default function App() {
   }, []);
 
   return (
-    <div>
-      <nav className="sticky top-0 z-10 border-b border-navy-800 bg-navy-900/80 backdrop-blur">
-        <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
-          <Brand />
-          <div className="flex gap-4 text-cream-100">
-            <Link to="/">Home</Link>
-            {revealSeen && <Link to="/results">Results</Link>}
-            <Link to="/reveal">Reveal</Link>
-            {/* <Link to="/comments">Comments</Link>
-            <Link to="/test">Test</Link> */}
+    <DataProvider>
+      <div>
+        <nav className="sticky top-0 z-10 border-b border-navy-800 bg-navy-900/80 backdrop-blur">
+          <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
+            <Brand />
+            <div className="flex gap-4 text-cream-100">
+              <Link to="/">Home</Link>
+              {revealSeen && <Link to="/results">Results</Link>}
+              <Link to="/reveal">Reveal</Link>
+              {/* <Link to="/comments">Comments</Link>
+              <Link to="/test">Test</Link> */}
+            </div>
           </div>
-        </div>
-      </nav>
+        </nav>
 
-      <div className={isSplash ? "px-0 py-0" : "mx-auto max-w-7xl px-4 py-6"}>
-        <Routes>
-          <Route path="/" element={<Splash />} />
-          <Route path="/results" element={<Leaderboard />} />
-          <Route path="/reveal" element={<Reveal />} />
-          {/* <Route path="/comments" element={<CommentTest />} />
-          <Route path="/test" element={<TestData />} /> */}
-        </Routes>
+        <div className={isSplash ? "px-0 py-0" : "mx-auto max-w-7xl px-4 py-6"}>
+          <Routes>
+            <Route path="/" element={<Splash />} />
+            <Route path="/results" element={<Leaderboard />} />
+            <Route path="/reveal" element={<Reveal />} />
+            {/* <Route path="/comments" element={<CommentTest />} />
+            <Route path="/test" element={<TestData />} /> */}
+          </Routes>
+        </div>
       </div>
-    </div>
+    </DataProvider>
   );
 }
 
