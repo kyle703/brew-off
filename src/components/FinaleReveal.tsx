@@ -6,7 +6,7 @@ import ConfettiEffect from "./ConfettiEffect";
 import CommentBubbles from "./CommentBubbles";
 import { generateSampleComments } from "../utils/commentGenerator";
 
-type FinaleStep = "header" | "bronze" | "silver" | "gold" | "complete";
+type FinaleStep = "header" | "bronze" | "silver" | "gold";
 
 type Props = {
   winners: Beer[];
@@ -121,7 +121,8 @@ export default function FinaleReveal({
           setStep("gold");
           setShowConfetti(true);
         } else {
-          setStep("complete");
+          console.log("FinaleReveal - No winner found");
+          onComplete();
         }
         break;
       case "bronze":
@@ -129,9 +130,9 @@ export default function FinaleReveal({
           setStep("silver");
         } else if (champion) {
           setStep("gold");
-          setShowConfetti(true);
+          setShowConfetti(false);
         } else {
-          setStep("complete");
+          onComplete();
         }
         break;
       case "silver":
@@ -139,14 +140,10 @@ export default function FinaleReveal({
           setStep("gold");
           setShowConfetti(true);
         } else {
-          setStep("complete");
+          onComplete();
         }
         break;
       case "gold":
-        setStep("complete");
-        setShowConfetti(false);
-        break;
-      case "complete":
         onComplete();
         break;
     }
@@ -178,18 +175,6 @@ export default function FinaleReveal({
       case "gold":
         setShowConfetti(false);
         if (silverMedalist) {
-          setStep("silver");
-        } else if (bronzeMedalist) {
-          setStep("bronze");
-        } else {
-          setStep("header");
-        }
-        break;
-      case "complete":
-        if (champion) {
-          setStep("gold");
-          setShowConfetti(true);
-        } else if (silverMedalist) {
           setStep("silver");
         } else if (bronzeMedalist) {
           setStep("bronze");
@@ -376,32 +361,6 @@ export default function FinaleReveal({
               </div>
             </motion.div>
           )}
-
-          {/* Complete / Next Steps */}
-          {step === "complete" && (
-            <motion.div
-              key="complete"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5 }}
-              className="w-full text-center"
-            >
-              <h3 className="text-3xl font-serif font-bold text-amber-200 mb-6">
-                Congratulations to all our winners!
-              </h3>
-              <p className="text-xl text-amber-100 mb-8">
-                The complete results are now available.
-              </p>
-              <motion.button
-                className="bg-amber-600 hover:bg-amber-500 text-white px-8 py-4 rounded-lg shadow-xl text-xl"
-                onClick={handleNext}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                Continue
-              </motion.button>
-            </motion.div>
-          )}
         </AnimatePresence>
 
         {/* Comments Overlay for Hero Cards */}
@@ -452,7 +411,7 @@ export default function FinaleReveal({
       )}
 
       {/* Navigation Controls (only visible when active) */}
-      {active && step !== "complete" && (
+      {active && (
         <div className="fixed bottom-8 left-0 right-0 flex justify-center gap-6 z-40">
           <button
             className="bg-slate-800/80 hover:bg-slate-700 text-white rounded-full p-3 shadow-lg backdrop-blur-sm"

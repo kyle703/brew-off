@@ -1,10 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import type { LoadedData, WinnerCategory } from "../types";
 import CategoryReveal from "./CategoryReveal";
 import FinaleReveal from "./FinaleReveal";
 import BeerCardScroll from "./BeerCardScroll";
 import { Link } from "react-router-dom";
+import { markRevealAsSeen } from "../utils/cookies";
 
 type Section = "intro" | WinnerCategory | "overall" | "closing";
 
@@ -67,8 +68,11 @@ export default function RevealDeck({ data }: Props) {
       } else {
         setActiveSection("overall");
       }
-    } else if (currentIndex > CATEGORY_ORDER.length) {
+    } else if (currentIndex === CATEGORY_ORDER.length + 1) {
+      // After overall, go to closing
       setActiveSection("closing");
+    } else if (currentIndex > CATEGORY_ORDER.length + 1) {
+      // Already at or past closing; do nothing
     }
   };
 
@@ -87,6 +91,21 @@ export default function RevealDeck({ data }: Props) {
       setActiveSection("overall");
     }
   };
+
+  const closingRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (activeSection !== "closing") return;
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+    if (closingRef.current) {
+      closingRef.current.scrollIntoView({
+        behavior: prefersReducedMotion ? "auto" : "smooth",
+        block: "center",
+      });
+    }
+  }, [activeSection]);
 
   return (
     <div className="min-h-screen">
@@ -152,11 +171,18 @@ export default function RevealDeck({ data }: Props) {
 
       {/* Closing Section */}
       <motion.div
-        className="min-h-screen flex flex-col justify-center items-center p-8"
+        ref={closingRef}
+        className="min-h-[85vh] flex flex-col justify-center items-center py-16"
         initial={{ opacity: 0 }}
         animate={{ opacity: activeSection === "closing" ? 1 : 0.4 }}
         transition={{ duration: 0.5 }}
         id="closing"
+        onAnimationComplete={() => {
+          if (activeSection === "closing") {
+            // Mark reveal as seen when closing section is reached
+            markRevealAsSeen();
+          }
+        }}
       >
         <div className="text-center max-w-2xl">
           <h2 className="text-5xl font-serif font-bold text-amber-200 mb-6">
@@ -166,7 +192,7 @@ export default function RevealDeck({ data }: Props) {
             The complete leaderboard is now unlocked!
           </p>
 
-          <Link to="/leaderboard">
+          <Link to="/results">
             <motion.button
               className="bg-amber-600 hover:bg-amber-500 text-white px-8 py-4 rounded-lg shadow-xl text-xl"
               whileHover={{ scale: 1.05 }}

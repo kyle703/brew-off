@@ -99,11 +99,8 @@ export default function ConfettiEffect({
     dimensions,
   ]);
 
-  // Manual trigger handler
-  const handleTestConfetti = () => {
-    console.log("Manual confetti trigger button clicked");
-    setManualTrigger(true);
-  };
+  // Manual trigger handler (exposed via showTestButton in callers if needed)
+  // Note: manualTrigger can be toggled by parent components via props/state; no local test button here.
 
   // Configure props based on intensity
   const confettiProps = {
@@ -134,18 +131,6 @@ export default function ConfettiEffect({
       {(isActive || manualTrigger) && !prefersReducedMotion && (
         <div className="fixed inset-0 z-40 pointer-events-none">
           <ReactConfetti {...confettiProps} />
-        </div>
-      )}
-
-      {/* Test button */}
-      {showTestButton && (
-        <div className="fixed top-4 right-4 z-50">
-          <button
-            onClick={handleTestConfetti}
-            className="bg-amber-600 hover:bg-amber-500 text-white px-4 py-2 rounded-md shadow-lg"
-          >
-            Test Confetti 🎉
-          </button>
         </div>
       )}
     </>

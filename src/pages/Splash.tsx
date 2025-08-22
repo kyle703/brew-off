@@ -4,12 +4,17 @@ import { loadData } from "../data/fetch";
 import type { LoadedData } from "../types";
 import BeerCardScroll from "../components/BeerCardScroll";
 import BavarianQRCode from "../components/BavarianQRCode";
+import { hasSeenReveal } from "../utils/cookies";
 
 export default function Splash() {
   const [data, setData] = useState<LoadedData | null>(null);
   const [loading, setLoading] = useState(true);
+  const [revealSeen, setRevealSeen] = useState(false);
 
   useEffect(() => {
+    // Check if reveal has been seen
+    setRevealSeen(hasSeenReveal());
+    
     loadData()
       .then((loadedData) => {
         setData(loadedData);
@@ -84,12 +89,21 @@ export default function Splash() {
       {/* CTAs */}
       <div className="mx-auto flex w-full max-w-3xl flex-col items-center gap-2 px-6 pb-3 text-center md:gap-3 md:px-8">
         <div className="w-full max-w-xl">
-          <RouterLink
-            to="/results"
-            className="block rounded-[16px] bg-amber-500 px-10 py-5 text-xl font-bold uppercase text-navy-900 shadow hover:bg-amber-400 transition md:text-2xl"
-          >
-            See Results
-          </RouterLink>
+          {revealSeen ? (
+            <RouterLink
+              to="/results"
+              className="block rounded-[16px] bg-amber-500 px-10 py-5 text-xl font-bold uppercase text-navy-900 shadow hover:bg-amber-400 transition md:text-2xl"
+            >
+              See Results
+            </RouterLink>
+          ) : (
+            <RouterLink
+              to="/reveal"
+              className="block rounded-[16px] bg-amber-500 px-10 py-5 text-xl font-bold uppercase text-navy-900 shadow hover:bg-amber-400 transition md:text-2xl"
+            >
+              Start Reveal
+            </RouterLink>
+          )}
         </div>
       </div>
     </div>

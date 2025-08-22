@@ -1,13 +1,20 @@
 import { Routes, Route, NavLink, useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
 import Splash from "./pages/Splash";
 import Reveal from "./pages/Reveal";
 import Leaderboard from "./pages/Leaderboard";
-import TestData from "./components/TestData";
-import CommentTest from "./pages/CommentTest";
+import { hasSeenReveal } from "./utils/cookies";
 
 export default function App() {
   const location = useLocation();
+  const [revealSeen, setRevealSeen] = useState(false);
   const isSplash = location.pathname === "/";
+
+  useEffect(() => {
+    // Check if reveal has been seen
+    setRevealSeen(hasSeenReveal());
+  }, []);
+
   return (
     <div>
       <nav className="sticky top-0 z-10 border-b border-navy-800 bg-navy-900/80 backdrop-blur">
@@ -15,10 +22,10 @@ export default function App() {
           <Brand />
           <div className="flex gap-4 text-cream-100">
             <Link to="/">Home</Link>
-            <Link to="/results">Results</Link>
+            {revealSeen && <Link to="/results">Results</Link>}
             <Link to="/reveal">Reveal</Link>
-            <Link to="/comments">Comments</Link>
-            <Link to="/test">Test</Link>
+            {/* <Link to="/comments">Comments</Link>
+            <Link to="/test">Test</Link> */}
           </div>
         </div>
       </nav>
@@ -28,8 +35,8 @@ export default function App() {
           <Route path="/" element={<Splash />} />
           <Route path="/results" element={<Leaderboard />} />
           <Route path="/reveal" element={<Reveal />} />
-          <Route path="/comments" element={<CommentTest />} />
-          <Route path="/test" element={<TestData />} />
+          {/* <Route path="/comments" element={<CommentTest />} />
+          <Route path="/test" element={<TestData />} /> */}
         </Routes>
       </div>
     </div>

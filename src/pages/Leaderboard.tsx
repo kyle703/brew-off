@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { loadData } from "../data/fetch";
 import type { Beer, LoadedData, WinnerCategory } from "../types";
 import CategoryPlacard from "../components/CategoryPlacard";
+import { hasSeenReveal } from "../utils/cookies";
 
 const CATEGORIES: WinnerCategory[] = ["Overall", "Label", "Color", "Drinkability", "Flavor"];
 
@@ -102,12 +104,19 @@ const SAMPLE_BEERS: Beer[] = [
 export default function Leaderboard() {
 	const [data, setData] = useState<LoadedData | null>(null);
 	const [err, setErr] = useState<string | null>(null);
+	const navigate = useNavigate();
 
 	useEffect(() => {
+		// Check if reveal has been seen, redirect if not
+		if (!hasSeenReveal()) {
+			navigate('/reveal');
+			return;
+		}
+
 		loadData()
 			.then((d) => setData(d))
 			.catch((e) => setErr(String(e)));
-	}, []);
+	}, [navigate]);
 
 	if (err) return <div style={{ color: "tomato" }}>Error: {err}</div>;
 	if (!data) return <div className="min-h-[60vh] flex items-center justify-center text-amber-200">Loading…</div>;
