@@ -89,14 +89,14 @@ export default function FinaleReveal({
     }
 
     // Debug log
-    console.log(`FinaleReveal - Current step: ${step}`, {
-      active,
-      hasGold: !!champion,
-      hasSilver: !!silverMedalist,
-      hasBronze: !!bronzeMedalist,
-      imagesLoaded,
-      showConfetti,
-    });
+    // console.log(`FinaleReveal - Current step: ${step}`, {
+    //   active,
+    //   hasGold: !!champion,
+    //   hasSilver: !!silverMedalist,
+    //   hasBronze: !!bronzeMedalist,
+    //   imagesLoaded,
+    //   showConfetti,
+    // });
   }, [
     step,
     active,
@@ -204,6 +204,9 @@ export default function FinaleReveal({
   // Use opacity to dim out section when not active
   const opacity = active ? 1 : 0.4;
 
+  const GOLD_ACCENT = "#E3B341";
+  const PARCHMENT = "#F3E9D2";
+
   return (
     <div
       className={`w-full min-h-screen py-10 transition-opacity duration-300 ${
@@ -251,9 +254,9 @@ export default function FinaleReveal({
         transition={{ duration: 0.4 }}
       >
         <div className="relative inline-block">
-          <div className="bg-gradient-to-r from-amber-900 via-amber-800 to-amber-900 py-6 px-10 rounded-xl shadow-xl">
+          <div className="bg-gradient-to-r from-amber-900 via-amber-800 to-amber-900 py-4 px-6 rounded-xl shadow-xl mb-4">
             <h2 className="text-5xl font-serif font-bold text-amber-200">
-              🏆 Grand Champion
+              🏆 Overall
             </h2>
             {step === "header" && (
               <p className="mt-4 text-xl text-amber-100">
@@ -283,7 +286,7 @@ export default function FinaleReveal({
                 damping: 30,
                 mass: 1,
               }}
-              className="w-full flex flex-col items-center"
+              className="w-full flex flex-col items-center relative"
             >
               <h3 className="text-4xl font-serif font-bold text-amber-300 mb-6">
                 3rd Place
@@ -294,6 +297,7 @@ export default function FinaleReveal({
                 entryId={bronzeMedalist.entryId}
                 brewer={bronzeMedalist.brewer}
                 size="hero"
+                scoreBadgeValue={bronzeMedalist.scores.overall}
               />
             </motion.div>
           )}
@@ -311,7 +315,7 @@ export default function FinaleReveal({
                 damping: 30,
                 mass: 1,
               }}
-              className="w-full flex flex-col items-center"
+              className="w-full flex flex-col items-center relative"
             >
               <h3 className="text-4xl font-serif font-bold text-amber-300 mb-6">
                 2nd Place
@@ -322,6 +326,7 @@ export default function FinaleReveal({
                 entryId={silverMedalist.entryId}
                 brewer={silverMedalist.brewer}
                 size="hero"
+                scoreBadgeValue={silverMedalist.scores.overall}
               />
             </motion.div>
           )}
@@ -339,7 +344,7 @@ export default function FinaleReveal({
                 damping: 30,
                 mass: 1,
               }}
-              className="w-full flex flex-col items-center"
+              className="w-full flex flex-col items-center relative"
             >
               <h3 className="text-4xl font-serif font-bold text-amber-300 mb-6">
                 Grand Champion
@@ -350,6 +355,7 @@ export default function FinaleReveal({
                 entryId={champion.entryId}
                 brewer={champion.brewer}
                 size="hero"
+                scoreBadgeValue={champion.scores.overall}
               />
               <div className="mt-8 text-center">
                 <h4 className="text-2xl font-bold text-amber-100">
@@ -376,11 +382,17 @@ export default function FinaleReveal({
               }`}
               comments={
                 step === "bronze" && bronzeMedalist
-                  ? generateSampleComments(bronzeMedalist)
+                  ? (bronzeMedalist.comments && bronzeMedalist.comments.length > 0
+                      ? bronzeMedalist.comments
+                      : generateSampleComments(bronzeMedalist))
                   : step === "silver" && silverMedalist
-                  ? generateSampleComments(silverMedalist)
+                  ? (silverMedalist.comments && silverMedalist.comments.length > 0
+                      ? silverMedalist.comments
+                      : generateSampleComments(silverMedalist))
                   : step === "gold" && champion
-                  ? generateSampleComments(champion)
+                  ? (champion.comments && champion.comments.length > 0
+                      ? champion.comments
+                      : generateSampleComments(champion))
                   : []
               }
               active={true}

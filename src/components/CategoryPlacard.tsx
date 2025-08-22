@@ -78,10 +78,12 @@ export default function CategoryPlacard({ category, rows, className = "" }: Prop
 															<div className="font-fraktur text-[36px] align-middle" title={b.name}>{b.name}</div>
 														</div>
 														<div className="flex items-center justify-end">
-															<div style={{ width: 2, height: 44, background: GOLD_ACCENT }} />
-															<div className="ml-5 flex items-center gap-2">
-																<span className="text-[20px] text-[#0E1623]" >ABV</span>
-																<span className="text-[20px] text-[#0E1623]" >{b.abv == null ? "—" : `${b.abv.toFixed(1).replace('.', ',')}%`}</span>
+															<div className="flex items-center" style={{ width: 160 }}>
+																<div style={{ width: 2, height: 44, background: GOLD_ACCENT }} />
+																<div className="ml-5 flex items-center gap-2">
+																	<span className="text-[20px] text-[#0E1623]" >ABV</span>
+																	<span className="text-[20px] text-[#0E1623]" >{b.abv == null ? "—" : `${b.abv.toFixed(1).replace('.', ',')}%`}</span>
+																</div>
 															</div>
 														</div>
 													</div>

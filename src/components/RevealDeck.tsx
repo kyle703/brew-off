@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import type { LoadedData, WinnerCategory } from "../types";
 import CategoryReveal from "./CategoryReveal";
 import FinaleReveal from "./FinaleReveal";
-import BeerCardScroll from "./BeerCardScroll";
+import EntryGrid from "./EntryGrid";
 import { Link } from "react-router-dom";
 import { markRevealAsSeen } from "../utils/cookies";
 
@@ -123,8 +123,8 @@ export default function RevealDeck({ data }: Props) {
             Brew-Off Results
           </h1>
 
-          {/* Beer Card Horizontal Scroll */}
-          <BeerCardScroll beers={data.beerList} />
+          {/* Beer Card Grid (replaces horizontal scroll) */}
+          <EntryGrid beers={data.beerList} />
 
           {activeSection === "intro" && (
             <motion.button

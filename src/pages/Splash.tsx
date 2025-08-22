@@ -20,7 +20,7 @@ export default function Splash() {
       <div className="mx-auto max-w-6xl px-6 pt-4 text-center md:px-8 text-6xl">
         <div className="backdrop-blur-[1px]">
           <h1 className="heading-fest">
-            Aug-toberfest Brew-Off
+            Aug-toberfest
           </h1>
           <div className="mt-1 flex items-center justify-center gap-2 text-amber-400 font-semibold">
             <span
@@ -31,7 +31,7 @@ export default function Splash() {
             >
               🍺
             </span>
-            <span className="heading-fest tracking-widest">2025</span>
+            <span className="heading-fest tracking-widest">Golden Spoon2025</span>
             <span role="img" aria-label="beer">
               🍺
             </span>

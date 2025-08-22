@@ -77,14 +77,14 @@ export async function listDriveFolder(folderUrl: string): Promise<DriveFile[]> {
 }
 
 export function toDirectImageUrl(fileIdOrUrl: string): string {
-  console.log("[drive] Converting to direct CDN URL:", fileIdOrUrl);
+  // console.log("[drive] Converting to direct CDN URL:", fileIdOrUrl);
   // Accept either a pure file id or any known share url
   const idParam = fileIdOrUrl.match(/[?&]id=([^&#]+)/)?.[1];
   const fileMatch = fileIdOrUrl.match(/\/file\/d\/([^/]+)/)?.[1];
   const id = (fileMatch || idParam || fileIdOrUrl).trim();
   // Use googleusercontent host (public-friendly); allow Drive CDN to size via suffix
   const directUrl = `https://lh3.googleusercontent.com/d/${id}=w1200`;
-  console.log("[drive] Converted URL:", directUrl);
+  // console.log("[drive] Converted URL:", directUrl);
   return directUrl;
 }
 

@@ -22,6 +22,12 @@ export type BeerScores = {
   total: number;
 };
 
+export type BeerComment = {
+  id: string;
+  text: string;
+  author?: string;
+};
+
 export type Beer = {
   entryId: string;
   name: string;
@@ -30,6 +36,7 @@ export type Beer = {
   abv?: number | null;
   img?: string;
   scores: BeerScores;
+  comments?: BeerComment[]; // Optional real comments associated with this beer
 };
 
 export type LeaderboardRow = {

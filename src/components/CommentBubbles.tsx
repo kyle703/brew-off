@@ -9,6 +9,7 @@ type Comment = {
 
 type VisibleComment = Comment & {
   position: { x: number; y: number };
+  uniqueKey: string; // unique per visible instance for React keys
 };
 
 type Props = {
@@ -109,13 +110,11 @@ export default function CommentBubbles({
 
     if (!currentActive || currentComments.length === 0) return;
 
-    console.log("Adding next comment", {
-      visibleCount: visibleCommentsRef.current.length,
-      usedCount: usedCommentIdsRef.current.size,
-      nextIndex: nextCommentIndexRef.current,
-      totalComments: currentComments.length,
-      maxBubbles: currentMaxBubbles,
-    });
+    // Cap concurrent bubbles to the number of comments available
+    const effectiveMaxBubbles = Math.max(
+      1,
+      Math.min(currentMaxBubbles, currentComments.length)
+    );
 
     // If we've shown all comments, reset
     if (usedCommentIdsRef.current.size >= currentComments.length) {
@@ -161,15 +160,19 @@ export default function CommentBubbles({
     if (!nextComment) return;
 
     const position = getGridPosition();
+    const uniqueKey = `${nextComment.id}-${totalCommentsCreatedRef.current}-${Date.now()}`;
 
     // Add to visible comments with position
     setVisibleComments((prev) => {
-      // If we've reached max bubbles, remove the oldest one
+      // If we've reached the effective max bubbles, remove the oldest one
       const newComments = [...prev];
-      if (newComments.length >= currentMaxBubbles) {
+      if (newComments.length >= effectiveMaxBubbles) {
         newComments.shift();
       }
-      return [...newComments, { ...nextComment, position } as VisibleComment];
+      return [
+        ...newComments,
+        { ...nextComment, position, uniqueKey } as VisibleComment,
+      ];
     });
 
     // Increment total comments created for round-robin positioning
@@ -187,9 +190,10 @@ export default function CommentBubbles({
 
     // Schedule removal with jittered duration
     const jitteredDisplayDuration = getJitteredDuration(currentDisplayDuration);
+    const removalKey = uniqueKey;
     const removalTimer = window.setTimeout(() => {
       setVisibleComments((prev) =>
-        prev.filter((comment) => comment.id !== nextComment.id)
+        prev.filter((comment) => comment.uniqueKey !== removalKey)
       );
     }, jitteredDisplayDuration);
 
@@ -221,6 +225,26 @@ export default function CommentBubbles({
       return;
     }
 
+    // If number of comments is less than or equal to max, render them all and do not shuffle
+    const effectiveMax = Math.max(1, Math.min(maxBubbles, comments.length));
+    if (comments.length <= effectiveMax) {
+      const gridPositions = [
+        { x: 20, y: 105 },
+        { x: 50, y: 105 },
+        { x: 80, y: 105 },
+      ];
+      const now = Date.now();
+      const allVisible: VisibleComment[] = comments.map((c, idx) => ({
+        ...c,
+        position: gridPositions[idx % gridPositions.length],
+        uniqueKey: `${c.id}-static-${idx}-${now}`,
+      }));
+      setVisibleComments(allVisible);
+      setUsedCommentIds(new Set(comments.map((c) => c.id)));
+      setNextCommentIndex(0);
+      return; // Do not schedule timers
+    }
+
     // Start the comment display cycle with jittered initial delay
     const initialDelay = getJitteredDuration(500); // 500ms ± 30% variation
     initialTimerRef.current = window.setTimeout(() => {
@@ -233,7 +257,7 @@ export default function CommentBubbles({
       if (removalTimerRef.current) window.clearTimeout(removalTimerRef.current);
       if (nextTimerRef.current) window.clearTimeout(nextTimerRef.current);
     };
-  }, [comments, active, addNextComment]);
+  }, [comments, active, addNextComment, maxBubbles]);
 
   // Get a random background color from a set of soft colors
   const getBubbleColor = (commentId: string) => {
@@ -258,7 +282,7 @@ export default function CommentBubbles({
 
           return (
             <motion.div
-              key={comment.id}
+              key={comment.uniqueKey}
               className={`absolute max-w-[25%] ${bubbleColor} p-3 rounded-xl shadow-lg z-10`}
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{
@@ -275,11 +299,6 @@ export default function CommentBubbles({
               <p className="text-lg md:text-xl font-bold text-slate-800 leading-tight">
                 "{comment.text}"
               </p>
-              {comment.author && (
-                <p className="text-right text-xs md:text-sm mt-2 font-medium text-slate-600">
-                  — {comment.author}
-                </p>
-              )}
             </motion.div>
           );
         })}

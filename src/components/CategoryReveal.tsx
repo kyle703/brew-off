@@ -24,6 +24,10 @@ const categoryLabel: Record<WinnerCategory, string> = {
   Overall: "Overall",
 };
 
+const GOLD_ACCENT = "#E3B341";
+const NAVY_INK = "#0E1623";
+const PARCHMENT = "#F3E9D2";
+
 type Props = {
   category: WinnerCategory;
   winners: Beer[];
@@ -106,13 +110,13 @@ export default function CategoryReveal({
     });
 
     // Debug log
-    console.log(`CategoryReveal ${category} - Current step: ${step}`, {
-      active,
-      hasGold: !!goldEntry,
-      hasSilver: !!silverEntry,
-      hasBronze: !!bronzeEntry,
-      imagesLoaded,
-    });
+    // console.log(`CategoryReveal ${category} - Current step: ${step}`, {
+    //   active,
+    //   hasGold: !!goldEntry,
+    //   hasSilver: !!silverEntry,
+    //   hasBronze: !!bronzeEntry,
+    //   imagesLoaded,
+    // });
   }, [
     step,
     active,
@@ -290,7 +294,7 @@ export default function CategoryReveal({
         // style={{ minHeight: "1200px" }}
       >
         {/* Category Header - Always at the top */}
-        <div ref={headerRef} className="w-full text-center py-8">
+        <div ref={headerRef} className="w-full text-center py-4">
           <div className="bg-gradient-to-r from-blue-900 via-blue-800 to-blue-900 py-4 px-8 rounded-xl shadow-lg inline-block">
             <h2 className="text-4xl font-serif font-bold text-amber-200">
               {categoryLabel[category]}
@@ -307,7 +311,7 @@ export default function CategoryReveal({
           }}
         >
           {/* Hero Card */}
-          <div className="flex justify-center items-center z-10 max-w-full max-h-full">
+          <div className="flex justify-center items-center z-10 max-w-full max-h-full relative">
             {/* Bronze Hero */}
             {step === "bronze-hero" && bronzeEntry && (
               <EntryOverlayCard
@@ -316,6 +320,7 @@ export default function CategoryReveal({
                 entryId={bronzeEntry.entryId}
                 brewer={bronzeEntry.brewer}
                 size="hero"
+                scoreBadgeValue={bronzeEntry.scores.overall}
               />
             )}
 
@@ -327,6 +332,7 @@ export default function CategoryReveal({
                 entryId={silverEntry.entryId}
                 brewer={silverEntry.brewer}
                 size="hero"
+                scoreBadgeValue={silverEntry.scores.overall}
               />
             )}
 
@@ -338,6 +344,7 @@ export default function CategoryReveal({
                 entryId={goldEntry.entryId}
                 brewer={goldEntry.brewer}
                 size="hero"
+                scoreBadgeValue={goldEntry.scores.overall}
               />
             )}
           </div>
@@ -355,11 +362,17 @@ export default function CategoryReveal({
                 }`}
                 comments={
                   step === "bronze-hero" && bronzeEntry
-                    ? generateSampleComments(bronzeEntry)
+                    ? (bronzeEntry.comments && bronzeEntry.comments.length > 0
+                        ? bronzeEntry.comments
+                        : generateSampleComments(bronzeEntry))
                     : step === "silver-hero" && silverEntry
-                    ? generateSampleComments(silverEntry)
+                    ? (silverEntry.comments && silverEntry.comments.length > 0
+                        ? silverEntry.comments
+                        : generateSampleComments(silverEntry))
                     : step === "gold-hero" && goldEntry
-                    ? generateSampleComments(goldEntry)
+                    ? (goldEntry.comments && goldEntry.comments.length > 0
+                        ? goldEntry.comments
+                        : generateSampleComments(goldEntry))
                     : []
                 }
                 active={true}
@@ -393,6 +406,7 @@ export default function CategoryReveal({
                       entryId={silverEntry.entryId}
                       brewer={silverEntry.brewer}
                       size="docked"
+                      scoreBadgeValue={silverEntry.scores.overall}
                     />
                   </div>
                 )}
@@ -410,6 +424,7 @@ export default function CategoryReveal({
                       entryId={goldEntry.entryId}
                       brewer={goldEntry.brewer}
                       size="docked"
+                      scoreBadgeValue={goldEntry.scores.overall}
                     />
                   </div>
                 )}
@@ -427,6 +442,7 @@ export default function CategoryReveal({
                       entryId={bronzeEntry.entryId}
                       brewer={bronzeEntry.brewer}
                       size="docked"
+                      scoreBadgeValue={bronzeEntry.scores.overall}
                     />
                   </div>
                 )}

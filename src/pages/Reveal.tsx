@@ -14,6 +14,7 @@ export default function Reveal() {
     loadData()
       .then((loadedData) => {
         console.log("Data loaded successfully:", {
+          entries: loadedData.beerList,
           categories: Object.keys(loadedData.winners),
           totalBeers: loadedData.beerList.length,
           winners: Object.entries(loadedData.winners).map(([cat, beers]) => ({
@@ -35,7 +36,7 @@ export default function Reveal() {
 
   if (!data)
     return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-900">
+      <div className="min-h-screen flex items-center justify-center bg-slate-900 overflow-x-hidden touch-pan-y">
         <div className="text-center">
           <h2 className="text-2xl font-bold text-amber-200 mb-4">
             Loading Results...
@@ -45,5 +46,9 @@ export default function Reveal() {
       </div>
     );
 
-  return <RevealDeck data={data} />;
+  return (
+    <div className="overflow-x-hidden touch-pan-y">
+      <RevealDeck data={data} />
+    </div>
+  );
 }

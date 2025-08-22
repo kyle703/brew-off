@@ -10,7 +10,7 @@ type Props = {
  * Simple podium with three pedestals for placing winners
  */
 export default function Podium({ categoryName }: Props) {
-  console.log(`Rendering Podium for ${categoryName}`);
+  // console.log(`Rendering Podium for ${categoryName}`);
 
   // Pedestal component with medal at bottom
   const Pedestal = ({

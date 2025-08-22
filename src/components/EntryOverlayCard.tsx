@@ -3,6 +3,9 @@ import DriveImage from "./DriveImage";
 
 type CardSize = "hero" | "docked";
 
+const GOLD_ACCENT = "#E3B341";
+const PARCHMENT = "#F3E9D2";
+
 type Props = {
   imageUrl: string;
   name: string;
@@ -14,6 +17,8 @@ type Props = {
   overlaySrc?: string;
   className?: string;
   onLoad?: () => void;
+  /** Optional overall score badge shown as a cohesive block in the top-right */
+  scoreBadgeValue?: number;
 };
 
 /**
@@ -31,6 +36,7 @@ export default function EntryOverlayCard({
   overlaySrc = "/beer_entry_overlay.png",
   className = "",
   onLoad,
+  scoreBadgeValue,
 }: Props) {
   const prefersReducedMotion = useReducedMotion();
 
@@ -47,13 +53,57 @@ export default function EntryOverlayCard({
   const bannerTopPct = bannerCenterYPct - bannerHeightPct / 2; // center vertically at 66%
 
   const card = (
-    <div
+    <motion.div
       className="relative w-full"
       style={{
         aspectRatio: "5 / 5", // Portrait orientation to match overlay design
         borderRadius: 16,
       }}
+      {...(prefersReducedMotion
+        ? { initial: { opacity: 0 }, animate: { opacity: 1 } }
+        : {
+            initial: { scale: 0.92, y: 24, opacity: 0 },
+            animate: {
+              scale: 1,
+              y: 0,
+              opacity: 1,
+              transition: {
+                type: "spring" as const,
+                stiffness: 120,
+                damping: 20,
+                mass: 1,
+              },
+            },
+          })}
     >
+      {/* Optional score badge (top-right, above the overlay) */}
+      {typeof scoreBadgeValue === "number" && (
+        <div
+          className="absolute z-20"
+          style={{
+            top: size === "hero" ? "3%" : "3.5%",
+            right: size === "hero" ? "15%" : "4%",
+          }}
+        >
+          <div
+            className="rounded-[12px] flex items-center justify-center font-bold shadow-md"
+            style={{
+              height: size === "hero" ? 56 : 40,
+              width: size === "hero" ? 110 : 84,
+              background: PARCHMENT,
+              border: `3px solid ${GOLD_ACCENT}`,
+              color: "#0E1623",
+            }}
+          >
+            <span
+              className={size === "hero" ? "text-[28px]" : "text-[20px]"}
+            >
+              {scoreBadgeValue.toFixed(1)}
+            </span>
+          </div>
+        </div>
+      )}
+
       {/* Overlay PNG with transparent cutout - reveals image underneath */}
       <img
         src={overlaySrc}
@@ -148,29 +198,12 @@ export default function EntryOverlayCard({
           </div>
         </div>
       )}
-    </div>
+    </motion.div>
   );
-
-  const motionProps = prefersReducedMotion
-    ? { initial: { opacity: 0 }, animate: { opacity: 1 } }
-    : {
-        initial: { scale: 0.92, y: 24, opacity: 0 },
-        animate: {
-          scale: 1,
-          y: 0,
-          opacity: 1,
-          transition: {
-            type: "spring" as const,
-            stiffness: 120,
-            damping: 20,
-            mass: 1,
-          },
-        },
-      };
 
   return (
     <div className={className} style={{ width: containerWidth }}>
-      <motion.div {...motionProps}>{card}</motion.div>
+      {card}
     </div>
   );
 }

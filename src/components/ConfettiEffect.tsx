@@ -67,17 +67,17 @@ export default function ConfettiEffect({
 
     // Update active state based on props or manual trigger
     if (shouldBeActive !== isActive) {
-      console.log(shouldBeActive ? "Activating" : "Deactivating", "confetti:", {
-        active,
-        manualTrigger,
-        dimensions,
-      });
+      // console.log(shouldBeActive ? "Activating" : "Deactivating", "confetti:", {
+      //   active,
+      //   manualTrigger,
+      //   dimensions,
+      // });
       setIsActive(shouldBeActive);
 
       // Only set up a timeout if duration is provided (not null)
       if (shouldBeActive && duration !== null) {
         const timer = setTimeout(() => {
-          console.log(`Confetti deactivated after ${duration}ms timeout`);
+          // console.log(`Confetti deactivated after ${duration}ms timeout`);
           setIsActive(false);
           setManualTrigger(false); // Reset manual trigger after duration
           if (onComplete) onComplete();
@@ -117,13 +117,13 @@ export default function ConfettiEffect({
   };
 
   // Debug visibility
-  console.log("Render state:", {
-    isActive,
-    showTestButton,
-    prefersReducedMotion,
-    dimensions,
-    shouldRenderConfetti: isActive && !prefersReducedMotion,
-  });
+  // console.log("Render state:", {
+  //   isActive,
+  //   showTestButton,
+  //   prefersReducedMotion,
+  //   dimensions,
+  //   shouldRenderConfetti: isActive && !prefersReducedMotion,
+  // });
 
   return (
     <>
