@@ -204,9 +204,6 @@ export default function FinaleReveal({
   // Use opacity to dim out section when not active
   const opacity = active ? 1 : 0.4;
 
-  const GOLD_ACCENT = "#E3B341";
-  const PARCHMENT = "#F3E9D2";
-
   return (
     <div
       className={`w-full min-h-screen py-10 transition-opacity duration-300 ${
@@ -409,7 +406,6 @@ export default function FinaleReveal({
         active={showConfetti && step === "gold"}
         duration={null} // No duration - confetti stays active as long as step is "gold"
         onComplete={() => {}}
-        showTestButton={active} // Only show test button when component is active
         intensity="grand"
       />
 

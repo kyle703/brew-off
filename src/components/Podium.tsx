@@ -2,16 +2,13 @@ import Medal from "./Medal";
 
 type Props = {
   winners: never[]; // We're not using this prop anymore, but keeping it for compatibility
-  categoryName: string;
   animate?: boolean;
 };
 
 /**
  * Simple podium with three pedestals for placing winners
  */
-export default function Podium({ categoryName }: Props) {
-  // console.log(`Rendering Podium for ${categoryName}`);
-
+export default function Podium({}: Props) {
   // Pedestal component with medal at bottom
   const Pedestal = ({
     heightClass,

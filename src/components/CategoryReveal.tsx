@@ -24,10 +24,6 @@ const categoryLabel: Record<WinnerCategory, string> = {
   Overall: "Overall",
 };
 
-const GOLD_ACCENT = "#E3B341";
-const NAVY_INK = "#0E1623";
-const PARCHMENT = "#F3E9D2";
-
 type Props = {
   category: WinnerCategory;
   winners: Beer[];
@@ -450,12 +446,12 @@ export default function CategoryReveal({
           </div>
 
           {/* Actual Podium */}
-          <Podium winners={[]} categoryName={categoryLabel[category]} />
+          <Podium winners={[]} />
         </div>
       </div>
 
       {/* Add confetti test button for debugging */}
-      <ConfettiEffect active={false} duration={3000} showTestButton={active} />
+      <ConfettiEffect active={false} duration={3000} />
 
       {/* Loading indicator */}
       {active && !imagesLoaded && (

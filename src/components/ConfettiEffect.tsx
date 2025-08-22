@@ -6,7 +6,6 @@ type Props = {
   duration?: number | null; // null means no timeout
   intensity?: "regular" | "grand";
   onComplete?: () => void;
-  showTestButton?: boolean;
 };
 
 /**
@@ -17,7 +16,6 @@ export default function ConfettiEffect({
   duration = null, // Default to no duration (continuous)
   intensity = "regular",
   onComplete,
-  showTestButton = false,
 }: Props) {
   const [isActive, setIsActive] = useState(false);
   const [manualTrigger, setManualTrigger] = useState(false);
