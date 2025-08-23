@@ -60,7 +60,7 @@ export default function TestData() {
 
         <h3>First 5 Beers</h3>
         <ul>
-          {state.beerList.slice(0, 5).map((b) => (
+          {state.beerList.map((b) => (
             <li key={b.entryId}>
               {b.entryId} — {b.name} ({b.brewer})
             </li>

@@ -23,6 +23,7 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
       // Only show global loading spinner on the very first load
       if (!hasLoadedOnceRef.current) setLoading(true);
       const d = await loadData(force);
+      console.log("loaded data", d);
       setData(d);
       setError(null);
     } catch (e) {

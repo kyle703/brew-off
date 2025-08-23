@@ -35,7 +35,7 @@ export default function LabelCarousel() {
   useEffect(() => {
     async function init() {
       try {
-        const d = await loadData();
+        const d = await loadData(true);
         setBeers(d.beerList);
 
         // 1) Prefer a static index (no secrets). Either /labels.json or custom path via env.

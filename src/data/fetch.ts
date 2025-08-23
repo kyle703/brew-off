@@ -12,6 +12,11 @@ import type {
   BeerComment,
 } from "../types";
 
+const DEV = (import.meta as any).env?.DEV ?? false;
+const dbg = (...args: unknown[]) => {
+  if (DEV) console.log("[data]", ...args);
+};
+
 const toNum = (s: string): number | null => {
   if (s == null) return null;
   const cleaned = String(s).trim().replace(/,/g, ".").replace(/[^0-9.+\-]/g, "");
@@ -45,7 +50,6 @@ function parseRegistrants(table: string[][]): Registrant[] {
       const j = Hn(name);
       if (j !== -1) return j;
     }
-    // fuzzy: look for includes
     const needle = names[0].trim().toLowerCase();
     const k = headerNorm.findIndex((h) => h.includes(needle));
     return k;
@@ -61,10 +65,9 @@ function parseRegistrants(table: string[][]): Registrant[] {
     entryId: find(["EntryID", "Entry Id", "Entry ID"]),
     entryDisplay: find(["Entry Display", "Entry"]),
   };
-  return rows
+  const out = rows
     .filter((r) => idx.entryId !== -1 && r[idx.entryId])
     .map((r) => {
-      // Convert image URLs to direct CDN URLs during parsing
       const originalImg = idx.img !== -1 ? r[idx.img] : undefined;
       const img = originalImg ? toDirectImageUrl(originalImg) : undefined;
 
@@ -75,11 +78,13 @@ function parseRegistrants(table: string[][]): Registrant[] {
         style: idx.style !== -1 ? r[idx.style] : "",
         abv: idx.abv !== -1 ? toNum(r[idx.abv] ?? "") : null,
         description: idx.description !== -1 ? r[idx.description] : "",
-        img, // Use the transformed URL
+        img,
         entryId: r[idx.entryId],
         entryDisplay: idx.entryDisplay !== -1 ? r[idx.entryDisplay] : r[idx.entryId],
       } as Registrant;
     });
+  dbg("registrants parsed", { header, count: out.length, droppedNoId: rows.length - out.length });
+  return out;
 }
 
 function parseLeaderboard(table: string[][]): LeaderboardRow[] {
@@ -97,7 +102,7 @@ function parseLeaderboard(table: string[][]): LeaderboardRow[] {
     tot: H("Total"),
   };
   const SCALE = 2; // convert 5-point scale to 10-point for display
-  return rows
+  const out = rows
     .filter((r) => r[idx.entryId])
     .map((r) => ({
       entryId: r[idx.entryId],
@@ -112,27 +117,24 @@ function parseLeaderboard(table: string[][]): LeaderboardRow[] {
         votes: toNum0(r[idx.vot] as unknown as string),
       },
     }));
+  dbg("leaderboard parsed", { header: h, count: out.length });
+  return out;
 }
 
 // Parse raw judge results where each column like "[B-001] Beer — Comments (optional)"
 function parseRawResultsComments(table: string[][]): Map<string, BeerComment[]> {
   const [header, ...rows] = table;
   const commentsByEntry = new Map<string, BeerComment[]>();
-
-  // Find a judge name column if present
   const judgeIdx = header.findIndex((h) => /judge/i.test(h));
-
-  // Build a map of entryId -> column index for comment fields
   const entryCols: Array<{ entryId: string; col: number }> = [];
   header.forEach((h, i) => {
-    const match = h.match(/\[\s*([^\]]+?)\s*\]/); // capture text inside []
+    const match = h.match(/\[\s*([^\]]+?)\s*\]/);
     const isComment = /comment/i.test(h);
     if (match && isComment) {
       const entryId = match[1].trim();
       if (entryId) entryCols.push({ entryId, col: i });
     }
   });
-
   rows.forEach((r, rowIdx) => {
     const author = judgeIdx !== -1 ? r[judgeIdx] || `Judge ${rowIdx + 1}` : `Judge ${rowIdx + 1}`;
     entryCols.forEach(({ entryId, col }) => {
@@ -143,7 +145,7 @@ function parseRawResultsComments(table: string[][]): Map<string, BeerComment[]> 
       commentsByEntry.set(entryId, list);
     });
   });
-
+  dbg("raw comments parsed", { columnsDetected: entryCols.length, judges: rows.length });
   return commentsByEntry;
 }
 
@@ -171,11 +173,59 @@ export async function loadData(force: boolean = false): Promise<LoadedData> {
   const lbRows = parseLeaderboard(lb);
   const judgeCommentsByEntry = raw.length > 0 ? parseRawResultsComments(raw) : new Map<string, BeerComment[]>();
 
+  // Debug ID reconciliation
+  const regIds = registrants.map((r) => r.entryId);
+  const lbIds = lbRows.map((r) => r.entryId);
+  const missingInLb = regIds.filter((id) => !lbIds.includes(id));
+  const missingInReg = lbIds.filter((id) => !regIds.includes(id));
+  dbg("id reconciliation", {
+    registrants: registrants.length,
+    leaderboardRows: lbRows.length,
+    missingInLeaderboard: missingInLb,
+    missingInRegistrants: missingInReg,
+  });
+
   const beersMap = new Map<string, Beer>();
+  // 1) Seed from registrants so every registered entry appears
+  for (const reg of registrants) {
+    const judgeComments = judgeCommentsByEntry.get(reg.entryId) || [];
+    const commentsFromBrewer: BeerComment[] = reg.description
+      ? [
+          {
+            id: `${reg.entryId}-desc`,
+            text: reg.description,
+            author: reg.brewer || "Brewer",
+          },
+        ]
+      : [];
+
+    beersMap.set(reg.entryId, {
+      entryId: reg.entryId,
+      name: reg.beerName,
+      brewer: reg.brewer,
+      style: reg.style,
+      abv: reg.abv ?? null,
+      img: reg.img,
+      scores: {
+        drinkability: 0,
+        flavor: 0,
+        color: 0,
+        label: 0,
+        overall: 0,
+        votes: 0,
+        total: 0,
+      },
+      comments: [...commentsFromBrewer, ...judgeComments],
+    });
+  }
+
+  // 2) Overlay leaderboard scores where present
   for (const row of lbRows) {
     const meta = regById.get(row.entryId);
+    if (!meta) dbg("leaderboard row without registrant meta", row.entryId);
 
-    // Build optional brewer comment from description if present
+    const existing = beersMap.get(row.entryId);
+    const judgeComments = judgeCommentsByEntry.get(row.entryId) || [];
     const commentsFromBrewer: BeerComment[] = meta?.description
       ? [
           {
@@ -186,15 +236,13 @@ export async function loadData(force: boolean = false): Promise<LoadedData> {
         ]
       : [];
 
-    const judgeComments = judgeCommentsByEntry.get(row.entryId) || [];
-
     beersMap.set(row.entryId, {
       entryId: row.entryId,
-      name: meta?.beerName ?? row.beer,
-      brewer: meta?.brewer,
-      style: meta?.style,
-      abv: meta?.abv ?? null,
-      img: meta?.img,
+      name: meta?.beerName ?? existing?.name ?? row.beer,
+      brewer: meta?.brewer ?? existing?.brewer,
+      style: meta?.style ?? existing?.style,
+      abv: meta?.abv ?? existing?.abv ?? null,
+      img: meta?.img ?? existing?.img,
       scores: row.scores,
       comments: [...commentsFromBrewer, ...judgeComments],
     });
@@ -249,6 +297,7 @@ export async function loadData(force: boolean = false): Promise<LoadedData> {
     winners,
     generatedAt: new Date().toISOString(),
   };
+  dbg("loadData result", { beerList: beerList.length, winners: Object.fromEntries(Object.entries(winners).map(([k,v]) => [k, v.length])) });
   setCached(cacheKey, result);
   return result;
 }
