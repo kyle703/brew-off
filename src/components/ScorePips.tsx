@@ -22,7 +22,7 @@ export default function ScorePips({ value, onChange, disabled, label }: Props) {
               onClick={() => onChange(n)}
               className={`min-h-12 flex-1 rounded-full border-2 text-lg font-semibold transition sm:h-14 sm:max-w-14 sm:flex-none ${
                 selected
-                  ? "border-brass bg-accent text-paper"
+                  ? "border-brass bg-accent text-[color:var(--on-accent)]"
                   : "border-rule bg-paper text-ink hover:border-brass"
               } disabled:opacity-50`}
             >

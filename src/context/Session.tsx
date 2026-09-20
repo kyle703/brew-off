@@ -8,6 +8,7 @@ import {
   type ReactNode,
 } from "react";
 import { getBootstrap } from "../api";
+import { themePack } from "../lib/themePack";
 import type { Bootstrap } from "../types";
 
 type SessionValue = {
@@ -20,6 +21,10 @@ type SessionValue = {
 const SessionContext = createContext<SessionValue | undefined>(undefined);
 const POLL_MS = 4000;
 
+function sameBootstrap(a: Bootstrap, b: Bootstrap): boolean {
+  return JSON.stringify(a) === JSON.stringify(b);
+}
+
 export function SessionProvider({ children }: { children: ReactNode }) {
   const [bootstrap, setBootstrap] = useState<Bootstrap | null>(null);
   const [loading, setLoading] = useState(true);
@@ -28,10 +33,22 @@ export function SessionProvider({ children }: { children: ReactNode }) {
   const refresh = useCallback(async () => {
     try {
       const data = await getBootstrap();
-      setBootstrap(data);
       setError(null);
-      document.documentElement.dataset.theme = data.competition.themeId;
-      document.title = data.competition.name;
+      const themeId = data.competition.themeId;
+      if (document.documentElement.dataset.theme !== themeId) {
+        document.documentElement.dataset.theme = themeId;
+      }
+      if (document.title !== data.competition.name) {
+        document.title = data.competition.name;
+      }
+      const iconLink = document.querySelector("link[rel='icon']");
+      const nextIcon = themePack(themeId)?.favicon ?? "/favicon.svg";
+      if (iconLink && iconLink.getAttribute("href") !== nextIcon) {
+        iconLink.setAttribute("href", nextIcon);
+      }
+      setBootstrap((prev) =>
+        prev && sameBootstrap(prev, data) ? prev : data,
+      );
     } catch (e) {
       setError(e instanceof Error ? e.message : String(e));
     } finally {

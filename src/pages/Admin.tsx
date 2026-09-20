@@ -175,7 +175,7 @@ export default function Admin() {
           onChange={(e) => setThemeId(e.target.value)}
         >
           <option value="baseline">Baseline template</option>
-          <option value="2026">2026 vintage</option>
+          <option value="2026">2026 Boo-Off</option>
         </select>
         <button
           className="btn-secondary w-full sm:w-auto"

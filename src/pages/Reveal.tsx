@@ -3,10 +3,12 @@ import { useEffect, useMemo, useRef, useState, type TouchEvent } from "react";
 import ReactConfetti from "react-confetti";
 import { Link } from "react-router-dom";
 import { getReveal } from "../api";
+import ThemeStage from "../components/ThemeStage";
 import StageBeer from "../components/StageBeer";
 import { useSession } from "../context/Session";
 import { awardVoice, placeLine } from "../lib/awardVoice";
 import { buildCeremony } from "../lib/ceremony";
+import { themePack } from "../lib/themePack";
 import type { CeremonyStep } from "../lib/ceremony";
 import type { LoadedData } from "../types";
 import { DEFAULT_SCORING_SCHEMA } from "../types";
@@ -105,18 +107,24 @@ export default function Reveal() {
   }
 
   const competition = bootstrap?.competition;
+  const pack = themePack(competition?.themeId);
   const published = competition?.status === "published";
-  const voice = stepVoice(step);
+  const voice = stepVoice(step, competition?.themeId);
   const burst = step.kind === "place" && step.place === 1;
   const grand = step.kind === "place" && step.champion;
+  const confetti = grand
+    ? pack?.reveal?.confettiGrand ?? ["#e3b341", "#f3e6d4", "#d4a054", "#ffffff"]
+    : pack?.reveal?.confetti ?? ["#8a6a2f", "#cbbfa8", "#6b4f2a"];
 
   return (
     <div
-      className={`relative flex min-h-svh flex-col overflow-hidden bg-paper text-ink ${voice.atmosphere}`}
+      className={`relative flex min-h-svh flex-col overflow-hidden text-ink ${voice.atmosphere}`}
       onTouchStart={onTouchStart}
       onTouchEnd={onTouchEnd}
     >
+      <ThemeStage />
       <VoiceDecor decor={voice.decor} reduced={!!prefersReduced} />
+      <div className="theme-ornament" aria-hidden />
       {burst && !prefersReduced && size.w > 0 && (
         <ReactConfetti
           width={size.w}
@@ -124,7 +132,7 @@ export default function Reveal() {
           numberOfPieces={grand ? 180 : 70}
           recycle={grand}
           gravity={grand ? 0.18 : 0.35}
-          colors={grand ? ["#e3b341", "#f3e6d4", "#d4a054", "#ffffff"] : ["#8a6a2f", "#cbbfa8", "#6b4f2a"]}
+          colors={confetti}
         />
       )}
 
@@ -144,12 +152,16 @@ export default function Reveal() {
           >
             {step.kind === "intro" && (
               <div className="text-center">
-                <p className="kicker">{competition?.tagline}</p>
-                <h1 className="mt-3 font-display text-[clamp(2.4rem,10vw,5.5rem)] leading-none text-accent">
+                <p className="kicker">{pack?.story?.kicker ?? competition?.tagline}</p>
+                <h1
+                  className={`mt-3 text-[clamp(2.4rem,10vw,5.5rem)] leading-none text-accent ${
+                    pack?.wordmark ? "wordmark" : "font-display"
+                  }`}
+                >
                   {competition?.name ?? "Brew-Off"}
                 </h1>
                 <p className="mx-auto mt-6 max-w-md text-lg text-muted sm:text-2xl">
-                  Quiet in the room. We’re calling the card.
+                  {pack?.reveal?.intro ?? "Quiet in the room. We’re calling the card."}
                 </p>
               </div>
             )}
@@ -189,9 +201,9 @@ export default function Reveal() {
 
             {step.kind === "close" && (
               <div className="space-y-6 text-center">
-                <p className="kicker">That’s the card</p>
-                <h1 className="font-display text-[clamp(3rem,12vw,6rem)] leading-none text-accent">
-                  Prost.
+                <p className="kicker">{pack?.reveal?.closeKicker ?? "That’s the card"}</p>
+                <h1 className="font-display text-[clamp(2.4rem,10vw,5.5rem)] leading-none text-accent">
+                  {pack?.reveal?.close ?? "Prost."}
                 </h1>
                 {published ? (
                   <Link to="/results" className="btn-primary">
@@ -234,14 +246,15 @@ export default function Reveal() {
   );
 }
 
-function stepVoice(step: CeremonyStep) {
+function stepVoice(step: CeremonyStep, themeId?: string) {
   if (step.kind === "category" || step.kind === "place") {
-    return awardVoice(step.criterion.id, step.criterion.label);
+    return awardVoice(step.criterion.id, step.criterion.label, themeId);
   }
-  if (step.kind === "close") return awardVoice("overall");
+  if (step.kind === "close") return awardVoice("overall", undefined, themeId);
+  const themed = Boolean(themePack(themeId)?.reveal);
   return {
-    ...awardVoice("overall"),
-    atmosphere: "voice-plain",
+    ...awardVoice("overall", undefined, themeId),
+    atmosphere: themed ? "voice-overall" : "voice-plain",
     decor: "none" as const,
     enter: "linger" as const,
   };

@@ -6,8 +6,17 @@
   --brass: #8a6a2f;
   --muted: #6f675c;
   --rule: #cbbfa8;
+  --on-accent: var(--paper);
+  --qr-fg: #1c1916;
+  --qr-bg: #f4efe4;
+  --qr-accent: #8a6a2f;
+  --header-bg: color-mix(in srgb, var(--paper) 90%, transparent);
+  --sheet-blur: 0px;
   --font-display: "Fraunces", "Palatino Linotype", Palatino, serif;
+  --font-wordmark: var(--font-display);
   --font-body: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
+  --bg-image: none;
+  --bg-overlay: none;
   --bg-pattern: repeating-linear-gradient(
     -12deg,
     transparent,
@@ -15,4 +24,5 @@
     rgb(28 25 22 / 0.03) 18px,
     rgb(28 25 22 / 0.03) 19px
   );
+  --bg-layers: var(--bg-pattern);
 }

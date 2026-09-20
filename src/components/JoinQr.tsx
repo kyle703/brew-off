@@ -15,11 +15,11 @@ export default function JoinQr({
   }, [path]);
   if (!url) return null;
   return (
-    <div className="hidden shrink-0 flex-col items-center gap-3 lg:flex">
-      <div className="rounded-2xl border-2 border-rule bg-sheet p-3">
+    <div className="hidden w-[13.75rem] shrink-0 flex-col items-center justify-center gap-3 self-center lg:flex">
+      <div className="qr-foil flex h-[13.75rem] w-[13.75rem] items-center justify-center rounded-2xl border-2 border-rule bg-sheet p-3">
         <BottleQr url={url} size={196} />
       </div>
-      <p className="kicker">{label}</p>
+      <p className="kicker max-w-[13.75rem] text-center leading-snug">{label}</p>
     </div>
   );
 }

@@ -10,13 +10,17 @@ body,
 
 html {
   overflow-x: hidden;
+  background-color: var(--paper);
+  background-image: var(--bg-layers);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
 }
 
 body {
   margin: 0;
   color: var(--ink);
-  background-color: var(--paper);
-  background-image: var(--bg-pattern);
+  background: transparent;
   font-family: var(--font-body);
 }
 
@@ -25,6 +29,7 @@ body {
   background: var(--sheet);
   border-color: var(--rule);
   box-shadow: 0 8px 24px color-mix(in srgb, var(--ink) 12%, transparent);
+  backdrop-filter: blur(var(--sheet-blur));
 }
 
 .field {
@@ -37,7 +42,7 @@ body {
 .btn-primary {
   @apply inline-flex min-h-12 items-center justify-center rounded-xl px-5 py-3 text-base font-semibold uppercase tracking-wide;
   background: var(--accent);
-  color: var(--paper);
+  color: var(--on-accent);
 }
 
 .btn-secondary {
@@ -50,6 +55,15 @@ body {
 .kicker {
   @apply text-xs uppercase tracking-[0.2em];
   color: var(--muted);
+}
+
+.theme-ornament,
+.theme-stage {
+  display: none;
+}
+
+.site-header {
+  background: var(--header-bg);
 }
 
 .full-bleed {
@@ -249,10 +263,12 @@ a {
 }
 
 @media print {
-  header {
+  header,
+  .theme-ornament {
     display: none !important;
   }
   body {
-    background: white;
+    background: white !important;
+    color: #1c1916;
   }
 }

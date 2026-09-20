@@ -87,13 +87,67 @@ const VOICES: Record<string, AwardVoice> = {
   },
 };
 
-export function awardVoice(id: string, fallbackLabel?: string): AwardVoice {
-  const found = VOICES[id];
-  if (found) return found;
-  return {
+const PACK_VOICES: Record<string, Record<string, Partial<AwardVoice>>> = {
+  "2026": {
+    label: {
+      kicker: "Before a sip",
+      title: "The costume",
+      tease: "The one you’d hang on the door.",
+      third: "Honorable hanging",
+      second: "Almost the porch",
+      first: "Best disguise",
+      champion: "Best disguise",
+    },
+    color: {
+      kicker: "Lantern light",
+      title: "In the glass",
+      tease: "What the moon did to it.",
+      third: "A nice pour",
+      second: "Caught the flame",
+      first: "Could drink it with your eyes",
+      champion: "Could drink it with your eyes",
+    },
+    drinkability: {
+      kicker: "Another round",
+      title: "The easy haunt",
+      tease: "Vanished before midnight.",
+      third: "Would have another",
+      second: "Already empty",
+      first: "Session royalty",
+      champion: "Session royalty",
+    },
+    flavor: {
+      kicker: "After dark",
+      title: "What lingered",
+      tease: "A finish that followed you home.",
+      third: "A good story",
+      second: "Still on the tongue",
+      first: "The one that stayed",
+      champion: "The one that stayed",
+    },
+    overall: {
+      kicker: "The golden spoon",
+      title: "Grand champion",
+      tease: "One beer. The whole night.",
+      third: "On the step",
+      second: "This close",
+      first: "Champion",
+      champion: "The spoon",
+    },
+  },
+};
+
+export function awardVoice(
+  id: string,
+  fallbackLabel?: string,
+  themeId?: string | null,
+): AwardVoice {
+  const found = VOICES[id] ?? {
     ...FALLBACK,
     title: fallbackLabel || FALLBACK.title,
   };
+  const overlay = themeId ? PACK_VOICES[themeId]?.[id] : undefined;
+  return overlay ? { ...found, ...overlay } : found;
 }
 
 export function placeLine(

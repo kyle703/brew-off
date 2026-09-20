@@ -2,11 +2,14 @@ import { Link, useLocation } from "react-router-dom";
 import type { ReactNode } from "react";
 import { useSession } from "../context/Session";
 import { guestStage, pathMatchesStage } from "../lib/stage";
+import { themePack } from "../lib/themePack";
+import ThemeStage from "./ThemeStage";
 
 export default function Shell({ children }: { children: ReactNode }) {
   const { bootstrap } = useSession();
   const location = useLocation();
   const competition = bootstrap?.competition;
+  const pack = themePack(competition?.themeId);
   const stage = competition ? guestStage(competition) : null;
   const onStage = stage ? pathMatchesStage(location.pathname, stage) : false;
   const hosting = location.pathname.startsWith("/admin");
@@ -18,13 +21,17 @@ export default function Shell({ children }: { children: ReactNode }) {
     !hosting;
 
   return (
-    <div className="min-h-svh bg-paper text-ink">
-      <header className="sticky top-0 z-20 border-b border-rule/40 bg-paper/90 backdrop-blur print:hidden">
+    <div className="site-shell relative min-h-svh text-ink">
+      <ThemeStage />
+      <div className="theme-ornament" aria-hidden />
+      <header className="site-header sticky top-0 z-20 border-b border-rule/40 backdrop-blur print:hidden">
         <div className="mx-auto flex w-full max-w-3xl flex-col gap-2 px-4 py-3 lg:max-w-5xl">
           <div className="flex items-center justify-between gap-3">
             <Link
               to="/"
-              className="min-w-0 truncate font-display text-lg tracking-wide text-accent sm:text-xl"
+              className={`min-w-0 truncate text-lg tracking-wide text-accent sm:text-xl ${
+                pack?.wordmark ? "wordmark" : "font-display"
+              }`}
             >
               {competition?.name ?? "Brew-Off"}
             </Link>
@@ -82,7 +89,7 @@ export default function Shell({ children }: { children: ReactNode }) {
           )}
         </div>
       </header>
-      <main className="mx-auto w-full max-w-3xl px-4 py-5 pb-[max(1.5rem,env(safe-area-inset-bottom))] lg:max-w-5xl">
+      <main className="relative z-10 mx-auto w-full max-w-3xl px-4 py-5 pb-[max(1.5rem,env(safe-area-inset-bottom))] lg:max-w-5xl">
         {children}
       </main>
     </div>
