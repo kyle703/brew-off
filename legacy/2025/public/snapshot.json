@@ -1,0 +1,1314 @@
+{
+  "beerList": [
+    {
+      "entryId": "B-005",
+      "name": "Desert Heat",
+      "brewer": "Andy",
+      "style": "Chipotle Amber",
+      "abv": 6.1,
+      "img": "https://lh3.googleusercontent.com/d/1RR8-zYD9YjNtwzpMuGTBJbts8duHdo1E=w1200",
+      "scores": {
+        "drinkability": 7.8,
+        "flavor": 7.6,
+        "color": 8.7,
+        "label": 6.9,
+        "overall": 7.7,
+        "total": 7.74,
+        "votes": 20
+      },
+      "comments": [
+        {
+          "id": "B-005-desc",
+          "text": "Fiery, unforgettable, and just a little wild",
+          "author": "Andy"
+        },
+        {
+          "id": "B-005-j1-30",
+          "text": "Not the best flavor, very wheaty",
+          "author": "Judge 1"
+        },
+        {
+          "id": "B-005-j3-30",
+          "text": "I’d fuck this beer",
+          "author": "Judge 3"
+        },
+        {
+          "id": "B-005-j13-30",
+          "text": "Very easy to drink, but lacks complexity. Chipotle doesn’t come through enough",
+          "author": "Judge 13"
+        },
+        {
+          "id": "B-005-j14-30",
+          "text": "This shit fire",
+          "author": "Judge 14"
+        },
+        {
+          "id": "B-005-j16-30",
+          "text": "I’d buy this. This fucks",
+          "author": "Judge 16"
+        },
+        {
+          "id": "B-005-j18-30",
+          "text": "Love it!!",
+          "author": "Judge 18"
+        }
+      ]
+    },
+    {
+      "entryId": "B-006",
+      "name": "Sourpuss",
+      "brewer": "Steve",
+      "style": "Florida Weisse",
+      "abv": 4,
+      "img": "https://lh3.googleusercontent.com/d/1Tg39LJ1taxfilkr4twLrJvYqTzevqk3B=w1200",
+      "scores": {
+        "drinkability": 6,
+        "flavor": 7.1,
+        "color": 7.8,
+        "label": 7.9,
+        "overall": 7.3,
+        "total": 7.22,
+        "votes": 20
+      },
+      "comments": [
+        {
+          "id": "B-006-desc",
+          "text": "Fruity, tart, refreshing, and crushable ",
+          "author": "Steve"
+        },
+        {
+          "id": "B-006-j1-36",
+          "text": "Not a big sour fan but very tasty for sours!!",
+          "author": "Judge 1"
+        },
+        {
+          "id": "B-006-j3-36",
+          "text": "Taste like pussy",
+          "author": "Judge 3"
+        },
+        {
+          "id": "B-006-j6-36",
+          "text": "feels a little clumsy flavor-wise",
+          "author": "Judge 6"
+        },
+        {
+          "id": "B-006-j13-36",
+          "text": "Definitely sour, a standout fruit note would give it more of an identity",
+          "author": "Judge 13"
+        },
+        {
+          "id": "B-006-j16-36",
+          "text": "This is a sour, but no distinguishing tasting notes",
+          "author": "Judge 16"
+        },
+        {
+          "id": "B-006-j18-36",
+          "text": "Yummmm!!",
+          "author": "Judge 18"
+        },
+        {
+          "id": "B-006-j20-36",
+          "text": "Meow",
+          "author": "Judge 20"
+        }
+      ]
+    },
+    {
+      "entryId": "B-002",
+      "name": "Peach don’t kill my vibe",
+      "brewer": "Julia",
+      "style": "IPA",
+      "abv": 6.7,
+      "img": "https://lh3.googleusercontent.com/d/1wzditzduBtcabfCtCIb9hhNuuvOo5EVS=w1200",
+      "scores": {
+        "drinkability": 6.7,
+        "flavor": 7.1,
+        "color": 8,
+        "label": 8.1,
+        "overall": 7.2,
+        "total": 7.42,
+        "votes": 20
+      },
+      "comments": [
+        {
+          "id": "B-002-desc",
+          "text": "Fruity and hazy",
+          "author": "Julia"
+        },
+        {
+          "id": "B-002-j1-12",
+          "text": "Very tasty fruit and smooth",
+          "author": "Judge 1"
+        },
+        {
+          "id": "B-002-j3-12",
+          "text": "I’d tap this beach",
+          "author": "Judge 3"
+        },
+        {
+          "id": "B-002-j13-12",
+          "text": "Nice and bitter, peachy color fits the vibe",
+          "author": "Judge 13"
+        },
+        {
+          "id": "B-002-j15-12",
+          "text": "I don’t like IPAs because they’re bitter&gross but I like this more than most IPAs because it’s fruity!",
+          "author": "Judge 15"
+        },
+        {
+          "id": "B-002-j16-12",
+          "text": "This feels more west coast than New England hazy",
+          "author": "Judge 16"
+        },
+        {
+          "id": "B-002-j18-12",
+          "text": "Loved it!! I got refills!",
+          "author": "Judge 18"
+        },
+        {
+          "id": "B-002-j20-12",
+          "text": "I don’t get peach, but really good IPA",
+          "author": "Judge 20"
+        }
+      ]
+    },
+    {
+      "entryId": "B-003",
+      "name": "Dirt Beaver",
+      "brewer": "Jesse Neighbour",
+      "style": "Lemon Shandy",
+      "abv": 5,
+      "img": "https://lh3.googleusercontent.com/d/1o5C7-dmzzkChJS1cMyhvLbH0D9su0s3t=w1200",
+      "scores": {
+        "drinkability": 7.8,
+        "flavor": 7,
+        "color": 7.2,
+        "label": 7.1,
+        "overall": 7,
+        "total": 7.22,
+        "votes": 20
+      },
+      "comments": [
+        {
+          "id": "B-003-desc",
+          "text": "A crushable refreshing lemon shandy ",
+          "author": "Jesse Neighbour"
+        },
+        {
+          "id": "B-003-j1-18",
+          "text": "Creative label, very lemony- would drink post rip",
+          "author": "Judge 1"
+        },
+        {
+          "id": "B-003-j2-18",
+          "text": "Love the label!",
+          "author": "Judge 2"
+        },
+        {
+          "id": "B-003-j3-18",
+          "text": "I eat beaver",
+          "author": "Judge 3"
+        },
+        {
+          "id": "B-003-j6-18",
+          "text": "got the lemon",
+          "author": "Judge 6"
+        },
+        {
+          "id": "B-003-j13-18",
+          "text": "Tart, very easy to drink, but a bit watery in color",
+          "author": "Judge 13"
+        },
+        {
+          "id": "B-003-j15-18",
+          "text": "Such a good summer beer! Perfect for Aug-toberfest!!",
+          "author": "Judge 15"
+        },
+        {
+          "id": "B-003-j16-18",
+          "text": "The label made me lose my cool. Funny points",
+          "author": "Judge 16"
+        },
+        {
+          "id": "B-003-j20-18",
+          "text": "I’ll take 15. Now.",
+          "author": "Judge 20"
+        }
+      ]
+    },
+    {
+      "entryId": "B-001",
+      "name": "Billy Blizbrau",
+      "brewer": "Kyle + Sarah",
+      "style": "",
+      "abv": 4,
+      "img": "https://lh3.googleusercontent.com/d/1gW-1f2_Wn3rft8a2AqgQLwhh1Y92TuXI=w1200",
+      "scores": {
+        "drinkability": 6.9,
+        "flavor": 6.8,
+        "color": 7,
+        "label": 9.1,
+        "overall": 6.8,
+        "total": 7.32,
+        "votes": 20
+      },
+      "comments": [
+        {
+          "id": "B-001-j1-6",
+          "text": "Robust flavor, fun label",
+          "author": "Judge 1"
+        },
+        {
+          "id": "B-001-j2-6",
+          "text": "Tastiest beer I’ve ever made",
+          "author": "Judge 2"
+        },
+        {
+          "id": "B-001-j3-6",
+          "text": "Billy knows how to carbonate",
+          "author": "Judge 3"
+        },
+        {
+          "id": "B-001-j7-6",
+          "text": "Fantastic label",
+          "author": "Judge 7"
+        },
+        {
+          "id": "B-001-j13-6",
+          "text": "Easy to drink, a little hazy for a dark beer for my taste, nice sweetness",
+          "author": "Judge 13"
+        },
+        {
+          "id": "B-001-j16-6",
+          "text": "Good work Kyle and Sarah",
+          "author": "Judge 16"
+        },
+        {
+          "id": "B-001-j18-6",
+          "text": "Tastes to me like a really great pumpernickel bread",
+          "author": "Judge 18"
+        },
+        {
+          "id": "B-001-j20-6",
+          "text": "Danke",
+          "author": "Judge 20"
+        }
+      ]
+    },
+    {
+      "entryId": "B-007",
+      "name": "ASTROBEER",
+      "brewer": "Riley & Liam",
+      "style": "New England IPA",
+      "abv": 5.5,
+      "img": "https://lh3.googleusercontent.com/d/1q87OpejyYW86CVz0lRUCTqdfTJWQXioF=w1200",
+      "scores": {
+        "drinkability": 6.5,
+        "flavor": 6.7,
+        "color": 8.2,
+        "label": 6.7,
+        "overall": 6.6,
+        "total": 6.94,
+        "votes": 20
+      },
+      "comments": [
+        {
+          "id": "B-007-desc",
+          "text": "You're an astronaut in space drinking beer. It’s Astrobeer. Also you’re a squirrel. ",
+          "author": "Riley & Liam"
+        },
+        {
+          "id": "B-007-j1-42",
+          "text": "To sweet for me but not bad",
+          "author": "Judge 1"
+        },
+        {
+          "id": "B-007-j3-42",
+          "text": "Beauty",
+          "author": "Judge 3"
+        },
+        {
+          "id": "B-007-j6-42",
+          "text": "so yummy and very artistic label",
+          "author": "Judge 6"
+        },
+        {
+          "id": "B-007-j16-42",
+          "text": "Strong after taste if you are into that",
+          "author": "Judge 16"
+        }
+      ]
+    },
+    {
+      "entryId": "B-004",
+      "name": "Well Made",
+      "brewer": "E^2 Brewing (Eric Eells)",
+      "style": "Lager",
+      "abv": 5,
+      "img": "https://lh3.googleusercontent.com/d/1qi_Fmj1NuDUOKRfcCcbagZLiMVO0hMgP=w1200",
+      "scores": {
+        "drinkability": 6.9,
+        "flavor": 6.1,
+        "color": 7.5,
+        "label": 6.5,
+        "overall": 6.5,
+        "total": 6.7,
+        "votes": 20
+      },
+      "comments": [
+        {
+          "id": "B-004-desc",
+          "text": "Made with water",
+          "author": "E^2 Brewing (Eric Eells)"
+        },
+        {
+          "id": "B-004-j1-24",
+          "text": "Good flavor, mild and drinkable",
+          "author": "Judge 1"
+        },
+        {
+          "id": "B-004-j3-24",
+          "text": "This is well made",
+          "author": "Judge 3"
+        },
+        {
+          "id": "B-004-j6-24",
+          "text": "has a bit of a chemical vibe to it",
+          "author": "Judge 6"
+        },
+        {
+          "id": "B-004-j9-24",
+          "text": "I designed the label",
+          "author": "Judge 9"
+        },
+        {
+          "id": "B-004-j13-24",
+          "text": "Notes of agave, but too sweet for me",
+          "author": "Judge 13"
+        },
+        {
+          "id": "B-004-j16-24",
+          "text": "Mild taste, but the drinkabilty is high",
+          "author": "Judge 16"
+        },
+        {
+          "id": "B-004-j18-24",
+          "text": "Great double entendre! Beautiful color.",
+          "author": "Judge 18"
+        }
+      ]
+    },
+    {
+      "entryId": "B-008",
+      "name": "Neighborly Influence",
+      "brewer": "Rudy",
+      "style": "Red Ale",
+      "abv": 4,
+      "img": "https://lh3.googleusercontent.com/d/1zqnbIO5CrgZsRKTpQpYTP-ph6s7Euksz=w1200",
+      "scores": {
+        "drinkability": 5.4,
+        "flavor": 5.7,
+        "color": 7.3,
+        "label": 5.4,
+        "overall": 5.5,
+        "total": 5.86,
+        "votes": 20
+      },
+      "comments": [
+        {
+          "id": "B-008-desc",
+          "text": "Rudy’s Red Ale",
+          "author": "Rudy"
+        },
+        {
+          "id": "B-008-j1-48",
+          "text": "Flat and leaves a bad taste",
+          "author": "Judge 1"
+        },
+        {
+          "id": "B-008-j6-48",
+          "text": "really interesting caramel-coffee flavor wish there was more carbonation",
+          "author": "Judge 6"
+        },
+        {
+          "id": "B-008-j15-48",
+          "text": "If it had more carbonation I would like it a lot!",
+          "author": "Judge 15"
+        },
+        {
+          "id": "B-008-j16-48",
+          "text": "Needs carbonation but nice try",
+          "author": "Judge 16"
+        }
+      ]
+    }
+  ],
+  "winners": {
+    "Label": [
+      {
+        "entryId": "B-001",
+        "name": "Billy Blizbrau",
+        "brewer": "Kyle + Sarah",
+        "style": "",
+        "abv": 4,
+        "img": "https://lh3.googleusercontent.com/d/1gW-1f2_Wn3rft8a2AqgQLwhh1Y92TuXI=w1200",
+        "scores": {
+          "drinkability": 6.9,
+          "flavor": 6.8,
+          "color": 7,
+          "label": 9.1,
+          "overall": 6.8,
+          "total": 7.32,
+          "votes": 20
+        },
+        "comments": [
+          {
+            "id": "B-001-j1-6",
+            "text": "Robust flavor, fun label",
+            "author": "Judge 1"
+          },
+          {
+            "id": "B-001-j2-6",
+            "text": "Tastiest beer I’ve ever made",
+            "author": "Judge 2"
+          },
+          {
+            "id": "B-001-j3-6",
+            "text": "Billy knows how to carbonate",
+            "author": "Judge 3"
+          },
+          {
+            "id": "B-001-j7-6",
+            "text": "Fantastic label",
+            "author": "Judge 7"
+          },
+          {
+            "id": "B-001-j13-6",
+            "text": "Easy to drink, a little hazy for a dark beer for my taste, nice sweetness",
+            "author": "Judge 13"
+          },
+          {
+            "id": "B-001-j16-6",
+            "text": "Good work Kyle and Sarah",
+            "author": "Judge 16"
+          },
+          {
+            "id": "B-001-j18-6",
+            "text": "Tastes to me like a really great pumpernickel bread",
+            "author": "Judge 18"
+          },
+          {
+            "id": "B-001-j20-6",
+            "text": "Danke",
+            "author": "Judge 20"
+          }
+        ]
+      },
+      {
+        "entryId": "B-002",
+        "name": "Peach don’t kill my vibe",
+        "brewer": "Julia",
+        "style": "IPA",
+        "abv": 6.7,
+        "img": "https://lh3.googleusercontent.com/d/1wzditzduBtcabfCtCIb9hhNuuvOo5EVS=w1200",
+        "scores": {
+          "drinkability": 6.7,
+          "flavor": 7.1,
+          "color": 8,
+          "label": 8.1,
+          "overall": 7.2,
+          "total": 7.42,
+          "votes": 20
+        },
+        "comments": [
+          {
+            "id": "B-002-desc",
+            "text": "Fruity and hazy",
+            "author": "Julia"
+          },
+          {
+            "id": "B-002-j1-12",
+            "text": "Very tasty fruit and smooth",
+            "author": "Judge 1"
+          },
+          {
+            "id": "B-002-j3-12",
+            "text": "I’d tap this beach",
+            "author": "Judge 3"
+          },
+          {
+            "id": "B-002-j13-12",
+            "text": "Nice and bitter, peachy color fits the vibe",
+            "author": "Judge 13"
+          },
+          {
+            "id": "B-002-j15-12",
+            "text": "I don’t like IPAs because they’re bitter&gross but I like this more than most IPAs because it’s fruity!",
+            "author": "Judge 15"
+          },
+          {
+            "id": "B-002-j16-12",
+            "text": "This feels more west coast than New England hazy",
+            "author": "Judge 16"
+          },
+          {
+            "id": "B-002-j18-12",
+            "text": "Loved it!! I got refills!",
+            "author": "Judge 18"
+          },
+          {
+            "id": "B-002-j20-12",
+            "text": "I don’t get peach, but really good IPA",
+            "author": "Judge 20"
+          }
+        ]
+      },
+      {
+        "entryId": "B-006",
+        "name": "Sourpuss",
+        "brewer": "Steve",
+        "style": "Florida Weisse",
+        "abv": 4,
+        "img": "https://lh3.googleusercontent.com/d/1Tg39LJ1taxfilkr4twLrJvYqTzevqk3B=w1200",
+        "scores": {
+          "drinkability": 6,
+          "flavor": 7.1,
+          "color": 7.8,
+          "label": 7.9,
+          "overall": 7.3,
+          "total": 7.22,
+          "votes": 20
+        },
+        "comments": [
+          {
+            "id": "B-006-desc",
+            "text": "Fruity, tart, refreshing, and crushable ",
+            "author": "Steve"
+          },
+          {
+            "id": "B-006-j1-36",
+            "text": "Not a big sour fan but very tasty for sours!!",
+            "author": "Judge 1"
+          },
+          {
+            "id": "B-006-j3-36",
+            "text": "Taste like pussy",
+            "author": "Judge 3"
+          },
+          {
+            "id": "B-006-j6-36",
+            "text": "feels a little clumsy flavor-wise",
+            "author": "Judge 6"
+          },
+          {
+            "id": "B-006-j13-36",
+            "text": "Definitely sour, a standout fruit note would give it more of an identity",
+            "author": "Judge 13"
+          },
+          {
+            "id": "B-006-j16-36",
+            "text": "This is a sour, but no distinguishing tasting notes",
+            "author": "Judge 16"
+          },
+          {
+            "id": "B-006-j18-36",
+            "text": "Yummmm!!",
+            "author": "Judge 18"
+          },
+          {
+            "id": "B-006-j20-36",
+            "text": "Meow",
+            "author": "Judge 20"
+          }
+        ]
+      }
+    ],
+    "Color": [
+      {
+        "entryId": "B-005",
+        "name": "Desert Heat",
+        "brewer": "Andy",
+        "style": "Chipotle Amber",
+        "abv": 6.1,
+        "img": "https://lh3.googleusercontent.com/d/1RR8-zYD9YjNtwzpMuGTBJbts8duHdo1E=w1200",
+        "scores": {
+          "drinkability": 7.8,
+          "flavor": 7.6,
+          "color": 8.7,
+          "label": 6.9,
+          "overall": 7.7,
+          "total": 7.74,
+          "votes": 20
+        },
+        "comments": [
+          {
+            "id": "B-005-desc",
+            "text": "Fiery, unforgettable, and just a little wild",
+            "author": "Andy"
+          },
+          {
+            "id": "B-005-j1-30",
+            "text": "Not the best flavor, very wheaty",
+            "author": "Judge 1"
+          },
+          {
+            "id": "B-005-j3-30",
+            "text": "I’d fuck this beer",
+            "author": "Judge 3"
+          },
+          {
+            "id": "B-005-j13-30",
+            "text": "Very easy to drink, but lacks complexity. Chipotle doesn’t come through enough",
+            "author": "Judge 13"
+          },
+          {
+            "id": "B-005-j14-30",
+            "text": "This shit fire",
+            "author": "Judge 14"
+          },
+          {
+            "id": "B-005-j16-30",
+            "text": "I’d buy this. This fucks",
+            "author": "Judge 16"
+          },
+          {
+            "id": "B-005-j18-30",
+            "text": "Love it!!",
+            "author": "Judge 18"
+          }
+        ]
+      },
+      {
+        "entryId": "B-007",
+        "name": "ASTROBEER",
+        "brewer": "Riley & Liam",
+        "style": "New England IPA",
+        "abv": 5.5,
+        "img": "https://lh3.googleusercontent.com/d/1q87OpejyYW86CVz0lRUCTqdfTJWQXioF=w1200",
+        "scores": {
+          "drinkability": 6.5,
+          "flavor": 6.7,
+          "color": 8.2,
+          "label": 6.7,
+          "overall": 6.6,
+          "total": 6.94,
+          "votes": 20
+        },
+        "comments": [
+          {
+            "id": "B-007-desc",
+            "text": "You're an astronaut in space drinking beer. It’s Astrobeer. Also you’re a squirrel. ",
+            "author": "Riley & Liam"
+          },
+          {
+            "id": "B-007-j1-42",
+            "text": "To sweet for me but not bad",
+            "author": "Judge 1"
+          },
+          {
+            "id": "B-007-j3-42",
+            "text": "Beauty",
+            "author": "Judge 3"
+          },
+          {
+            "id": "B-007-j6-42",
+            "text": "so yummy and very artistic label",
+            "author": "Judge 6"
+          },
+          {
+            "id": "B-007-j16-42",
+            "text": "Strong after taste if you are into that",
+            "author": "Judge 16"
+          }
+        ]
+      },
+      {
+        "entryId": "B-002",
+        "name": "Peach don’t kill my vibe",
+        "brewer": "Julia",
+        "style": "IPA",
+        "abv": 6.7,
+        "img": "https://lh3.googleusercontent.com/d/1wzditzduBtcabfCtCIb9hhNuuvOo5EVS=w1200",
+        "scores": {
+          "drinkability": 6.7,
+          "flavor": 7.1,
+          "color": 8,
+          "label": 8.1,
+          "overall": 7.2,
+          "total": 7.42,
+          "votes": 20
+        },
+        "comments": [
+          {
+            "id": "B-002-desc",
+            "text": "Fruity and hazy",
+            "author": "Julia"
+          },
+          {
+            "id": "B-002-j1-12",
+            "text": "Very tasty fruit and smooth",
+            "author": "Judge 1"
+          },
+          {
+            "id": "B-002-j3-12",
+            "text": "I’d tap this beach",
+            "author": "Judge 3"
+          },
+          {
+            "id": "B-002-j13-12",
+            "text": "Nice and bitter, peachy color fits the vibe",
+            "author": "Judge 13"
+          },
+          {
+            "id": "B-002-j15-12",
+            "text": "I don’t like IPAs because they’re bitter&gross but I like this more than most IPAs because it’s fruity!",
+            "author": "Judge 15"
+          },
+          {
+            "id": "B-002-j16-12",
+            "text": "This feels more west coast than New England hazy",
+            "author": "Judge 16"
+          },
+          {
+            "id": "B-002-j18-12",
+            "text": "Loved it!! I got refills!",
+            "author": "Judge 18"
+          },
+          {
+            "id": "B-002-j20-12",
+            "text": "I don’t get peach, but really good IPA",
+            "author": "Judge 20"
+          }
+        ]
+      }
+    ],
+    "Drinkability": [
+      {
+        "entryId": "B-003",
+        "name": "Dirt Beaver",
+        "brewer": "Jesse Neighbour",
+        "style": "Lemon Shandy",
+        "abv": 5,
+        "img": "https://lh3.googleusercontent.com/d/1o5C7-dmzzkChJS1cMyhvLbH0D9su0s3t=w1200",
+        "scores": {
+          "drinkability": 7.8,
+          "flavor": 7,
+          "color": 7.2,
+          "label": 7.1,
+          "overall": 7,
+          "total": 7.22,
+          "votes": 20
+        },
+        "comments": [
+          {
+            "id": "B-003-desc",
+            "text": "A crushable refreshing lemon shandy ",
+            "author": "Jesse Neighbour"
+          },
+          {
+            "id": "B-003-j1-18",
+            "text": "Creative label, very lemony- would drink post rip",
+            "author": "Judge 1"
+          },
+          {
+            "id": "B-003-j2-18",
+            "text": "Love the label!",
+            "author": "Judge 2"
+          },
+          {
+            "id": "B-003-j3-18",
+            "text": "I eat beaver",
+            "author": "Judge 3"
+          },
+          {
+            "id": "B-003-j6-18",
+            "text": "got the lemon",
+            "author": "Judge 6"
+          },
+          {
+            "id": "B-003-j13-18",
+            "text": "Tart, very easy to drink, but a bit watery in color",
+            "author": "Judge 13"
+          },
+          {
+            "id": "B-003-j15-18",
+            "text": "Such a good summer beer! Perfect for Aug-toberfest!!",
+            "author": "Judge 15"
+          },
+          {
+            "id": "B-003-j16-18",
+            "text": "The label made me lose my cool. Funny points",
+            "author": "Judge 16"
+          },
+          {
+            "id": "B-003-j20-18",
+            "text": "I’ll take 15. Now.",
+            "author": "Judge 20"
+          }
+        ]
+      },
+      {
+        "entryId": "B-005",
+        "name": "Desert Heat",
+        "brewer": "Andy",
+        "style": "Chipotle Amber",
+        "abv": 6.1,
+        "img": "https://lh3.googleusercontent.com/d/1RR8-zYD9YjNtwzpMuGTBJbts8duHdo1E=w1200",
+        "scores": {
+          "drinkability": 7.8,
+          "flavor": 7.6,
+          "color": 8.7,
+          "label": 6.9,
+          "overall": 7.7,
+          "total": 7.74,
+          "votes": 20
+        },
+        "comments": [
+          {
+            "id": "B-005-desc",
+            "text": "Fiery, unforgettable, and just a little wild",
+            "author": "Andy"
+          },
+          {
+            "id": "B-005-j1-30",
+            "text": "Not the best flavor, very wheaty",
+            "author": "Judge 1"
+          },
+          {
+            "id": "B-005-j3-30",
+            "text": "I’d fuck this beer",
+            "author": "Judge 3"
+          },
+          {
+            "id": "B-005-j13-30",
+            "text": "Very easy to drink, but lacks complexity. Chipotle doesn’t come through enough",
+            "author": "Judge 13"
+          },
+          {
+            "id": "B-005-j14-30",
+            "text": "This shit fire",
+            "author": "Judge 14"
+          },
+          {
+            "id": "B-005-j16-30",
+            "text": "I’d buy this. This fucks",
+            "author": "Judge 16"
+          },
+          {
+            "id": "B-005-j18-30",
+            "text": "Love it!!",
+            "author": "Judge 18"
+          }
+        ]
+      },
+      {
+        "entryId": "B-001",
+        "name": "Billy Blizbrau",
+        "brewer": "Kyle + Sarah",
+        "style": "",
+        "abv": 4,
+        "img": "https://lh3.googleusercontent.com/d/1gW-1f2_Wn3rft8a2AqgQLwhh1Y92TuXI=w1200",
+        "scores": {
+          "drinkability": 6.9,
+          "flavor": 6.8,
+          "color": 7,
+          "label": 9.1,
+          "overall": 6.8,
+          "total": 7.32,
+          "votes": 20
+        },
+        "comments": [
+          {
+            "id": "B-001-j1-6",
+            "text": "Robust flavor, fun label",
+            "author": "Judge 1"
+          },
+          {
+            "id": "B-001-j2-6",
+            "text": "Tastiest beer I’ve ever made",
+            "author": "Judge 2"
+          },
+          {
+            "id": "B-001-j3-6",
+            "text": "Billy knows how to carbonate",
+            "author": "Judge 3"
+          },
+          {
+            "id": "B-001-j7-6",
+            "text": "Fantastic label",
+            "author": "Judge 7"
+          },
+          {
+            "id": "B-001-j13-6",
+            "text": "Easy to drink, a little hazy for a dark beer for my taste, nice sweetness",
+            "author": "Judge 13"
+          },
+          {
+            "id": "B-001-j16-6",
+            "text": "Good work Kyle and Sarah",
+            "author": "Judge 16"
+          },
+          {
+            "id": "B-001-j18-6",
+            "text": "Tastes to me like a really great pumpernickel bread",
+            "author": "Judge 18"
+          },
+          {
+            "id": "B-001-j20-6",
+            "text": "Danke",
+            "author": "Judge 20"
+          }
+        ]
+      }
+    ],
+    "Flavor": [
+      {
+        "entryId": "B-005",
+        "name": "Desert Heat",
+        "brewer": "Andy",
+        "style": "Chipotle Amber",
+        "abv": 6.1,
+        "img": "https://lh3.googleusercontent.com/d/1RR8-zYD9YjNtwzpMuGTBJbts8duHdo1E=w1200",
+        "scores": {
+          "drinkability": 7.8,
+          "flavor": 7.6,
+          "color": 8.7,
+          "label": 6.9,
+          "overall": 7.7,
+          "total": 7.74,
+          "votes": 20
+        },
+        "comments": [
+          {
+            "id": "B-005-desc",
+            "text": "Fiery, unforgettable, and just a little wild",
+            "author": "Andy"
+          },
+          {
+            "id": "B-005-j1-30",
+            "text": "Not the best flavor, very wheaty",
+            "author": "Judge 1"
+          },
+          {
+            "id": "B-005-j3-30",
+            "text": "I’d fuck this beer",
+            "author": "Judge 3"
+          },
+          {
+            "id": "B-005-j13-30",
+            "text": "Very easy to drink, but lacks complexity. Chipotle doesn’t come through enough",
+            "author": "Judge 13"
+          },
+          {
+            "id": "B-005-j14-30",
+            "text": "This shit fire",
+            "author": "Judge 14"
+          },
+          {
+            "id": "B-005-j16-30",
+            "text": "I’d buy this. This fucks",
+            "author": "Judge 16"
+          },
+          {
+            "id": "B-005-j18-30",
+            "text": "Love it!!",
+            "author": "Judge 18"
+          }
+        ]
+      },
+      {
+        "entryId": "B-002",
+        "name": "Peach don’t kill my vibe",
+        "brewer": "Julia",
+        "style": "IPA",
+        "abv": 6.7,
+        "img": "https://lh3.googleusercontent.com/d/1wzditzduBtcabfCtCIb9hhNuuvOo5EVS=w1200",
+        "scores": {
+          "drinkability": 6.7,
+          "flavor": 7.1,
+          "color": 8,
+          "label": 8.1,
+          "overall": 7.2,
+          "total": 7.42,
+          "votes": 20
+        },
+        "comments": [
+          {
+            "id": "B-002-desc",
+            "text": "Fruity and hazy",
+            "author": "Julia"
+          },
+          {
+            "id": "B-002-j1-12",
+            "text": "Very tasty fruit and smooth",
+            "author": "Judge 1"
+          },
+          {
+            "id": "B-002-j3-12",
+            "text": "I’d tap this beach",
+            "author": "Judge 3"
+          },
+          {
+            "id": "B-002-j13-12",
+            "text": "Nice and bitter, peachy color fits the vibe",
+            "author": "Judge 13"
+          },
+          {
+            "id": "B-002-j15-12",
+            "text": "I don’t like IPAs because they’re bitter&gross but I like this more than most IPAs because it’s fruity!",
+            "author": "Judge 15"
+          },
+          {
+            "id": "B-002-j16-12",
+            "text": "This feels more west coast than New England hazy",
+            "author": "Judge 16"
+          },
+          {
+            "id": "B-002-j18-12",
+            "text": "Loved it!! I got refills!",
+            "author": "Judge 18"
+          },
+          {
+            "id": "B-002-j20-12",
+            "text": "I don’t get peach, but really good IPA",
+            "author": "Judge 20"
+          }
+        ]
+      },
+      {
+        "entryId": "B-006",
+        "name": "Sourpuss",
+        "brewer": "Steve",
+        "style": "Florida Weisse",
+        "abv": 4,
+        "img": "https://lh3.googleusercontent.com/d/1Tg39LJ1taxfilkr4twLrJvYqTzevqk3B=w1200",
+        "scores": {
+          "drinkability": 6,
+          "flavor": 7.1,
+          "color": 7.8,
+          "label": 7.9,
+          "overall": 7.3,
+          "total": 7.22,
+          "votes": 20
+        },
+        "comments": [
+          {
+            "id": "B-006-desc",
+            "text": "Fruity, tart, refreshing, and crushable ",
+            "author": "Steve"
+          },
+          {
+            "id": "B-006-j1-36",
+            "text": "Not a big sour fan but very tasty for sours!!",
+            "author": "Judge 1"
+          },
+          {
+            "id": "B-006-j3-36",
+            "text": "Taste like pussy",
+            "author": "Judge 3"
+          },
+          {
+            "id": "B-006-j6-36",
+            "text": "feels a little clumsy flavor-wise",
+            "author": "Judge 6"
+          },
+          {
+            "id": "B-006-j13-36",
+            "text": "Definitely sour, a standout fruit note would give it more of an identity",
+            "author": "Judge 13"
+          },
+          {
+            "id": "B-006-j16-36",
+            "text": "This is a sour, but no distinguishing tasting notes",
+            "author": "Judge 16"
+          },
+          {
+            "id": "B-006-j18-36",
+            "text": "Yummmm!!",
+            "author": "Judge 18"
+          },
+          {
+            "id": "B-006-j20-36",
+            "text": "Meow",
+            "author": "Judge 20"
+          }
+        ]
+      }
+    ],
+    "Overall": [
+      {
+        "entryId": "B-005",
+        "name": "Desert Heat",
+        "brewer": "Andy",
+        "style": "Chipotle Amber",
+        "abv": 6.1,
+        "img": "https://lh3.googleusercontent.com/d/1RR8-zYD9YjNtwzpMuGTBJbts8duHdo1E=w1200",
+        "scores": {
+          "drinkability": 7.8,
+          "flavor": 7.6,
+          "color": 8.7,
+          "label": 6.9,
+          "overall": 7.7,
+          "total": 7.74,
+          "votes": 20
+        },
+        "comments": [
+          {
+            "id": "B-005-desc",
+            "text": "Fiery, unforgettable, and just a little wild",
+            "author": "Andy"
+          },
+          {
+            "id": "B-005-j1-30",
+            "text": "Not the best flavor, very wheaty",
+            "author": "Judge 1"
+          },
+          {
+            "id": "B-005-j3-30",
+            "text": "I’d fuck this beer",
+            "author": "Judge 3"
+          },
+          {
+            "id": "B-005-j13-30",
+            "text": "Very easy to drink, but lacks complexity. Chipotle doesn’t come through enough",
+            "author": "Judge 13"
+          },
+          {
+            "id": "B-005-j14-30",
+            "text": "This shit fire",
+            "author": "Judge 14"
+          },
+          {
+            "id": "B-005-j16-30",
+            "text": "I’d buy this. This fucks",
+            "author": "Judge 16"
+          },
+          {
+            "id": "B-005-j18-30",
+            "text": "Love it!!",
+            "author": "Judge 18"
+          }
+        ]
+      },
+      {
+        "entryId": "B-006",
+        "name": "Sourpuss",
+        "brewer": "Steve",
+        "style": "Florida Weisse",
+        "abv": 4,
+        "img": "https://lh3.googleusercontent.com/d/1Tg39LJ1taxfilkr4twLrJvYqTzevqk3B=w1200",
+        "scores": {
+          "drinkability": 6,
+          "flavor": 7.1,
+          "color": 7.8,
+          "label": 7.9,
+          "overall": 7.3,
+          "total": 7.22,
+          "votes": 20
+        },
+        "comments": [
+          {
+            "id": "B-006-desc",
+            "text": "Fruity, tart, refreshing, and crushable ",
+            "author": "Steve"
+          },
+          {
+            "id": "B-006-j1-36",
+            "text": "Not a big sour fan but very tasty for sours!!",
+            "author": "Judge 1"
+          },
+          {
+            "id": "B-006-j3-36",
+            "text": "Taste like pussy",
+            "author": "Judge 3"
+          },
+          {
+            "id": "B-006-j6-36",
+            "text": "feels a little clumsy flavor-wise",
+            "author": "Judge 6"
+          },
+          {
+            "id": "B-006-j13-36",
+            "text": "Definitely sour, a standout fruit note would give it more of an identity",
+            "author": "Judge 13"
+          },
+          {
+            "id": "B-006-j16-36",
+            "text": "This is a sour, but no distinguishing tasting notes",
+            "author": "Judge 16"
+          },
+          {
+            "id": "B-006-j18-36",
+            "text": "Yummmm!!",
+            "author": "Judge 18"
+          },
+          {
+            "id": "B-006-j20-36",
+            "text": "Meow",
+            "author": "Judge 20"
+          }
+        ]
+      },
+      {
+        "entryId": "B-002",
+        "name": "Peach don’t kill my vibe",
+        "brewer": "Julia",
+        "style": "IPA",
+        "abv": 6.7,
+        "img": "https://lh3.googleusercontent.com/d/1wzditzduBtcabfCtCIb9hhNuuvOo5EVS=w1200",
+        "scores": {
+          "drinkability": 6.7,
+          "flavor": 7.1,
+          "color": 8,
+          "label": 8.1,
+          "overall": 7.2,
+          "total": 7.42,
+          "votes": 20
+        },
+        "comments": [
+          {
+            "id": "B-002-desc",
+            "text": "Fruity and hazy",
+            "author": "Julia"
+          },
+          {
+            "id": "B-002-j1-12",
+            "text": "Very tasty fruit and smooth",
+            "author": "Judge 1"
+          },
+          {
+            "id": "B-002-j3-12",
+            "text": "I’d tap this beach",
+            "author": "Judge 3"
+          },
+          {
+            "id": "B-002-j13-12",
+            "text": "Nice and bitter, peachy color fits the vibe",
+            "author": "Judge 13"
+          },
+          {
+            "id": "B-002-j15-12",
+            "text": "I don’t like IPAs because they’re bitter&gross but I like this more than most IPAs because it’s fruity!",
+            "author": "Judge 15"
+          },
+          {
+            "id": "B-002-j16-12",
+            "text": "This feels more west coast than New England hazy",
+            "author": "Judge 16"
+          },
+          {
+            "id": "B-002-j18-12",
+            "text": "Loved it!! I got refills!",
+            "author": "Judge 18"
+          },
+          {
+            "id": "B-002-j20-12",
+            "text": "I don’t get peach, but really good IPA",
+            "author": "Judge 20"
+          }
+        ]
+      }
+    ]
+  },
+  "generatedAt": "2025-08-24T00:00:00.000Z"
+}

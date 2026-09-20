@@ -1,0 +1,18 @@
+:root {
+  --ink: #1c1916;
+  --paper: #f4efe4;
+  --sheet: #fbf6ea;
+  --accent: #6b4f2a;
+  --brass: #8a6a2f;
+  --muted: #6f675c;
+  --rule: #cbbfa8;
+  --font-display: "Fraunces", "Palatino Linotype", Palatino, serif;
+  --font-body: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
+  --bg-pattern: repeating-linear-gradient(
+    -12deg,
+    transparent,
+    transparent 18px,
+    rgb(28 25 22 / 0.03) 18px,
+    rgb(28 25 22 / 0.03) 19px
+  );
+}

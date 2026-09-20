@@ -1,0 +1,20 @@
+name = "brew-off"
+main = "worker/index.ts"
+compatibility_date = "2025-09-19"
+
+[assets]
+not_found_handling = "single-page-application"
+run_worker_first = ["/api/*"]
+
+# ADMIN_PASSWORD and COOKIE_SECRET come from `.dev.vars` locally
+# and `wrangler secret put` in production.
+
+[[d1_databases]]
+binding = "DB"
+database_name = "brew-off"
+database_id = "local-brew-off-db"
+migrations_dir = "migrations"
+
+[[r2_buckets]]
+binding = "LABELS"
+bucket_name = "brew-off-labels"

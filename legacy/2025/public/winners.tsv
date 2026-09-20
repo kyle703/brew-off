@@ -1,0 +1,20 @@
+Category	Place	EntryID	Beer	Avg Score	Votes
+Drinkability	🥇	B-003	Dirt Beaver	3.9	20
+Drinkability	🥈	B-005	Desert Heat	3.9	20
+Drinkability	🥉	B-001	Billy Blizbrau	3.45	20
+					
+Flavor	🥇	B-005	Desert Heat	3.8	20
+Flavor	🥈	B-002	Peach don’t kill my vibe	3.55	20
+Flavor	🥉	B-006	Sourpuss	3.55	20
+					
+Color	🥇	B-005	Desert Heat	4.35	20
+Color	🥈	B-007	ASTROBEER	4.1	20
+Color	🥉	B-002	Peach don’t kill my vibe	4	20
+					
+Label	🥇	B-001	Billy Blizbrau	4.55	20
+Label	🥈	B-002	Peach don’t kill my vibe	4.05	20
+Label	🥉	B-006	Sourpuss	3.95	20
+					
+Overall	🥇	B-005	Desert Heat	3.85	20
+Overall	🥈	B-006	Sourpuss	3.65	20
+Overall	🥉	B-002	Peach don’t kill my vibe	3.6	20

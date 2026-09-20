@@ -1,0 +1,6 @@
+{
+  "id": "baseline",
+  "name": "Tasting sheet",
+  "tokens": "tokens.css",
+  "notes": "Default brew-off template. Cream paper, ink, brass. Year packs override tokens only."
+}

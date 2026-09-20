@@ -1,0 +1,23 @@
+[data-theme="2026"] {
+  --ink: #f3e6d4;
+  --paper: #2a1218;
+  --sheet: #3a1b22;
+  --accent: #d4a054;
+  --brass: #e3b341;
+  --muted: #cbb29a;
+  --rule: #7a4a3a;
+  --font-display: "Fraunces", "Palatino Linotype", Palatino, serif;
+  --font-body: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
+  --bg-pattern: radial-gradient(
+      ellipse at top,
+      rgb(212 160 84 / 0.18),
+      transparent 55%
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 22px,
+      rgb(243 230 212 / 0.04) 22px,
+      rgb(243 230 212 / 0.04) 23px
+    );
+}
