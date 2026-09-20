@@ -18,3 +18,7 @@ migrations_dir = "migrations"
 [[r2_buckets]]
 binding = "LABELS"
 bucket_name = "brew-off-labels"
+
+[observability.logs]
+enabled = false
+invocation_logs = true
