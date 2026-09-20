@@ -59,6 +59,39 @@ function parseSchema(raw: string): ScoringCriterion[] {
   ];
 }
 
+const DEFAULT_TASTING_DISPLAY = {
+  brewer: false,
+  beerName: true,
+  style: true,
+  abv: true,
+};
+
+type TastingDisplay = typeof DEFAULT_TASTING_DISPLAY;
+
+function parseTastingDisplay(raw: string | null | undefined): TastingDisplay {
+  try {
+    const parsed = JSON.parse(raw || "") as { tasting?: Partial<TastingDisplay> };
+    const tasting = parsed.tasting ?? {};
+    return {
+      brewer: tasting.brewer === true,
+      beerName: tasting.beerName !== false,
+      style: tasting.style !== false,
+      abv: tasting.abv !== false,
+    };
+  } catch {
+    return { ...DEFAULT_TASTING_DISPLAY };
+  }
+}
+
+function guestMayRegister(row: CompetitionRow): boolean {
+  if (row.registration_open !== 1 || row.entries_frozen === 1) return false;
+  return row.status === "registration" || row.status === "tasting";
+}
+
+function tastingLive(row: CompetitionRow): boolean {
+  return row.tasting_open === 1 || row.status === "tasting";
+}
+
 function publicCompetition(row: CompetitionRow) {
   return {
     id: row.id,
@@ -72,11 +105,15 @@ function publicCompetition(row: CompetitionRow) {
     registrationOpen: row.registration_open === 1,
     tastingOpen: row.tasting_open === 1,
     entriesFrozen: row.entries_frozen === 1,
+    tastingDisplay: parseTastingDisplay(row.display_settings),
   };
 }
 
-function publicEntry(row: EntryRow) {
-  return {
+function publicEntry(
+  row: EntryRow,
+  opts: { isAdmin?: boolean; tasting?: boolean; display?: TastingDisplay } = {},
+) {
+  const full = {
     id: row.id,
     entryCode: row.entry_code,
     beerName: row.beer_name,
@@ -86,6 +123,16 @@ function publicEntry(row: EntryRow) {
     description: row.description,
     labelUrl: labelUrl(row.label_key),
     status: row.status as "active" | "hidden",
+  };
+  if (opts.isAdmin || !opts.tasting) return full;
+  const display = opts.display ?? DEFAULT_TASTING_DISPLAY;
+  return {
+    ...full,
+    beerName: display.beerName ? row.beer_name : "",
+    brewer: display.brewer ? row.brewer : "",
+    style: display.style ? row.style : null,
+    abv: display.abv ? row.abv : null,
+    description: null,
   };
 }
 
@@ -162,7 +209,13 @@ app.get("/api/bootstrap", async (c) => {
 
   return c.json({
     competition: publicCompetition(competition),
-    entries: entries.map(publicEntry),
+    entries: entries.map((entry) =>
+      publicEntry(entry, {
+        isAdmin,
+        tasting: tastingLive(competition),
+        display: parseTastingDisplay(competition.display_settings),
+      }),
+    ),
     voter,
     ballots,
     isAdmin,
@@ -241,6 +294,7 @@ app.patch("/api/admin/competition", async (c) => {
     registrationOpen?: boolean;
     tastingOpen?: boolean;
     entriesFrozen?: boolean;
+    tastingDisplay?: Partial<TastingDisplay>;
   }>();
 
   let status = competition.status;
@@ -248,6 +302,7 @@ app.patch("/api/admin/competition", async (c) => {
   let tastingOpen = competition.tasting_open;
   let entriesFrozen = competition.entries_frozen;
   let snapshot = competition.snapshot;
+  let tastingDisplay = parseTastingDisplay(competition.display_settings);
 
   if (body.status) {
     if (!STATUSES.includes(body.status as (typeof STATUSES)[number])) {
@@ -279,6 +334,26 @@ app.patch("/api/admin/competition", async (c) => {
   if (typeof body.entriesFrozen === "boolean") {
     entriesFrozen = body.entriesFrozen ? 1 : 0;
   }
+  if (body.tastingDisplay) {
+    tastingDisplay = {
+      brewer:
+        typeof body.tastingDisplay.brewer === "boolean"
+          ? body.tastingDisplay.brewer
+          : tastingDisplay.brewer,
+      beerName:
+        typeof body.tastingDisplay.beerName === "boolean"
+          ? body.tastingDisplay.beerName
+          : tastingDisplay.beerName,
+      style:
+        typeof body.tastingDisplay.style === "boolean"
+          ? body.tastingDisplay.style
+          : tastingDisplay.style,
+      abv:
+        typeof body.tastingDisplay.abv === "boolean"
+          ? body.tastingDisplay.abv
+          : tastingDisplay.abv,
+    };
+  }
 
   const name = body.name?.trim() || competition.name;
   const tagline =
@@ -289,7 +364,7 @@ app.patch("/api/admin/competition", async (c) => {
     `UPDATE competitions SET
       name = ?, tagline = ?, theme_id = ?, status = ?,
       registration_open = ?, tasting_open = ?, entries_frozen = ?,
-      snapshot = ?, updated_at = datetime('now')
+      display_settings = ?, snapshot = ?, updated_at = datetime('now')
      WHERE id = ?`,
   )
     .bind(
@@ -300,6 +375,7 @@ app.patch("/api/admin/competition", async (c) => {
       registrationOpen,
       tastingOpen,
       entriesFrozen,
+      JSON.stringify({ tasting: tastingDisplay }),
       snapshot,
       competition.id,
     )
@@ -360,11 +436,8 @@ app.post("/api/entries", async (c) => {
   const competition = await requireCompetition(c);
   if (!competition) return c.json({ error: "No competition" }, 404);
   const isAdmin = c.get("isAdmin");
-  if (!isAdmin && (competition.registration_open !== 1 || competition.entries_frozen === 1)) {
+  if (!isAdmin && !guestMayRegister(competition)) {
     return c.json({ error: "Registration is closed" }, 403);
-  }
-  if (!isAdmin && competition.entries_frozen === 1) {
-    return c.json({ error: "Entries are frozen" }, 403);
   }
 
   const contentType = c.req.header("content-type") || "";

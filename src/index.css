@@ -264,7 +264,8 @@ a {
 
 @media print {
   header,
-  .theme-ornament {
+  .theme-ornament,
+  .theme-stage {
     display: none !important;
   }
   body {

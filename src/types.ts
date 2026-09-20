@@ -11,6 +11,13 @@ export type ScoringCriterion = {
   label: string;
 };
 
+export type TastingDisplay = {
+  brewer: boolean;
+  beerName: boolean;
+  style: boolean;
+  abv: boolean;
+};
+
 export type Competition = {
   id: string;
   slug: string;
@@ -23,6 +30,7 @@ export type Competition = {
   registrationOpen: boolean;
   tastingOpen: boolean;
   entriesFrozen: boolean;
+  tastingDisplay: TastingDisplay;
 };
 
 export type Entry = {
@@ -100,3 +108,10 @@ export const DEFAULT_SCORING_SCHEMA: ScoringCriterion[] = [
   { id: "label", label: "Label" },
   { id: "overall", label: "Overall" },
 ];
+
+export const DEFAULT_TASTING_DISPLAY: TastingDisplay = {
+  brewer: false,
+  beerName: true,
+  style: true,
+  abv: true,
+};

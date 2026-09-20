@@ -4,6 +4,7 @@ import { saveBallot } from "../api";
 import LabelImage from "../components/LabelImage";
 import ScorePips from "../components/ScorePips";
 import { useSession } from "../context/Session";
+import { DEFAULT_TASTING_DISPLAY } from "../types";
 
 export default function Scorecard() {
   const { code } = useParams();
@@ -46,6 +47,14 @@ export default function Scorecard() {
     );
   }
 
+  const display =
+    bootstrap.competition.tastingDisplay ?? DEFAULT_TASTING_DISPLAY;
+  const meta = [
+    display.brewer ? entry.brewer : null,
+    display.style ? entry.style : null,
+    display.abv && entry.abv != null ? `${entry.abv}%` : null,
+  ].filter(Boolean);
+
   async function onSave() {
     if (!code) return;
     setBusy(true);
@@ -77,12 +86,12 @@ export default function Scorecard() {
         />
       </div>
       <div>
-        <h2 className="font-display text-3xl">{entry.beerName}</h2>
-        <p className="text-muted">
-          {entry.brewer}
-          {entry.style ? ` · ${entry.style}` : ""}
-          {entry.abv != null ? ` · ${entry.abv}%` : ""}
-        </p>
+        {display.beerName && entry.beerName ? (
+          <h2 className="font-display text-3xl">{entry.beerName}</h2>
+        ) : null}
+        {meta.length > 0 ? (
+          <p className="text-muted">{meta.join(" · ")}</p>
+        ) : null}
       </div>
 
       <div className="space-y-5 border-y border-dashed border-rule py-5">

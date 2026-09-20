@@ -4,7 +4,7 @@ import BottleGrid from "../components/BottleGrid";
 import JoinQr from "../components/JoinQr";
 import TasterName from "../components/TasterName";
 import { useSession } from "../context/Session";
-import { guestStage } from "../lib/stage";
+import { guestCanRegister, guestStage } from "../lib/stage";
 import { themePack } from "../lib/themePack";
 
 export default function Home() {
@@ -20,8 +20,7 @@ export default function Home() {
   const story = pack?.story;
   const stage = guestStage(competition);
   const tasting = competition.tastingOpen || competition.status === "tasting";
-  const canRegister =
-    competition.registrationOpen && !competition.entriesFrozen;
+  const canRegister = guestCanRegister(competition);
   const active = entries.filter((e) => e.status === "active");
 
   return (
@@ -64,27 +63,18 @@ export default function Home() {
               {ballots.length} of {active.length} scored
             </p>
           )}
-          <div className="flex flex-col items-center gap-2 sm:flex-row sm:justify-center">
-            {stage.to && stage.to !== "/" && (
-              <Link to={stage.to} className="btn-primary inline-flex">
-                {String(stage.n).padStart(2, "0")} · {stage.label}
-              </Link>
-            )}
-            {canRegister && stage.to !== "/register" && (
-              <Link
-                to="/register"
-                className={
-                  tasting ? "btn-secondary inline-flex" : "btn-primary inline-flex"
-                }
-              >
-                Enter a beer
-              </Link>
-            )}
-          </div>
+          {stage.to && stage.to !== "/" && (
+            <Link to={stage.to} className="btn-primary inline-flex">
+              {String(stage.n).padStart(2, "0")} · {stage.label}
+            </Link>
+          )}
         </div>
-        {canRegister && (
-          <JoinQr path="/register" label="Brewing a beer? Register to compete" />
-        )}
+        <div className="flex flex-wrap items-center justify-center gap-6">
+          {canRegister && (
+            <JoinQr path="/register" label="Register a beer" />
+          )}
+          {tasting && <JoinQr path="/" label="Score bottles" />}
+        </div>
       </div>
 
       {!tasting && active.length > 0 && <BrewerMarquee entries={active} />}
@@ -96,6 +86,7 @@ export default function Home() {
             entries={active}
             ballots={ballots}
             schema={competition.scoringSchema}
+            display={competition.tastingDisplay}
             locked={!competition.tastingOpen}
           />
         </>

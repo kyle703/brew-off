@@ -3,6 +3,7 @@ import Shell from "./components/Shell";
 import { SessionProvider } from "./context/Session";
 import Admin from "./pages/Admin";
 import Home from "./pages/Home";
+import PrintGuestQr from "./pages/PrintGuestQr";
 import PrintTags from "./pages/PrintTags";
 import Register from "./pages/Register";
 import Results from "./pages/Results";
@@ -27,6 +28,7 @@ export default function App() {
             <Route path="/t/:code" element={<Scorecard />} />
             <Route path="/admin" element={<Admin />} />
             <Route path="/admin/tags" element={<PrintTags />} />
+            <Route path="/admin/qr" element={<PrintGuestQr />} />
             <Route path="/reveal" element={<Reveal />} />
             <Route path="/results" element={<Results />} />
             <Route path="*" element={<Navigate to="/" replace />} />

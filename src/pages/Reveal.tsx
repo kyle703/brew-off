@@ -2,7 +2,7 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useEffect, useMemo, useRef, useState, type TouchEvent } from "react";
 import ReactConfetti from "react-confetti";
 import { Link } from "react-router-dom";
-import { getReveal } from "../api";
+import { getReveal, patchCompetition } from "../api";
 import ThemeStage from "../components/ThemeStage";
 import StageBeer from "../components/StageBeer";
 import { useSession } from "../context/Session";
@@ -22,7 +22,7 @@ const enterMotion = {
 } as const;
 
 export default function Reveal() {
-  const { bootstrap } = useSession();
+  const { bootstrap, refresh } = useSession();
   const prefersReduced = useReducedMotion();
   const [data, setData] = useState<LoadedData | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -209,6 +209,23 @@ export default function Reveal() {
                   <Link to="/results" className="btn-primary">
                     Full ranking
                   </Link>
+                ) : bootstrap?.isAdmin ? (
+                  <div className="flex flex-col items-center gap-3">
+                    <button
+                      type="button"
+                      className="btn-primary"
+                      onClick={() =>
+                        void patchCompetition({ status: "published" }).then(() =>
+                          refresh(),
+                        )
+                      }
+                    >
+                      Release scores
+                    </button>
+                    <Link to="/admin" className="text-accent">
+                      Host desk
+                    </Link>
+                  </div>
                 ) : (
                   <p className="text-muted">The ranking opens when the host publishes.</p>
                 )}

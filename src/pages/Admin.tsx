@@ -9,8 +9,11 @@ import {
   patchEntry,
 } from "../api";
 import EntryForm from "../components/EntryForm";
+import JoinQr from "../components/JoinQr";
 import { useSession } from "../context/Session";
-import type { AdminStats, CompetitionStatus, Entry } from "../types";
+import { fileSlug } from "../lib/qr";
+import type { AdminStats, CompetitionStatus, Entry, TastingDisplay } from "../types";
+import { DEFAULT_TASTING_DISPLAY } from "../types";
 
 const STATUSES: { id: CompetitionStatus; label: string }[] = [
   { id: "draft", label: "Draft" },
@@ -74,6 +77,8 @@ export default function Admin() {
   }
 
   const competition = bootstrap.competition;
+  const tastingDisplay =
+    competition.tastingDisplay ?? DEFAULT_TASTING_DISPLAY;
 
   async function setStatus(status: CompetitionStatus) {
     setBusy(true);
@@ -154,6 +159,66 @@ export default function Admin() {
           />
           Freeze new entries
         </label>
+      </section>
+
+      <section className="sheet space-y-3">
+        <h2 className="font-display text-2xl">On the scorecard</h2>
+        <p className="text-sm text-muted">
+          Names are still collected. This only changes what tasters see.
+        </p>
+        {(
+          [
+            ["brewer", "Brewer name"],
+            ["beerName", "Beer name"],
+            ["style", "Style"],
+            ["abv", "ABV"],
+          ] as const
+        ).map(([key, label]) => (
+          <label key={key} className="flex min-h-12 items-center gap-3 text-sm">
+            <input
+              type="checkbox"
+              checked={tastingDisplay[key]}
+              onChange={(e) =>
+                void patchCompetition({
+                  tastingDisplay: {
+                    ...tastingDisplay,
+                    [key]: e.target.checked,
+                  } satisfies TastingDisplay,
+                }).then(() => refresh())
+              }
+            />
+            Show {label.toLowerCase()}
+          </label>
+        ))}
+      </section>
+
+      <section className="sheet space-y-3">
+        <div className="flex items-start justify-between gap-3">
+          <h2 className="font-display text-2xl">Guest QR codes</h2>
+          <Link to="/admin/qr" className="shrink-0 text-accent">
+            Print signs
+          </Link>
+        </div>
+        <p className="text-sm text-muted">
+          One for registration, one for voting. Save a PNG for a print shop, or
+          print the signs from this phone.
+        </p>
+        <div className="flex flex-wrap items-start justify-center gap-6">
+          <JoinQr
+            alwaysShow
+            downloadable
+            path="/register"
+            label="Register a beer"
+            fileName={`${fileSlug(competition.name)}-register`}
+          />
+          <JoinQr
+            alwaysShow
+            downloadable
+            path="/"
+            label="Score bottles"
+            fileName={`${fileSlug(competition.name)}-voting`}
+          />
+        </div>
       </section>
 
       <section className="sheet space-y-3">

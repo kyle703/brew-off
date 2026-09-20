@@ -1,4 +1,11 @@
-import type { AdminStats, Bootstrap, Competition, Entry, LoadedData } from "./types";
+import type {
+  AdminStats,
+  Bootstrap,
+  Competition,
+  Entry,
+  LoadedData,
+  TastingDisplay,
+} from "./types";
 
 async function parseError(res: Response): Promise<string> {
   try {
@@ -38,6 +45,7 @@ export async function patchCompetition(
     registrationOpen: boolean;
     tastingOpen: boolean;
     entriesFrozen: boolean;
+    tastingDisplay: TastingDisplay;
   }>,
 ): Promise<Competition> {
   const res = await fetch("/api/admin/competition", {

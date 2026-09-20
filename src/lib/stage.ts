@@ -1,5 +1,12 @@
 import type { Competition, CompetitionStatus } from "../types";
 
+export function guestCanRegister(competition: Competition): boolean {
+  if (!competition.registrationOpen || competition.entriesFrozen) return false;
+  return (
+    competition.status === "registration" || competition.status === "tasting"
+  );
+}
+
 export type GuestStage = {
   n: number;
   status: CompetitionStatus;
@@ -19,7 +26,7 @@ const STAGES: Record<CompetitionStatus, GuestStage> = {
   registration: {
     n: 2,
     status: "registration",
-    label: "Enter a beer",
+    label: "Register a beer",
     hint: "Bring a bottle. We’ll number it.",
     to: "/register",
   },

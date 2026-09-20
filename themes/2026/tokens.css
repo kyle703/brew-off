@@ -22,6 +22,7 @@ html[data-theme="2026"] {
   --font-wordmark: "Eater", "Cinzel", serif;
   --font-body: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
   --bg-image: url("/themes/2026/atmosphere.png");
+  --bg-image-portrait: url("/themes/2026/atmosphere-portrait.jpg");
   --bg-overlay: radial-gradient(
     ellipse 72% 58% at 50% 36%,
     rgb(10 8 6 / 0.72) 0%,
@@ -197,16 +198,31 @@ html[data-theme="2026"] {
   );
 }
 
-@media (max-width: 639px) {
+@media (orientation: portrait) {
   [data-theme="2026"] {
+    --bg-image: var(--bg-image-portrait);
     --bg-overlay: radial-gradient(
-      ellipse 95% 70% at 50% 28%,
-      rgb(10 8 6 / 0.78) 0%,
-      rgb(10 8 6 / 0.48) 48%,
-      rgb(10 8 6 / 0.16) 100%
+      ellipse 82% 52% at 50% 42%,
+      rgb(10 8 6 / 0.62) 0%,
+      rgb(10 8 6 / 0.32) 48%,
+      rgb(10 8 6 / 0.08) 100%
     );
   }
 
+  [data-theme="2026"] .theme-stage-art {
+    background-position: center center;
+  }
+
+  [data-theme="2026"] .theme-stage-web {
+    display: none;
+  }
+
+  [data-theme="2026"] .theme-ornament {
+    inset: 0.3rem;
+  }
+}
+
+@media (max-width: 639px) and (orientation: landscape) {
   [data-theme="2026"] .theme-ornament {
     inset: 0.3rem;
   }

@@ -76,6 +76,7 @@ export default function EntryForm({ initial, submitLabel, onSubmit }: Props) {
       />
       <Field
         label="ABV"
+        hint="Leave blank if unknown"
         value={fields.abv}
         onChange={(v) => setFields((f) => ({ ...f, abv: v }))}
         inputMode="decimal"
@@ -101,7 +102,6 @@ export default function EntryForm({ initial, submitLabel, onSubmit }: Props) {
             className="sr-only"
             type="file"
             accept="image/*"
-            capture="environment"
             onChange={(e) =>
               setFields((f) => ({ ...f, file: e.target.files?.[0] ?? null }))
             }
@@ -118,12 +118,14 @@ export default function EntryForm({ initial, submitLabel, onSubmit }: Props) {
 
 function Field({
   label,
+  hint,
   value,
   onChange,
   required,
   inputMode,
 }: {
   label: string;
+  hint?: string;
   value: string;
   onChange: (v: string) => void;
   required?: boolean;
@@ -133,6 +135,11 @@ function Field({
     <label className="block">
       <span className="mb-1 block text-xs uppercase tracking-wide text-muted">
         {label}
+        {hint ? (
+          <span className="ml-2 normal-case tracking-normal text-muted/80">
+            — {hint}
+          </span>
+        ) : null}
       </span>
       <input
         className="field"

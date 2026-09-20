@@ -1,7 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import type { ReactNode } from "react";
 import { useSession } from "../context/Session";
-import { guestStage, pathMatchesStage } from "../lib/stage";
+import { guestCanRegister, guestStage, pathMatchesStage } from "../lib/stage";
 import { themePack } from "../lib/themePack";
 import ThemeStage from "./ThemeStage";
 
@@ -14,8 +14,7 @@ export default function Shell({ children }: { children: ReactNode }) {
   const onStage = stage ? pathMatchesStage(location.pathname, stage) : false;
   const hosting = location.pathname.startsWith("/admin");
   const canRegister =
-    Boolean(competition?.registrationOpen) &&
-    !competition?.entriesFrozen &&
+    Boolean(competition && guestCanRegister(competition)) &&
     stage?.status !== "registration" &&
     !location.pathname.startsWith("/register") &&
     !hosting;
@@ -41,7 +40,7 @@ export default function Shell({ children }: { children: ReactNode }) {
                   to="/register"
                   className="inline-flex min-h-11 items-center px-2 text-xs uppercase tracking-wide text-accent"
                 >
-                  Enter a beer
+                  Register a beer
                 </Link>
               )}
               <Link

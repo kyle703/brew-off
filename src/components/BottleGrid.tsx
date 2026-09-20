@@ -1,15 +1,23 @@
 import { Link } from "react-router-dom";
 import LabelImage from "./LabelImage";
-import type { Ballot, Entry, ScoringCriterion } from "../types";
+import type { Ballot, Entry, ScoringCriterion, TastingDisplay } from "../types";
+import { DEFAULT_TASTING_DISPLAY } from "../types";
 
 type Props = {
   entries: Entry[];
   ballots: Ballot[];
   schema: ScoringCriterion[];
+  display?: TastingDisplay;
   locked?: boolean;
 };
 
-export default function BottleGrid({ entries, ballots, schema, locked }: Props) {
+export default function BottleGrid({
+  entries,
+  ballots,
+  schema,
+  display = DEFAULT_TASTING_DISPLAY,
+  locked,
+}: Props) {
   const byCode = new Map(ballots.map((b) => [b.entryCode, b]));
   const sorted = [...entries].sort((a, b) => {
     const da = byCode.has(a.entryCode) ? 1 : 0;
@@ -23,7 +31,10 @@ export default function BottleGrid({ entries, ballots, schema, locked }: Props) 
       {sorted.map((entry) => {
         const ballot = byCode.get(entry.entryCode);
         const done = Boolean(ballot);
-        const meta = [entry.style, entry.abv != null ? `${entry.abv}%` : null]
+        const meta = [
+          display.style ? entry.style : null,
+          display.abv && entry.abv != null ? `${entry.abv}%` : null,
+        ]
           .filter(Boolean)
           .join(" · ");
         return (
@@ -59,10 +70,14 @@ export default function BottleGrid({ entries, ballots, schema, locked }: Props) 
               alt=""
               className="mt-2 h-16 w-full rounded-lg border border-rule"
             />
-            <p className="mt-2 truncate font-display text-base leading-tight">
-              {entry.beerName}
-            </p>
-            <p className="truncate text-xs text-muted">{entry.brewer}</p>
+            {display.beerName && entry.beerName ? (
+              <p className="mt-2 truncate font-display text-base leading-tight">
+                {entry.beerName}
+              </p>
+            ) : null}
+            {display.brewer && entry.brewer ? (
+              <p className="truncate text-xs text-muted">{entry.brewer}</p>
+            ) : null}
             {meta && <p className="truncate text-xs text-muted">{meta}</p>}
             {ballot && schema.length > 0 ? (
               <dl className="mt-auto grid grid-cols-5 gap-0.5 pt-2">

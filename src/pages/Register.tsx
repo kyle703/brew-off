@@ -3,18 +3,20 @@ import { Link } from "react-router-dom";
 import { createEntry } from "../api";
 import EntryForm from "../components/EntryForm";
 import { useSession } from "../context/Session";
+import { guestCanRegister } from "../lib/stage";
 
 export default function Register() {
   const { bootstrap, refresh } = useSession();
   const [code, setCode] = useState<string | null>(null);
 
   if (!bootstrap) return null;
-  if (!bootstrap.competition.registrationOpen && !bootstrap.isAdmin) {
+  if (!guestCanRegister(bootstrap.competition)) {
     return (
       <div className="sheet text-center">
         <h1 className="font-display text-3xl">Registration is closed</h1>
+        <p className="mt-2 text-muted">No new bottles from here.</p>
         <Link to="/" className="mt-4 inline-block text-accent">
-          Back
+          Home
         </Link>
       </div>
     );

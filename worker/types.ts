@@ -17,6 +17,7 @@ export type CompetitionRow = {
   registration_open: number;
   tasting_open: number;
   entries_frozen: number;
+  display_settings: string | null;
   snapshot: string | null;
   created_at: string;
   updated_at: string;
