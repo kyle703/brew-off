@@ -1,25 +1,72 @@
-// Shared data models for TSVs and derived entities
+export type CompetitionStatus =
+  | "draft"
+  | "registration"
+  | "tasting"
+  | "closed"
+  | "reveal"
+  | "published";
 
-export type Registrant = {
-  timestamp: string; // raw timestamp string
-  brewer: string;
-  beerName: string;
-  style: string;
-  abv: number | null;
-  description: string;
-  img?: string; // Google Drive share link, now optional
-  entryId: string; // e.g., B-001
-  entryDisplay: string; // e.g., "B-001 — libre"
+export type ScoringCriterion = {
+  id: string;
+  label: string;
 };
 
-export type BeerScores = {
-  drinkability: number;
-  flavor: number;
-  color: number;
-  label: number;
-  overall: number;
-  votes: number;
-  total: number;
+export type Competition = {
+  id: string;
+  slug: string;
+  name: string;
+  tagline: string | null;
+  year: number;
+  status: CompetitionStatus;
+  themeId: string;
+  scoringSchema: ScoringCriterion[];
+  registrationOpen: boolean;
+  tastingOpen: boolean;
+  entriesFrozen: boolean;
+};
+
+export type Entry = {
+  id: string;
+  entryCode: string;
+  beerName: string;
+  brewer: string;
+  style: string | null;
+  abv: number | null;
+  description: string | null;
+  labelUrl: string | null;
+  status: "active" | "hidden";
+};
+
+export type Voter = {
+  id: string;
+  nickname: string | null;
+};
+
+export type Ballot = {
+  entryId: string;
+  entryCode: string;
+  scores: Record<string, number>;
+  comment: string | null;
+  updatedAt: string;
+};
+
+export type AdminStats = {
+  tasters: number;
+  ballots: number;
+  entries: Array<{
+    id: string;
+    entryCode: string;
+    beerName: string;
+    ballotCount: number;
+  }>;
+};
+
+export type Bootstrap = {
+  competition: Competition;
+  entries: Entry[];
+  voter: Voter | null;
+  ballots: Ballot[];
+  isAdmin: boolean;
 };
 
 export type BeerComment = {
@@ -28,43 +75,28 @@ export type BeerComment = {
   author?: string;
 };
 
-export type Beer = {
-  entryId: string;
-  name: string;
-  brewer?: string;
-  style?: string;
+export type ResultBeer = {
+  entryCode: string;
+  beerName: string;
+  brewer: string;
+  style?: string | null;
   abv?: number | null;
-  img?: string;
-  scores: BeerScores;
-  comments?: BeerComment[]; // Optional real comments associated with this beer
-};
-
-export type LeaderboardRow = {
-  entryId: string;
-  beer: string;
-  scores: BeerScores;
-};
-
-export type WinnerCategory =
-  | "Label"
-  | "Color"
-  | "Drinkability"
-  | "Flavor"
-  | "Overall";
-
-export type WinnerRow = {
-  category: WinnerCategory;
-  place: "🥇" | "🥈" | "🥉" | string; // keep permissive for dev data
-  entryId: string;
-  beer: string;
-  avgScore: number;
+  labelUrl?: string | null;
+  scores: Record<string, number>;
   votes: number;
+  comments: BeerComment[];
 };
-
-export type WinnersByCategory = Record<WinnerCategory, Beer[]>;
 
 export type LoadedData = {
-  beerList: Beer[];
-  winners: WinnersByCategory;
+  beerList: ResultBeer[];
+  winners: Record<string, ResultBeer[]>;
   generatedAt: string;
 };
+
+export const DEFAULT_SCORING_SCHEMA: ScoringCriterion[] = [
+  { id: "drinkability", label: "Drinkability" },
+  { id: "flavor", label: "Flavor" },
+  { id: "color", label: "Color" },
+  { id: "label", label: "Label" },
+  { id: "overall", label: "Overall" },
+];

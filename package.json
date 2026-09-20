@@ -5,12 +5,17 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build:history": "vite build --config legacy/2025/vite.config.ts",
+    "build": "npm run build:history && tsc -b && vite build",
+    "preview": "npm run build && wrangler dev",
+    "deploy": "npm run build && wrangler deploy",
+    "db:migrate": "wrangler d1 migrations apply brew-off --local",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "types": "wrangler types"
   },
   "dependencies": {
     "framer-motion": "^12.23.12",
+    "hono": "^4.13.8",
     "qr-code-styling": "^1.9.2",
     "react": "^19.1.1",
     "react-confetti": "^6.4.0",
@@ -19,6 +24,8 @@
     "swiper": "^11.2.10"
   },
   "devDependencies": {
+    "@cloudflare/vite-plugin": "^1.56.0",
+    "@cloudflare/workers-types": "^5.20260919.1",
     "@eslint/js": "^9.33.0",
     "@types/react": "^19.1.10",
     "@types/react-dom": "^19.1.7",
@@ -33,6 +40,7 @@
     "tailwindcss-animate": "^1.0.7",
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.39.1",
-    "vite": "^7.1.2"
+    "vite": "^7.1.2",
+    "wrangler": "^4.135.0"
   }
 }

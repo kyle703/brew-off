@@ -2,50 +2,257 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Theme CSS variables used by shadcn tokens */
-:root {
-  --radius: 14px;
-  --nav-h: 56px; /* sticky nav height used for splash layout */
-}
-
-/* Apply Oktoberfest palette */
 html,
 body,
 #root {
-  height: 100%;
+  min-height: 100%;
 }
+
+html {
+  overflow-x: hidden;
+}
+
 body {
-  @apply text-cream-100 font-sans;
-  background-color: #0e1623;
-  /* Taller lozenges + darker, softer blue */
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='96' viewBox='0 0 72 96'%3E%3Crect width='72' height='96' fill='%230e1623'/%3E%3Cpath d='M36 0L72 48L36 96L0 48Z' fill='%231a2743' fill-opacity='0.5'/%3E%3C/svg%3E");
-  background-size: 72px 96px;
-  background-repeat: repeat;
+  margin: 0;
+  color: var(--ink);
+  background-color: var(--paper);
+  background-image: var(--bg-pattern);
+  font-family: var(--font-body);
 }
 
-.heading-fest {
-  @apply font-fraktur text-amber-400 drop-shadow;
+.sheet {
+  @apply rounded-2xl border-2 p-4 shadow-sm sm:p-5;
+  background: var(--sheet);
+  border-color: var(--rule);
+  box-shadow: 0 8px 24px color-mix(in srgb, var(--ink) 12%, transparent);
 }
 
-/* Make Swiper autoplay linear instead of ease-in-out */
-.autoscroll .swiper-wrapper {
-  transition-timing-function: linear !important;
+.field {
+  @apply w-full rounded-lg border px-3 py-3 text-base;
+  background: var(--paper);
+  border-color: var(--rule);
+  color: var(--ink);
 }
 
-/* Back and forth scroll animation for beer cards */
-@keyframes scroll-back-and-forth {
-  0% {
+.btn-primary {
+  @apply inline-flex min-h-12 items-center justify-center rounded-xl px-5 py-3 text-base font-semibold uppercase tracking-wide;
+  background: var(--accent);
+  color: var(--paper);
+}
+
+.btn-secondary {
+  @apply inline-flex min-h-12 items-center justify-center rounded-xl border px-4 py-2 text-sm font-semibold;
+  border-color: var(--rule);
+  color: var(--ink);
+  background: var(--sheet);
+}
+
+.kicker {
+  @apply text-xs uppercase tracking-[0.2em];
+  color: var(--muted);
+}
+
+.full-bleed {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+}
+
+.marquee-track {
+  animation-name: marquee-loop;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+@keyframes marquee-loop {
+  from {
     transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.voice-label {
+  background-image: radial-gradient(
+      ellipse at 15% 0%,
+      color-mix(in srgb, var(--brass) 32%, transparent),
+      transparent 52%
+    ),
+    var(--bg-pattern);
+}
+
+.voice-color {
+  background-image: radial-gradient(
+      circle at 85% 10%,
+      color-mix(in srgb, var(--accent) 48%, transparent),
+      transparent 42%
+    ),
+    radial-gradient(
+      circle at 8% 90%,
+      color-mix(in srgb, var(--brass) 28%, transparent),
+      transparent 38%
+    ),
+    var(--bg-pattern);
+}
+
+.voice-drink {
+  background-image: repeating-linear-gradient(
+    -16deg,
+    transparent,
+    transparent 14px,
+    color-mix(in srgb, var(--accent) 10%, transparent) 14px,
+    color-mix(in srgb, var(--accent) 10%, transparent) 15px
+  );
+}
+
+.voice-flavor {
+  background-image: radial-gradient(
+      ellipse at 50% 120%,
+      color-mix(in srgb, var(--accent) 38%, transparent),
+      transparent 58%
+    ),
+    var(--bg-pattern);
+}
+
+.voice-overall {
+  background-image: radial-gradient(
+      circle at 50% 38%,
+      color-mix(in srgb, var(--brass) 42%, transparent),
+      transparent 52%
+    ),
+    var(--bg-pattern);
+}
+
+.voice-frame {
+  position: absolute;
+  border-color: color-mix(in srgb, var(--brass) 70%, transparent);
+  border-style: solid;
+  width: 3.5rem;
+  height: 3.5rem;
+}
+
+.voice-liquid {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  height: 42%;
+  background: linear-gradient(
+    to top,
+    color-mix(in srgb, var(--accent) 55%, transparent),
+    color-mix(in srgb, var(--brass) 18%, transparent) 55%,
+    transparent
+  );
+  animation: liquid-swell 5.5s ease-in-out infinite;
+  transform-origin: bottom;
+}
+
+.voice-bubble {
+  position: absolute;
+  bottom: -8%;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--paper) 72%, var(--accent));
+  animation: bubble-up linear infinite;
+  opacity: 0.55;
+}
+
+.voice-steam {
+  position: absolute;
+  left: 50%;
+  bottom: 18%;
+  width: 8rem;
+  height: 8rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--paper) 55%, transparent);
+  filter: blur(18px);
+  animation: steam-rise 7s ease-in-out infinite;
+}
+
+.voice-rays {
+  position: absolute;
+  left: 50%;
+  top: 36%;
+  width: 140vmax;
+  height: 140vmax;
+  margin-left: -70vmax;
+  margin-top: -70vmax;
+  background: repeating-conic-gradient(
+    from 0deg,
+    color-mix(in srgb, var(--brass) 22%, transparent) 0deg 8deg,
+    transparent 8deg 18deg
+  );
+  animation: spin-slow 48s linear infinite;
+  opacity: 0.45;
+}
+
+@keyframes liquid-swell {
+  0%,
+  100% {
+    transform: translateY(10%) scaleY(1);
   }
   50% {
-    transform: translateX(-33%);
-  }
-  100% {
-    transform: translateX(0);
+    transform: translateY(0) scaleY(1.08);
   }
 }
 
-.animate-scroll-back-and-forth {
-  animation: scroll-back-and-forth 60s ease-in-out infinite;
-  width: max-content;
+@keyframes bubble-up {
+  from {
+    transform: translateY(0) scale(0.7);
+    opacity: 0.55;
+  }
+  to {
+    transform: translateY(-120vh) scale(1);
+    opacity: 0;
+  }
+}
+
+@keyframes steam-rise {
+  0%,
+  100% {
+    transform: translate(-50%, 12%) scale(0.9);
+    opacity: 0.25;
+  }
+  50% {
+    transform: translate(-42%, -18%) scale(1.15);
+    opacity: 0.5;
+  }
+}
+
+@keyframes spin-slow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+input[type="checkbox"] {
+  width: 1.25rem;
+  height: 1.25rem;
+  accent-color: var(--accent);
+}
+
+button,
+a {
+  touch-action: manipulation;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track,
+  .voice-liquid,
+  .voice-bubble,
+  .voice-steam,
+  .voice-rays {
+    animation: none !important;
+  }
+}
+
+@media print {
+  header {
+    display: none !important;
+  }
+  body {
+    background: white;
+  }
 }

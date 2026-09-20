@@ -1,96 +1,55 @@
-# 🍺 Oktoberfest Brew-Off Results Portal
+# Brew-Off
 
-This project hosts a **static site** to display the results of the Brew-Off competition in a fun, party-friendly way.  
-It pulls data from two public Google Sheets and one Google Drive folder:
+A house-party beer competition on Cloudflare’s free tier: bottle-first tasting, host admin, yearly skins, and a frozen archive of past years.
 
-- **Registrants Sheet (TSV)**: Beer entries with brewer, name, style, ABV, and label assets
-- **Judging Sheet (TSV)**: Judges’ scores and results
-- **Beer Label Assets (Drive folder)**: Public folder of uploaded images, used in carousel + winner reveal
+## What’s here
 
-## Goals
+- **Live app** (`/`) — register bottles, score in any order, host-controlled reveal and results
+- **History** (`/history/2025/`) — the 2025 Golden Spoon site, baked to static JSON
+- **Worker** (`/api/*`) — D1 + R2, admin cookie, voter cookie, upsert ballots
 
-- Correctness of results is critical
-- Fun, celebratory presentation that works in a party setting
-- Smooth hosting flow (manual reveals, no auto-advances)
-- Lightweight + cacheable to avoid runtime hiccups
-
----
-
-## Features
-
-- **Landing Page**
-
-  - Hero banner: "Oktoberfest Brew-Off 2025"
-  - Carousel of beer label images (from registrants’ Drive folder)
-  - Buttons:
-    - "See Results" → `/results`
-    - "Register Your Beer" → external Google Form
-    - "Judging Form" → external Google Form
-
-- **Results Page**
-
-  - Displays **category winners only after the reveal slideshow is shown**
-  - Full results leaderboard available afterward, with filters
-  - Category filters: Lager, Ale, Seasonal, etc.
-
-- **Slideshow Mode (Reveal)**
-
-  - Manual advance only (no auto transitions)
-  - Host controls reveal of each winner
-  - Animations encouraged (confetti, fade-in, applause cues)
-  - Structure:
-    1. Category name
-    2. Winning beer card (label image, beer name, brewer)
-    3. Transition to next category
-    4. Only when complete → unlock leaderboard
-
-- **Data Fetching**
-  - Public TSV endpoints from Google Sheets
-  - Public Google Drive folder for beer label assets
-  - **Local caching layer**:
-    - Static JSON snapshots for results and registrants
-    - Static copies of images fetched + served locally for reliability
-    - Useful for offline dev and event resilience
-
----
-
-## Tech Stack
-
-- Vite + React + TypeScript
-- Tailwind for styling
-- shadcn/ui for cards, buttons, and layout primitives
-- Swiper.js for carousel
-- Framer Motion for animations
-- Recharts for optional category stats viz
-
----
-
-## Theming & Style
-
-- **Theme**: Festive Oktoberfest
-- **Color palette**:
-  - Deep navy / Bavarian blue (#1e2d4a, #0f172a)
-  - Warm amber / beer gold (#f59e0b, #fbbf24)
-  - Cream / parchment (#fef3c7, #f5f5dc)
-- **Typography**:
-  - Gothic/Fraktur for headings
-  - Clean sans-serif for body
-- **Style guidelines**:
-  - High-contrast
-  - Retro-festival vibe
-  - Encourage animations and transitions
-
----
-
-## Dev Setup
+## Local setup
 
 ```bash
 npm install
+cp .dev.vars.example .dev.vars
+npx wrangler d1 migrations apply brew-off --local
 npm run dev
 ```
 
-### Styling
+Open the Vite URL. Default admin password is `brew-off`.
 
-- Tailwind is configured in `tailwind.config.ts` with Oktoberfest tokens.
-- Global styles are in `src/index.css` using Tailwind layers.
-- Fonts are loaded in `index.html` (Inter + UnifrakturCook).
+```bash
+npm run build          # history snapshot + app
+npx wrangler deploy    # after creating D1/R2 in the Cloudflare dashboard
+```
+
+Create resources once:
+
+```bash
+npx wrangler d1 create brew-off
+npx wrangler r2 bucket create brew-off-labels
+npx wrangler d1 migrations apply brew-off --remote
+```
+
+Put the returned D1 `database_id` in `wrangler.toml`. Set production secrets:
+
+```bash
+npx wrangler secret put ADMIN_PASSWORD
+npx wrangler secret put COOKIE_SECRET
+```
+
+## Host flow
+
+1. `/admin` → open registration
+2. Brewers register at `/register` (or add walk-ups in admin)
+3. Print `/admin/tags` and tape QRs on bottles
+4. Open tasting — guests tap a number or scan a bottle
+5. Close voting (freezes the podium snapshot)
+6. Start reveal on a laptop/projector, then publish results
+
+Accidental double-votes: same phone updates the same ballot. A new phone is a new taster.
+
+## Themes
+
+See [themes/README.md](themes/README.md). Baseline is the tasting-sheet template; `2026` is the first yearly skin. Pick the pack on the admin instance form.

@@ -24,4 +24,18 @@ dist-ssr
 *.sw?
 
 
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
 .env
+.dev.vars
+.wrangler
+public/history/2025
