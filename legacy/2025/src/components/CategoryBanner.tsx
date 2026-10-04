@@ -16,9 +16,9 @@ export default function CategoryBanner({ title, subtitle, className = "", showCr
 				initial={prefersReducedMotion ? { opacity: 0 } : { y: -12, opacity: 0 }}
 				animate={prefersReducedMotion ? { opacity: 1 } : { y: 0, opacity: 1 }}
 				transition={{ duration: 0.35, ease: "easeOut" }}
-				className="relative flex items-center justify-center"
+				className="relative w-full max-w-[720px]"
 			>
-				<svg viewBox="0 0 1200 260" className="w-[min(100%,1100px)] h-auto" aria-hidden style={{ scale: 1.5 }}>
+				<svg viewBox="0 0 1200 260" className="h-auto w-full" aria-hidden>
 					<defs>
 						<linearGradient id="goldStroke" x1="0" y1="0" x2="1" y2="0">
 							<stop offset="0%" stopColor="#E3B341" />
@@ -41,14 +41,14 @@ export default function CategoryBanner({ title, subtitle, className = "", showCr
 
 				{/* Title overlay */}
 				<div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-					<h2 className="font-fraktur text-5xl leading-none text-[#0E1623]">
+					<h2 className="max-w-[88%] truncate font-fraktur text-3xl leading-none text-[#0E1623] sm:text-5xl">
 						{title}
 						{showCrown && <span className="ml-3" aria-hidden>👑</span>}
 					</h2>
 				</div>
 			</motion.div>
 			{subtitle && (
-				<div className="mt-3">
+				<div className="mt-2 hidden sm:mt-3 sm:block">
 					<div className="inline-flex items-center rounded-full bg-[#0E1623] text-[#AAB0C0] px-4 py-2 text-[13px] tracking-wider uppercase" style={{ letterSpacing: "0.06em" }}>
 						{subtitle}
 					</div>

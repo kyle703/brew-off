@@ -17,6 +17,8 @@ type Props = {
   overlaySrc?: string;
   className?: string;
   onLoad?: () => void;
+  /** CSS width for the frame. Defaults from `size`. */
+  width?: string;
   /** Optional overall score badge shown as a cohesive block in the top-right */
   scoreBadgeValue?: number;
 };
@@ -33,16 +35,16 @@ export default function EntryOverlayCard({
   brewer,
   abv,
   size = "docked",
-  overlaySrc = "/beer_entry_overlay.png",
+  overlaySrc = `${import.meta.env.BASE_URL}beer_entry_overlay.png`,
   className = "",
   onLoad,
+  width,
   scoreBadgeValue,
 }: Props) {
   const prefersReducedMotion = useReducedMotion();
 
-  // Layout sizing - back to normal since overlay isn't scaled
   const containerWidth =
-    size === "hero" ? "min(30vw, 680px)" : "min(320px, 70vw)";
+    width ?? (size === "hero" ? "min(30vw, 420px)" : "min(280px, 70vw)");
 
   // Banner safe-area as a percentage of the overlay, back to original positioning
   // width ~76%, height ~11%, centered horizontally, positioned for original overlay
@@ -56,8 +58,9 @@ export default function EntryOverlayCard({
     <motion.div
       className="relative w-full"
       style={{
-        aspectRatio: "5 / 5", // Portrait orientation to match overlay design
+        aspectRatio: "1 / 1",
         borderRadius: 16,
+        containerType: "inline-size",
       }}
       {...(prefersReducedMotion
         ? { initial: { opacity: 0 }, animate: { opacity: 1 } }
@@ -86,20 +89,17 @@ export default function EntryOverlayCard({
           }}
         >
           <div
-            className="rounded-[12px] flex items-center justify-center font-bold shadow-md"
+            className="flex items-center justify-center rounded-[12px] font-bold shadow-md"
             style={{
-              height: size === "hero" ? 56 : 40,
-              width: size === "hero" ? 110 : 84,
+              height: "clamp(28px, 16cqi, 48px)",
+              width: "clamp(52px, 32cqi, 84px)",
               background: PARCHMENT,
-              border: `3px solid ${GOLD_ACCENT}`,
+              border: "3px solid #E3B341",
               color: "#0E1623",
+              fontSize: "clamp(13px, 11cqi, 22px)",
             }}
           >
-            <span
-              className={size === "hero" ? "text-[28px]" : "text-[20px]"}
-            >
-              {scoreBadgeValue.toFixed(1)}
-            </span>
+            <span>{scoreBadgeValue.toFixed(1)}</span>
           </div>
         </div>
       )}
@@ -107,7 +107,7 @@ export default function EntryOverlayCard({
       {/* Overlay PNG with transparent cutout - reveals image underneath */}
       <img
         src={overlaySrc}
-        alt="Decorative frame"
+        alt=""
         className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none z-10"
         draggable={false}
       />
@@ -142,7 +142,7 @@ export default function EntryOverlayCard({
 
       {/* Banner text layer inside safe area - adjusted for scaled overlay */}
       <div
-        className="absolute left-0 top-0 flex flex-col items-center justify-center text-center px-2 z-20"
+        className="absolute left-0 top-0 z-20 flex flex-col items-center justify-center overflow-hidden px-2 text-center"
         style={{
           left: `${bannerLeftPct}%`,
           top: `${bannerTopPct}%`,
@@ -151,11 +151,11 @@ export default function EntryOverlayCard({
         }}
       >
         <div
-          className="w-full truncate leading-tight"
+          className="w-full truncate leading-none"
           title={name}
           style={{
             color: "#171922",
-            fontSize: size === "hero" ? 48 : 32,
+            fontSize: "clamp(12px, 8cqi, 26px)",
             fontWeight: "bold",
           }}
         >
@@ -184,7 +184,10 @@ export default function EntryOverlayCard({
             }}
           >
             <WheatIcon className="w-4 h-4 text-amber-400" />
-            <span className="font-fraktur tracking-wide text-2xl">
+            <span
+              className="font-fraktur tracking-wide"
+              style={{ fontSize: "clamp(11px, 7cqi, 18px)" }}
+            >
               {brewer}
             </span>
             {abv && (

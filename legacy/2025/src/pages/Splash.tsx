@@ -48,7 +48,7 @@ export default function Splash() {
               </div>
               {/* Golden Spoon under the title */}
               <div className="mt-3 flex items-center justify-center">
-                <img src="/golden_spoon_hero.png" alt="Golden Spoon" className="h-64 w-auto" />
+                <img src={`${import.meta.env.BASE_URL}golden_spoon_hero.png`} alt="Golden Spoon" className="h-64 w-auto" />
               </div>
             </div>
           </div>

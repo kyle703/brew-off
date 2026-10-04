@@ -1,44 +1,35 @@
-import { Routes, Route, NavLink, useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
-import Splash from "./pages/Splash";
+import { Routes, Route, NavLink, useLocation, Navigate } from "react-router-dom";
 import Reveal from "./pages/Reveal";
 import Leaderboard from "./pages/Leaderboard";
-import { hasSeenReveal } from "./utils/cookies";
 import { DataProvider } from "./context/DataProvider";
 
 export default function App() {
   const location = useLocation();
-  const [revealSeen, setRevealSeen] = useState(false);
-  const isSplash = location.pathname === "/";
-
-  useEffect(() => {
-    // Check if reveal has been seen
-    setRevealSeen(hasSeenReveal());
-  }, []);
+  const isReveal = location.pathname === "/reveal";
 
   return (
     <DataProvider>
       <div>
-        <nav className="sticky top-0 z-10 border-b border-navy-800 bg-navy-900/80 backdrop-blur">
+        <nav className="sticky top-0 z-50 border-b border-navy-800 bg-navy-900/80 backdrop-blur">
           <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
-            <Brand />
-            <div className="flex gap-4 text-cream-100">
-              <Link to="/">Home</Link>
-              {revealSeen && <Link to="/results">Results</Link>}
+            <NavLink to="/" end className="whitespace-nowrap font-semibold text-cream-100 hover:text-amber-400">
+              <span className="sm:hidden">🍺 2025</span>
+              <span className="hidden sm:inline">🍺 Golden Spoon 2025</span>
+            </NavLink>
+            <div className="flex items-center gap-3 sm:gap-5">
+              <Link to="/" end>
+                Leaderboard
+              </Link>
               <Link to="/reveal">Reveal</Link>
-              {/* <Link to="/comments">Comments</Link>
-              <Link to="/test">Test</Link> */}
             </div>
           </div>
         </nav>
 
-        <div className={isSplash ? "px-0 py-0" : "mx-auto max-w-7xl px-4 py-6"}>
+        <div className={isReveal ? "" : "mx-auto max-w-7xl px-3 py-4 sm:px-4 sm:py-6"}>
           <Routes>
-            <Route path="/" element={<Splash />} />
-            <Route path="/results" element={<Leaderboard />} />
+            <Route path="/" element={<Leaderboard />} />
+            <Route path="/results" element={<Navigate to="/" replace />} />
             <Route path="/reveal" element={<Reveal />} />
-            {/* <Route path="/comments" element={<CommentTest />} />
-            <Route path="/test" element={<TestData />} /> */}
           </Routes>
         </div>
       </div>
@@ -46,18 +37,26 @@ export default function App() {
   );
 }
 
-function Link({ to, children }: { to: string; children: React.ReactNode }) {
+function Link({
+  to,
+  children,
+  end,
+}: {
+  to: string;
+  children: React.ReactNode;
+  end?: boolean;
+}) {
   return (
     <NavLink
       to={to}
+      end={end}
       className={({ isActive }) =>
-        isActive ? "text-amber-400" : "text-cream-100 hover:text-amber-400"
+        isActive
+          ? "text-xs font-semibold uppercase tracking-wide text-amber-400 sm:text-sm sm:tracking-widest"
+          : "text-xs font-semibold uppercase tracking-wide text-cream-100 hover:text-amber-400 sm:text-sm sm:tracking-widest"
       }
     >
       {children}
     </NavLink>
   );
-}
-function Brand() {
-  return <div className="font-semibold text-cream-100">🍺 Brew-Off 2025</div>;
 }

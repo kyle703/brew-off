@@ -1,54 +1,20 @@
-import { useEffect, useState } from "react";
-import { loadData } from "../data/fetch";
-import RevealDeck from "../components/RevealDeck";
+import { useData } from "../context/DataProvider";
+import RevealShow from "../components/RevealShow";
 
 export default function Reveal() {
-  const [data, setData] =
-    useState<
-      ReturnType<typeof loadData> extends Promise<infer T> ? T : never
-    >();
-  const [err, setErr] = useState<string | null>(null);
+  const { data, loading, error } = useData();
 
-  useEffect(() => {
-    console.log("Loading data for Reveal...");
-    loadData()
-      .then((loadedData) => {
-        console.log("Data loaded successfully:", {
-          entries: loadedData.beerList,
-          categories: Object.keys(loadedData.winners),
-          totalBeers: loadedData.beerList.length,
-          winners: Object.entries(loadedData.winners).map(([cat, beers]) => ({
-            category: cat,
-            count: beers.length,
-            hasGold: beers.length > 0 ? beers[0].name : "none",
-          })),
-        });
-        setData(loadedData);
-      })
-      .catch((e) => {
-        console.error("Failed to load data:", e);
-        setErr(String(e));
-      });
-  }, []);
+  if (error) {
+    return <div className="p-8 text-center text-red-400">Failed to load the 2025 card.</div>;
+  }
 
-  if (err)
-    return <div className="p-8 text-red-500">Failed to load data: {err}</div>;
-
-  if (!data)
+  if (loading || !data) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-900 overflow-x-hidden touch-pan-y">
-        <div className="text-center">
-          <h2 className="text-2xl font-bold text-amber-200 mb-4">
-            Loading Results...
-          </h2>
-          <div className="w-16 h-16 border-4 border-amber-500 border-t-transparent rounded-full animate-spin mx-auto"></div>
-        </div>
+      <div className="flex min-h-[calc(100svh-var(--nav-h))] items-center justify-center text-amber-200">
+        Loading the card…
       </div>
     );
+  }
 
-  return (
-    <div className="overflow-x-hidden touch-pan-y">
-      <RevealDeck data={data} />
-    </div>
-  );
+  return <RevealShow data={data} />;
 }

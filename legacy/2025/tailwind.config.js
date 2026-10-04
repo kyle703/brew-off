@@ -1,6 +1,15 @@
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
+
+const root = dirname(fileURLToPath(import.meta.url));
+
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ["./index.html", "./src/**/*.{ts,tsx,js,jsx}"],
+  // Absolute globs so a build launched from the repo root still scans this app.
+  content: [
+    join(root, "index.html"),
+    join(root, "src/**/*.{ts,tsx,js,jsx}"),
+  ],
   // Built from legacy/2025 as Vite root.
   darkMode: ["class"],
   theme: {
