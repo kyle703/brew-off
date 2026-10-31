@@ -375,6 +375,60 @@ app.patch("/api/admin/competition", async (c) => {
   return c.json({ competition: publicCompetition(updated!) });
 });
 
+app.post("/api/admin/competition/clear", async (c) => {
+  if (!c.get("isAdmin")) return c.json({ error: "Unauthorized" }, 401);
+  const competition = await requireCompetition(c);
+  if (!competition) return c.json({ error: "No competition" }, 404);
+
+  const body = await c.req.json<{ confirm?: string }>().catch(() => ({}));
+  if (body.confirm?.trim() !== competition.name.trim()) {
+    return c.json({ error: "Type the instance name to confirm" }, 400);
+  }
+
+  const { results: labels } = await c.env.DB.prepare(
+    "SELECT label_key FROM entries WHERE competition_id = ? AND label_key IS NOT NULL",
+  )
+    .bind(competition.id)
+    .all<{ label_key: string }>();
+
+  await c.env.DB.batch([
+    c.env.DB.prepare(
+      `DELETE FROM ballots
+       WHERE entry_id IN (SELECT id FROM entries WHERE competition_id = ?)
+          OR voter_id IN (SELECT id FROM voters WHERE competition_id = ?)`,
+    ).bind(competition.id, competition.id),
+    c.env.DB.prepare("DELETE FROM voters WHERE competition_id = ?").bind(
+      competition.id,
+    ),
+    c.env.DB.prepare("DELETE FROM entries WHERE competition_id = ?").bind(
+      competition.id,
+    ),
+    c.env.DB.prepare(
+      `UPDATE competitions SET
+        status = 'draft',
+        registration_open = 0,
+        tasting_open = 0,
+        entries_frozen = 0,
+        snapshot = NULL,
+        updated_at = datetime('now')
+       WHERE id = ?`,
+    ).bind(competition.id),
+  ]);
+
+  await Promise.all(
+    labels.map(async (row) => {
+      try {
+        await c.env.LABELS.delete(row.label_key);
+      } catch {
+        /* The entry row is already gone, so a leftover object is unused. */
+      }
+    }),
+  );
+
+  const updated = await requireCompetition(c);
+  return c.json({ competition: publicCompetition(updated!) });
+});
+
 async function freeze(env: Env, competition: CompetitionRow) {
   const { results: entries } = await env.DB.prepare(
     "SELECT * FROM entries WHERE competition_id = ?",

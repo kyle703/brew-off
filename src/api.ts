@@ -59,6 +59,18 @@ export async function patchCompetition(
   return data.competition;
 }
 
+export async function clearCompetition(confirm: string): Promise<Competition> {
+  const res = await fetch("/api/admin/competition/clear", {
+    method: "POST",
+    credentials: "include",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ confirm }),
+  });
+  if (!res.ok) throw new Error(await parseError(res));
+  const data = (await res.json()) as { competition: Competition };
+  return data.competition;
+}
+
 export async function getAdminStats(): Promise<AdminStats> {
   const res = await fetch("/api/admin/stats", { credentials: "include" });
   if (!res.ok) throw new Error(await parseError(res));

@@ -48,12 +48,6 @@ export default function Shell({ children }: { children: ReactNode }) {
                 </Link>
               )}
               <Link
-                to="/journal"
-                className="inline-flex min-h-11 items-center px-2 text-xs uppercase tracking-wide text-muted hover:text-accent"
-              >
-                Journal
-              </Link>
-              <Link
                 to="/admin"
                 className="inline-flex min-h-11 items-center px-2 text-xs uppercase tracking-wide text-muted hover:text-accent"
               >

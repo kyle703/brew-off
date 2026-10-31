@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import {
   adminLogin,
   adminLogout,
+  clearCompetition,
   createEntry,
   getAdminStats,
   patchCompetition,
@@ -35,6 +36,10 @@ export default function Admin() {
   const [tagline, setTagline] = useState("");
   const [themeId, setThemeId] = useState("baseline");
   const [busy, setBusy] = useState(false);
+  const [clearOpen, setClearOpen] = useState(false);
+  const [clearConfirm, setClearConfirm] = useState("");
+  const [clearError, setClearError] = useState<string | null>(null);
+  const [clearing, setClearing] = useState(false);
 
   const loadStats = useCallback(async () => {
     try {
@@ -308,6 +313,84 @@ export default function Admin() {
         >
           Save instance
         </button>
+      </section>
+
+      <section className="sheet space-y-3">
+        <h2 className="font-display text-2xl">Clear instance</h2>
+        <p className="text-sm text-muted">
+          Removes every bottle, score, and taster, and returns the show to a
+          closed draft. The name, tagline, and theme stay.
+        </p>
+        {!clearOpen ? (
+          <button
+            className="btn-secondary w-full text-red-800 sm:w-auto"
+            disabled={busy}
+            onClick={() => {
+              setClearConfirm("");
+              setClearError(null);
+              setClearOpen(true);
+            }}
+          >
+            Clear bottles and votes
+          </button>
+        ) : (
+          <form
+            className="space-y-3"
+            onSubmit={(e) => {
+              e.preventDefault();
+              if (clearConfirm.trim() !== competition.name.trim()) return;
+              setClearing(true);
+              setClearError(null);
+              void clearCompetition(clearConfirm.trim())
+                .then(async () => {
+                  setClearOpen(false);
+                  setClearConfirm("");
+                  await refresh();
+                  await loadStats();
+                })
+                .catch((err: unknown) =>
+                  setClearError(err instanceof Error ? err.message : String(err)),
+                )
+                .finally(() => setClearing(false));
+            }}
+          >
+            <p className="text-sm">
+              Type <span className="font-semibold">{competition.name}</span> to
+              confirm.
+            </p>
+            <input
+              className="field"
+              autoComplete="off"
+              value={clearConfirm}
+              onChange={(e) => setClearConfirm(e.target.value)}
+              aria-label="Instance name"
+            />
+            {clearError && <p className="text-sm text-red-800">{clearError}</p>}
+            <div className="grid grid-cols-2 gap-2 sm:flex">
+              <button
+                className="btn-secondary min-h-12"
+                type="button"
+                disabled={clearing}
+                onClick={() => {
+                  setClearOpen(false);
+                  setClearConfirm("");
+                  setClearError(null);
+                }}
+              >
+                Cancel
+              </button>
+              <button
+                className="btn-secondary min-h-12 text-red-800"
+                type="submit"
+                disabled={
+                  clearing || clearConfirm.trim() !== competition.name.trim()
+                }
+              >
+                {clearing ? "Clearing…" : "Clear instance"}
+              </button>
+            </div>
+          </form>
+        )}
       </section>
 
       <section className="space-y-3">
