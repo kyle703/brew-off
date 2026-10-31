@@ -5,7 +5,8 @@ A house-party beer competition on Cloudflare’s free tier: bottle-first tasting
 ## What’s here
 
 - **Live app** (`/`) — register bottles, score in any order, host-controlled reveal and results
-- **History** (`/history/2025/`) — the 2025 Golden Spoon site, baked to static JSON
+- **Journal** (`/journal`) — personal brew log. Batch pages live at `/journal/<slug>`
+- **History** (`/history/`) — party archive of past brew-offs, separate from the journal
 - **Worker** (`/api/*`) — D1 + R2, admin cookie, voter cookie, upsert ballots
 
 ## Local setup

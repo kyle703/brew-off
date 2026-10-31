@@ -58,15 +58,21 @@ export type Ballot = {
   updatedAt: string;
 };
 
+export type TallyEntry = {
+  id: string;
+  entryCode: string;
+  beerName: string;
+  brewer: string;
+  labelUrl: string | null;
+  status: "active" | "hidden";
+  ballotCount: number;
+  scores: Record<string, number>;
+};
+
 export type AdminStats = {
   tasters: number;
   ballots: number;
-  entries: Array<{
-    id: string;
-    entryCode: string;
-    beerName: string;
-    ballotCount: number;
-  }>;
+  entries: TallyEntry[];
 };
 
 export type Bootstrap = {

@@ -3,6 +3,8 @@ import Shell from "./components/Shell";
 import { SessionProvider } from "./context/Session";
 import Admin from "./pages/Admin";
 import Home from "./pages/Home";
+import JournalEntry from "./pages/JournalEntry";
+import JournalIndex from "./pages/JournalIndex";
 import PrintGuestQr from "./pages/PrintGuestQr";
 import PrintTags from "./pages/PrintTags";
 import Register from "./pages/Register";
@@ -12,13 +14,18 @@ import Scorecard from "./pages/Scorecard";
 
 export default function App() {
   const location = useLocation();
-  const bare = location.pathname === "/reveal";
+  // /journal is the personal brew log. /history is the party archive.
+  const bare =
+    location.pathname === "/reveal" ||
+    location.pathname.startsWith("/journal");
 
   return (
     <SessionProvider>
       {bare ? (
         <Routes>
           <Route path="/reveal" element={<Reveal />} />
+          <Route path="/journal" element={<JournalIndex />} />
+          <Route path="/journal/:slug" element={<JournalEntry />} />
         </Routes>
       ) : (
         <Shell>

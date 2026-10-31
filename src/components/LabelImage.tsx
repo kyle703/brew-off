@@ -4,9 +4,15 @@ type Props = {
   src?: string | null;
   alt: string;
   className?: string;
+  fit?: "cover" | "contain";
 };
 
-export default function LabelImage({ src, alt, className = "" }: Props) {
+export default function LabelImage({
+  src,
+  alt,
+  className = "",
+  fit = "cover",
+}: Props) {
   const [failed, setFailed] = useState(false);
   if (!src || failed) {
     return (
@@ -21,7 +27,8 @@ export default function LabelImage({ src, alt, className = "" }: Props) {
     <img
       src={src}
       alt={alt}
-      className={`object-cover ${className}`}
+      draggable={false}
+      className={`${fit === "contain" ? "object-contain" : "object-cover"} ${className}`}
       onError={() => setFailed(true)}
     />
   );

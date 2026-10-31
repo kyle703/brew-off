@@ -1,6 +1,6 @@
 import { Hono } from "hono";
 import { deleteCookie, getCookie, setCookie } from "hono/cookie";
-import { computeSnapshot } from "./snapshot";
+import { computeSnapshot, computeTally } from "./snapshot";
 import { signValue, verifyValue } from "./sign";
 import type {
   BallotRow,
@@ -247,38 +247,28 @@ app.get("/api/admin/stats", async (c) => {
   const competition = await requireCompetition(c);
   if (!competition) return c.json({ error: "No competition" }, 404);
 
-  const tasters = await c.env.DB.prepare(
-    "SELECT COUNT(*) AS n FROM voters WHERE competition_id = ?",
+  const { results: entries } = await c.env.DB.prepare(
+    "SELECT * FROM entries WHERE competition_id = ?",
   )
     .bind(competition.id)
-    .first<{ n: number }>();
-  const ballots = await c.env.DB.prepare(
-    `SELECT COUNT(*) AS n FROM ballots b
+    .all<EntryRow>();
+  const { results: ballots } = await c.env.DB.prepare(
+    `SELECT b.* FROM ballots b
      JOIN entries e ON e.id = b.entry_id
      WHERE e.competition_id = ?`,
   )
     .bind(competition.id)
-    .first<{ n: number }>();
-  const { results: entryCounts } = await c.env.DB.prepare(
-    `SELECT e.id, e.entry_code, e.beer_name, COUNT(b.voter_id) AS ballot_count
-     FROM entries e
-     LEFT JOIN ballots b ON b.entry_id = e.id
-     WHERE e.competition_id = ?
-     GROUP BY e.id
-     ORDER BY CAST(e.entry_code AS INTEGER)`,
-  )
-    .bind(competition.id)
-    .all<{ id: string; entry_code: string; beer_name: string; ballot_count: number }>();
+    .all<BallotRow>();
 
   return c.json({
-    tasters: tasters?.n ?? 0,
-    ballots: ballots?.n ?? 0,
-    entries: entryCounts.map((e) => ({
-      id: e.id,
-      entryCode: e.entry_code,
-      beerName: e.beer_name,
-      ballotCount: e.ballot_count,
-    })),
+    tasters: new Set(ballots.map((b) => b.voter_id)).size,
+    ballots: ballots.length,
+    entries: computeTally(
+      entries,
+      ballots,
+      parseSchema(competition.scoring_schema),
+      labelUrl,
+    ),
   });
 });
 

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   adminLogin,
@@ -10,6 +10,7 @@ import {
 } from "../api";
 import EntryForm from "../components/EntryForm";
 import JoinQr from "../components/JoinQr";
+import VotingTally from "../components/VotingTally";
 import { useSession } from "../context/Session";
 import { fileSlug } from "../lib/qr";
 import type { AdminStats, CompetitionStatus, Entry, TastingDisplay } from "../types";
@@ -29,18 +30,52 @@ export default function Admin() {
   const [password, setPassword] = useState("");
   const [loginError, setLoginError] = useState<string | null>(null);
   const [stats, setStats] = useState<AdminStats | null>(null);
+  const [statsError, setStatsError] = useState(false);
   const [name, setName] = useState("");
   const [tagline, setTagline] = useState("");
   const [themeId, setThemeId] = useState("baseline");
   const [busy, setBusy] = useState(false);
+
+  const loadStats = useCallback(async () => {
+    try {
+      setStats(await getAdminStats());
+      setStatsError(false);
+    } catch {
+      setStatsError(true);
+    }
+  }, []);
 
   useEffect(() => {
     if (!bootstrap?.isAdmin) return;
     setName(bootstrap.competition.name);
     setTagline(bootstrap.competition.tagline ?? "");
     setThemeId(bootstrap.competition.themeId);
-    void getAdminStats().then(setStats).catch(() => setStats(null));
   }, [bootstrap]);
+
+  useEffect(() => {
+    if (!bootstrap?.isAdmin) return;
+    let cancelled = false;
+    const load = () => {
+      if (document.visibilityState === "hidden") return;
+      void getAdminStats()
+        .then((next) => {
+          if (cancelled) return;
+          setStats(next);
+          setStatsError(false);
+        })
+        .catch(() => {
+          if (!cancelled) setStatsError(true);
+        });
+    };
+    load();
+    const id = window.setInterval(load, 3000);
+    document.addEventListener("visibilitychange", load);
+    return () => {
+      cancelled = true;
+      window.clearInterval(id);
+      document.removeEventListener("visibilitychange", load);
+    };
+  }, [bootstrap?.isAdmin]);
 
   if (loading) return <p className="text-muted">Loading…</p>;
 
@@ -85,7 +120,7 @@ export default function Admin() {
     try {
       await patchCompetition({ status });
       await refresh();
-      setStats(await getAdminStats());
+      await loadStats();
     } finally {
       setBusy(false);
     }
@@ -106,6 +141,25 @@ export default function Admin() {
           Log out
         </button>
       </div>
+
+      {(competition.tastingOpen ||
+        competition.status === "tasting" ||
+        competition.status === "closed" ||
+        (stats?.ballots ?? 0) > 0) &&
+        (stats ? (
+          <VotingTally
+            stats={stats}
+            schema={competition.scoringSchema}
+            live={competition.tastingOpen}
+          />
+        ) : (
+          <section className="sheet">
+            <h2 className="font-display text-2xl">Voting tally</h2>
+            <p className="text-sm text-muted">
+              {statsError ? "Tally unavailable." : "Loading tally…"}
+            </p>
+          </section>
+        ))}
 
       <section className="sheet space-y-3">
         <h2 className="font-display text-2xl">Show control</h2>
@@ -256,25 +310,6 @@ export default function Admin() {
         </button>
       </section>
 
-      {stats && (
-        <section className="sheet space-y-2">
-          <h2 className="font-display text-2xl">Live counts</h2>
-          <p>
-            {stats.tasters} tasters · {stats.ballots} ballots
-          </p>
-          <ul className="space-y-1 text-sm">
-            {stats.entries.map((e) => (
-              <li key={e.id} className="flex justify-between gap-3">
-                <span>
-                  {e.entryCode} {e.beerName}
-                </span>
-                <span className="text-muted">{e.ballotCount} scores</span>
-              </li>
-            ))}
-          </ul>
-        </section>
-      )}
-
       <section className="space-y-3">
         <div className="flex items-center justify-between">
           <h2 className="font-display text-2xl">Bottles</h2>
@@ -288,7 +323,7 @@ export default function Admin() {
             entry={entry}
             onSaved={async () => {
               await refresh();
-              setStats(await getAdminStats());
+              await loadStats();
             }}
           />
         ))}
@@ -299,7 +334,7 @@ export default function Admin() {
             onSubmit={async (form) => {
               await createEntry(form);
               await refresh();
-              setStats(await getAdminStats());
+              await loadStats();
             }}
           />
         </div>

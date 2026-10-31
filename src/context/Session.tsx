@@ -38,7 +38,10 @@ export function SessionProvider({ children }: { children: ReactNode }) {
       if (document.documentElement.dataset.theme !== themeId) {
         document.documentElement.dataset.theme = themeId;
       }
-      if (document.title !== data.competition.name) {
+      if (
+        !window.location.pathname.startsWith("/journal") &&
+        document.title !== data.competition.name
+      ) {
         document.title = data.competition.name;
       }
       const iconLink = document.querySelector("link[rel='icon']");

@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { saveBallot } from "../api";
-import LabelImage from "../components/LabelImage";
+import LabelArt from "../components/LabelArt";
 import ScorePips from "../components/ScorePips";
 import { useSession } from "../context/Session";
 import { DEFAULT_TASTING_DISPLAY } from "../types";
@@ -22,6 +22,7 @@ export default function Scorecard() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [saved, setSaved] = useState(false);
+  const [artOpen, setArtOpen] = useState(false);
 
   useEffect(() => {
     if (existing) {
@@ -70,29 +71,44 @@ export default function Scorecard() {
     }
   }
 
+  const artLabel = [entry.entryCode, entry.beerName].filter(Boolean).join(" · ");
+  const identity = (
+    <div className="min-w-0">
+      <p className="kicker">Bottle</p>
+      <h1
+        className={`font-display leading-none text-accent ${
+          entry.labelUrl ? "text-5xl" : "text-6xl"
+        }`}
+      >
+        {entry.entryCode}
+      </h1>
+      {display.beerName && entry.beerName ? (
+        <h2 className="mt-2 break-words font-display text-2xl leading-tight sm:text-3xl">
+          {entry.beerName}
+        </h2>
+      ) : null}
+      {meta.length > 0 ? (
+        <p className="mt-1 text-sm text-muted">{meta.join(" · ")}</p>
+      ) : null}
+    </div>
+  );
+
   return (
-    <div className="sheet space-y-6">
-      <div className="flex items-start justify-between gap-4">
-        <div>
-          <p className="kicker">Bottle</p>
-          <h1 className="font-display text-6xl leading-none text-accent">
-            {entry.entryCode}
-          </h1>
+    <div className="sheet space-y-5">
+      {entry.labelUrl ? (
+        <div className="-mx-4 -mt-4 flex items-center gap-3 rounded-t-[14px] border-b border-rule bg-[color-mix(in_srgb,black_28%,var(--paper))] px-3 py-3 sm:-mx-5 sm:-mt-5 sm:gap-5 sm:px-5 sm:py-4">
+          <LabelArt
+            src={entry.labelUrl}
+            alt={artLabel}
+            open={artOpen}
+            onOpenChange={setArtOpen}
+            className="w-1/2 max-w-60 shrink-0"
+          />
+          {identity}
         </div>
-        <LabelImage
-          src={entry.labelUrl}
-          alt={entry.beerName}
-          className="h-24 w-24 rounded-lg border border-rule"
-        />
-      </div>
-      <div>
-        {display.beerName && entry.beerName ? (
-          <h2 className="font-display text-3xl">{entry.beerName}</h2>
-        ) : null}
-        {meta.length > 0 ? (
-          <p className="text-muted">{meta.join(" · ")}</p>
-        ) : null}
-      </div>
+      ) : (
+        identity
+      )}
 
       <div className="space-y-5 border-y border-dashed border-rule py-5">
         {schema.map((criterion) => (
@@ -101,6 +117,19 @@ export default function Scorecard() {
             label={criterion.label}
             value={scores[criterion.id] ?? null}
             disabled={locked}
+            extra={
+              entry.labelUrl &&
+              (criterion.id === "label" ||
+                criterion.label.toLowerCase() === "label") ? (
+                <button
+                  type="button"
+                  className="min-h-11 shrink-0 px-1 text-xs font-semibold uppercase tracking-wide text-accent"
+                  onClick={() => setArtOpen(true)}
+                >
+                  See label
+                </button>
+              ) : undefined
+            }
             onChange={(n) => {
               setSaved(false);
               setScores((s) => ({ ...s, [criterion.id]: n }));

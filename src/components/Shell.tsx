@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import type { ReactNode } from "react";
+import { useEffect, type ReactNode } from "react";
 import { useSession } from "../context/Session";
 import { guestCanRegister, guestStage, pathMatchesStage } from "../lib/stage";
 import { themePack } from "../lib/themePack";
@@ -13,6 +13,10 @@ export default function Shell({ children }: { children: ReactNode }) {
   const stage = competition ? guestStage(competition) : null;
   const onStage = stage ? pathMatchesStage(location.pathname, stage) : false;
   const hosting = location.pathname.startsWith("/admin");
+
+  useEffect(() => {
+    if (competition?.name) document.title = competition.name;
+  }, [competition?.name]);
   const canRegister =
     Boolean(competition && guestCanRegister(competition)) &&
     stage?.status !== "registration" &&
@@ -43,6 +47,12 @@ export default function Shell({ children }: { children: ReactNode }) {
                   Register a beer
                 </Link>
               )}
+              <Link
+                to="/journal"
+                className="inline-flex min-h-11 items-center px-2 text-xs uppercase tracking-wide text-muted hover:text-accent"
+              >
+                Journal
+              </Link>
               <Link
                 to="/admin"
                 className="inline-flex min-h-11 items-center px-2 text-xs uppercase tracking-wide text-muted hover:text-accent"
